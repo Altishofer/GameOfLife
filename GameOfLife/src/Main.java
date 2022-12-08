@@ -26,7 +26,7 @@ public class Main {
         JButton button1 = new JButton("Confirm");
         JPanel chart = Gui.getJpanel();
 
-        JPanel board = Gui.getBoard(output, size, iconSize,buttonArray);
+        JPanel board = getBoard();
 
         JSplitPane splitPaneChartBoard =  Gui.getSplitPaneVertical(400, 600, 50, chart, board);
         JSplitPane splitPaneTextFields = Gui.getSplitPaneHorizontal(400, 50, 200, textField1, textField2);
@@ -35,7 +35,7 @@ public class Main {
         JFrame frame = Gui.getMainFrame(splitPaneBoardFields);
     }
 
-    public JPanel getBoard(JLabel output, int size, int iconSize, JButton[][] buttonArray){
+    private JPanel getBoard(){
         ActionListener actionListener;
         JPanel board = new JPanel(new BorderLayout(2,2));
         board.setBorder(new EmptyBorder(4,4,4,4));
@@ -51,7 +51,7 @@ public class Main {
         return board;
     }
 
-    private String getButtonRowCol(int size, JButton[][] buttonArray, JButton button) {
+    private String getButtonRowCol(JButton button) {
         StringBuilder sb = new StringBuilder();
         for (int xx=0; xx<size; xx++) {
             for (int yy=0; yy<size; yy++) {

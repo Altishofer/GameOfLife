@@ -98,9 +98,6 @@ public abstract class Gui {
         panel.setVisible(true);
         panel.setBorder(BorderFactory.createTitledBorder("Chart"));
         panel.add(new JLabel("Player_1: 100 Cells\n", SwingConstants.LEFT));
+        return panel;
     }
-
-
-
-
 }
