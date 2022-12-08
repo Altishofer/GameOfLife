@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Grid {
 
-    int size;
+    private int size;
     private int iconSize = 10;
     Random rnd = new Random();
     int[][] cellsMap; // 0 for white, 1 for colour of player1, 2 for colour of player2
