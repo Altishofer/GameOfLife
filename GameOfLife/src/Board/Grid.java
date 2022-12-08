@@ -3,9 +3,70 @@ package Board;
 import javax.naming.directory.InvalidAttributeValueException;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Grid {
+
+    private int aSize;
+    Cell[][] cellsMap;
+    private int generation;
+
+    public Grid(int pSize) {
+        aSize = pSize;
+        cellsMap = new Cell[aSize][aSize];
+        for (int col = 0; col < aSize; col++){
+            for (int row = 0; row < aSize; row++) {
+                cellsMap[col][row] = new Cell(col, row, this);
+            }
+        }
+    }
+
+    public void evolveCells() {
+        for (int col = 0; col < aSize; col++){
+            for (int row = 0; row < aSize; row++) {
+                cellsMap[col][row].updateNeighbours();
+            }
+        }
+        for (int col = 0; col < aSize; col++){
+            for (int row = 0; row < aSize; row++) {
+                cellsMap[col][row].evolutionStep();
+            }
+        }
+        generation++;
+    }
+
+    public int countNeighbours(int x, int y, int status) {
+        int cnt = 0;
+        for (int i = x-1; i <= x+1; i++)
+            for (int j = y - 1; j <= y + 1; j++)
+                if ((i == x && j == y) || (i < 0 || i > aSize - 1)|| (j < 0 || j > aSize - 1)){}
+                else if (cellsMap[i][j].getStatus() == status) {cnt++;}
+        return cnt;
+    }
+
+    //TODO: Remove after testing
+    public void paintCell(int xPlacement, int yPlacement, int status){
+        cellsMap[xPlacement][yPlacement].setStatus(status);
+    }
+
+    public void printGrid(){
+        for (int col = 0; col < aSize; col++){
+            String stringTemp = "";
+            for (int row = 0; row < aSize; row++) {
+                stringTemp += cellsMap[col][row].getStatus();
+            }
+            System.out.print(stringTemp + "\n");
+        }
+    }
+
+    public int getGeneration(){
+        return generation;
+    }
+
+
+    /*
+
 
     private int size;
     private int iconSize = 10;
@@ -50,26 +111,7 @@ public class Grid {
                     throw new InvalidAttributeValueException();
             }
         }
-    }
+    }*/
 
-    int countNeighbours(int x, int y) {
-        int cnt = 0;
-        for (int i = x-1; i <= x+1; i++)
-            for (int j = y - 1; j <= y + 1; j++)
-                if (i == x && j == y){}
-                else if (cellsMap[i][j] == 1 || cellsMap[i][j] == 2) cnt++;
-        if (cellsMap[x][y] == 1 || cellsMap[x][y] == 2) cnt--;
-        return cnt;
-    }
-
-    int countPlayerOneNeighbors(int x, int y) {
-        int cnt = 0;
-        for (int i = x-1; i <= x+1; i++)
-            for (int j = y - 1; j <= y + 1; j++)
-                if (i == x && j == y){}
-                else if (cellsMap[i][j] == 1) cnt++;
-        if (cellsMap[x][y] == 1) cnt--;
-        return cnt;
-    }
 
 }
