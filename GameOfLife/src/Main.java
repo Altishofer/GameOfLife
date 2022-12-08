@@ -51,8 +51,6 @@ public class Main {
         blueButton2.setOpaque(true);
         blueButton2.setBorderPainted(false);
 
-
-
         confirmButton.addActionListener(e -> {
             playerName1 = textField1.getText().toString();
             playerName2 = textField2.getText().toString();
