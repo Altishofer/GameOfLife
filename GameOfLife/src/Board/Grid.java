@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Grid {
 
-    int size;
+    private int size;
     private int iconSize = 10;
     Random rnd = new Random();
     int[][] cellsMap; // 0 for white, 1 for colour of player1, 2 for colour of player2
@@ -56,7 +56,8 @@ public class Grid {
         int cnt = 0;
         for (int i = x-1; i <= x+1; i++)
             for (int j = y - 1; j <= y + 1; j++)
-                if (cellsMap[i][j] == 1 || cellsMap[i][j] == 2) cnt++;
+                if (i == x && j == y){}
+                else if (cellsMap[i][j] == 1 || cellsMap[i][j] == 2) cnt++;
         if (cellsMap[x][y] == 1 || cellsMap[x][y] == 2) cnt--;
         return cnt;
     }
@@ -65,7 +66,8 @@ public class Grid {
         int cnt = 0;
         for (int i = x-1; i <= x+1; i++)
             for (int j = y - 1; j <= y + 1; j++)
-                if (cellsMap[i][j] == 1) cnt++;
+                if (i == x && j == y){}
+                else if (cellsMap[i][j] == 1) cnt++;
         if (cellsMap[x][y] == 1) cnt--;
         return cnt;
     }

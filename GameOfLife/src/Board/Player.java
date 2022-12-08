@@ -3,12 +3,15 @@ package Board;
 public class Player implements Comparable{
 
     private final String PLAYER_NAME;
+    private final String PLAYER_COLOR;
 
-    public Player (String pName){
+    public Player (String pName, String player_color){
         PLAYER_NAME = pName;
+        PLAYER_COLOR = player_color;
     }
 
     public String getPlayerName(){return PLAYER_NAME;}
+    public String getPlayerColor(){return PLAYER_COLOR;}
 
     public Character getPlayerInitial(){return PLAYER_NAME.charAt(0);}
 
