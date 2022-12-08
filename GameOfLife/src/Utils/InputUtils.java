@@ -17,7 +17,7 @@ public class InputUtils {
         }
     }
 
-    public String cleanUpString(String in) {
+    public static String cleanUpString(String in) {
         String out = in.replaceAll("\\s+", "");
         return out;
     }
