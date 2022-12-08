@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+
 public class Main {
 
     public static void main(String[] args) {
@@ -17,65 +18,33 @@ public class Main {
     // TODO: dashboard statistik neben Grid, mit fields die assignt werden können, Adrian
 
     // TODO: User Input at beginning, Color and Name, Sandrin
-
-    private Color darkBlue = Color.GRAY;
-    private Color blue = new Color(0,0,255);
-    private Color darkRed =  Color.GRAY;
-    private Color red = new Color(255, 0, 0);
+    
     private int size = 20;
     private int iconSize = 10;
     private JButton[][] buttonArray = new JButton[size][size];
-    private ActionListener actionListener;
-    private ActionListener actionListener1;
-    private ActionListener actionListener2;
     private JLabel output = new JLabel("Click somewhere on the GUI");
     JTextField textField1 = new JTextField("Player_1");
     JTextField textField2 = new JTextField("Player_2");
     JButton confirmButton = new JButton("Confirm");
-    JButton redButton1 = GuiUtils.getButton(iconSize, actionListener1, red);
-    JButton blueButton1 = GuiUtils.getButton(iconSize, actionListener1, blue);
-    JButton redButton2 = GuiUtils.getButton(iconSize, actionListener2, red);
-    JButton blueButton2 = GuiUtils.getButton(iconSize, actionListener2, blue);
+    JButton redButton1 = GuiUtils.getButton(iconSize, Color.RED);
+    JButton redButton2 = GuiUtils.getButton(iconSize, Color.RED);
+    JButton blueButton1 = GuiUtils.getButton(iconSize, Color.BLUE);
+    JButton blueButton2 = GuiUtils.getButton(iconSize, Color.BLUE);
     String playerName1 = new String();
     String playerName2 = new String();
 
-    private Main() {
+    Main() {
 
         confirmButton.addActionListener(e -> {
             playerName1 = textField1.getText().toString();
             playerName2 = textField2.getText().toString();
-            textField1.setEnabled(false);
-            textField2.setEnabled(false);
-            redButton1.setEnabled(false);
-            redButton2.setEnabled(false);
-            blueButton1.setEnabled(false);
-            blueButton2.setEnabled(false);
-            confirmButton.setEnabled(false);
+            disableAll();
         });
-        redButton1.addActionListener(e -> {
-            redButton1.setBackground(red);
-            redButton2.setBackground(darkRed);
-            blueButton2.setBackground(blue);
-            blueButton1.setBackground(darkBlue);
-        });
-        redButton2.addActionListener(e -> {
-            redButton2.setBackground(red);
-            redButton1.setBackground(darkRed);
-            blueButton2.setBackground(darkBlue);
-            blueButton1.setBackground(blue);
-        });
-        blueButton1.addActionListener(e -> {
-            blueButton1.setBackground(blue);
-            blueButton2.setBackground(darkBlue);
-            redButton2.setBackground(red);
-            redButton1.setBackground(darkRed);
-        });
-        blueButton2.addActionListener(e -> {
-            blueButton2.setBackground(blue);
-            blueButton1.setBackground(darkBlue);
-            redButton2.setBackground(darkRed);
-            redButton1.setBackground(red);
-        });
+
+        redButton1.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE));
+        redButton2.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY));
+        blueButton1.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY));
+        blueButton2.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE));
 
         JPanel chart = getJpanel();
         JPanel board = getBoard();
@@ -100,22 +69,28 @@ public class Main {
         board.add(gameContainer);
         actionListener = e -> output.setText(getButtonRowCol((JButton)e.getSource()));
         for (int ii=0; ii<size*size; ii++) {
-            JButton b = getButton();
+            JButton b = getButton(iconSize, actionListener);
             gameContainer.add(b);
             buttonArray[ii%size][ii/size] = b;
         }
         return board;
     }
 
-    private JButton getButton() {
-        JButton button = new JButton();
-        button.setIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_ARGB)));
-        button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_RGB)));
-        button.setMargin(new Insets(0,0,0,0));
-        //button.setBorderPainted(false);
-        button.setContentAreaFilled(false);
-        button.addActionListener(actionListener);
-        return button;
+    private void action(Color red1, Color red2, Color blue1, Color blue2){
+        redButton1.setBackground(red1);
+        redButton2.setBackground(red2);
+        blueButton1.setBackground(blue1);
+        blueButton2.setBackground(blue2);
+    }
+
+    private void disableAll(){
+        textField1.setEnabled(false);
+        textField2.setEnabled(false);
+        redButton1.setEnabled(false);
+        redButton2.setEnabled(false);
+        blueButton1.setEnabled(false);
+        blueButton2.setEnabled(false);
+        confirmButton.setEnabled(false);
     }
 
     private String getButtonRowCol(JButton button) {
@@ -134,17 +109,7 @@ public class Main {
         return sb.toString();
     }
 
-    public JPanel getJpanel(){
-        JPanel panel = new JPanel();
-        panel.setSize(400, 25);
-        panel.setBackground(Color.WHITE);
-        panel.setVisible(true);
-        panel.setBorder(BorderFactory.createTitledBorder("Chart"));
-        panel.add(new JLabel("Player_1: 100 Cells\n", SwingConstants.LEFT));
-        return panel;
-    }
-
-    private JFrame getMainFrame(JSplitPane splitPane){
+    public static JFrame getMainFrame(JSplitPane splitPane){
         JFrame frame = new JFrame("Game Of Life");
         frame.setPreferredSize(new Dimension(400, 600));
         frame.getContentPane().setLayout(new GridLayout());
@@ -156,5 +121,25 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
         return frame;
+    }
+
+    public JButton getButton(int iconSize, ActionListener actionListener) {
+        JButton button = new JButton();
+        button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
+        button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
+        button.setMargin(new Insets(0, 0, 0, 0));
+        button.setContentAreaFilled(false);
+        button.addActionListener(actionListener);
+        return button;
+    }
+
+    public JPanel getJpanel(){
+        JPanel panel = new JPanel();
+        panel.setSize(400, 25);
+        panel.setBackground(Color.WHITE);
+        panel.setVisible(true);
+        panel.setBorder(BorderFactory.createTitledBorder("Chart"));
+        panel.add(new JLabel("Player_1: 100 Cells\n", SwingConstants.LEFT));
+        return panel;
     }
 }

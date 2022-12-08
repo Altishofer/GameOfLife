@@ -53,7 +53,7 @@ public abstract class GuiUtils {
         return splitPane;
     }
 
-    public static JButton getButton(int iconSize, ActionListener actionListener, Color color){
+    public static JButton getButton(int iconSize, Color color){
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_RGB)));
