@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# But not this directory/file/endings
+!.gitignore
+!GameOfLife/src/
+!GameOfLife/test/
+!GameOfLife.class.jet
+!*.iml
+!modules.xml
