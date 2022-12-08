@@ -103,7 +103,7 @@ public class GUI extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    private String getButtonRowColgetButtonRowCol(JButton button) {
+    private String getButtonRowCol(JButton button) {
         String out = "";
         for (int xx=0; xx<size; xx++) {
             for (int yy=0; yy<size; yy++) {
