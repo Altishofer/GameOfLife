@@ -21,35 +21,20 @@ public class Main {
     private int iconSize = 10;
     private JButton[][] buttonArray = new JButton[size][size];
     private ActionListener actionListener;
+    private ActionListener actionListener1;
+    private ActionListener actionListener2;
     private JLabel output = new JLabel("Click somewhere on the GUI");
     JTextField textField1 = new JTextField("Player_1");
     JTextField textField2 = new JTextField("Player_2");
     JButton confirmButton = new JButton("Confirm");
-    JButton redButton1 = Gui.getButton(iconSize, actionListener);
-
-    JButton blueButton1 = Gui.getButton(iconSize, actionListener);
-
-    JButton redButton2 = Gui.getButton(iconSize, actionListener);
-    JButton greenButton2 = Gui.getButton(iconSize, actionListener);
-    JButton blueButton2 = Gui.getButton(iconSize, actionListener);
+    JButton redButton1 = Gui.getButton(iconSize, actionListener1, new Color(222, 23, 56));
+    JButton blueButton1 = Gui.getButton(iconSize, actionListener1, new Color(51, 102, 153));
+    JButton redButton2 = Gui.getButton(iconSize, actionListener2, new Color(222, 23, 56));
+    JButton blueButton2 = Gui.getButton(iconSize, actionListener2, new Color(51, 102, 153));
     String playerName1 = new String();
     String playerName2 = new String();
 
     Main() {
-
-        redButton1.setBackground(new Color(222, 23, 56));
-        redButton1.setOpaque(true);
-        redButton1.setBorderPainted(false);
-        redButton2.setBackground(new Color(222, 23, 56));
-        redButton2.setOpaque(true);
-        redButton2.setBorderPainted(false);
-
-        blueButton1.setBackground(new Color(51, 102, 153));
-        blueButton1.setOpaque(true);
-        blueButton1.setBorderPainted(false);
-        blueButton2.setBackground(new Color(51, 102, 153));
-        blueButton2.setOpaque(true);
-        blueButton2.setBorderPainted(false);
 
         confirmButton.addActionListener(e -> {
             playerName1 = textField1.getText().toString();

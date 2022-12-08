@@ -90,13 +90,25 @@ public abstract class Gui {
 
     public static JButton getButton(int iconSize, ActionListener actionListener) {
         JButton button = new JButton();
-        button.setIcon(new ImageIcon(
-                new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_ARGB)));
-        button.setRolloverIcon(new ImageIcon(
-                new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_RGB)));
+        button.setIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_ARGB)));
+        button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_RGB)));
         button.setMargin(new Insets(0,0,0,0));
         //b.setBorderPainted(false);
         button.setContentAreaFilled(false);
+        button.addActionListener(actionListener);
+        return button;
+    }
+
+    public static JButton getButton(int iconSize, ActionListener actionListener, Color color){
+        JButton button = new JButton();
+        button.setIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_ARGB)));
+        button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_RGB)));
+        button.setMargin(new Insets(0,0,0,0));
+        //b.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setBackground(color);
+        button.setOpaque(true);
+        button.setBorderPainted(false);
         button.addActionListener(actionListener);
         return button;
     }
