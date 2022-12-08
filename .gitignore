@@ -8,5 +8,5 @@
 !GameOfLife.class.jet
 !*.iml
 !modules.xml
-
+!*.java
 !*/

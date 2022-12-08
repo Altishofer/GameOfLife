@@ -1,12 +1,11 @@
 package Gui;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public abstract class Gui {
+public abstract class GuiUtils {
 
     private static JSplitPane getSplitPaneHorizontal(int width, int height, int divider){
         JSplitPane splitPane = new JSplitPane();
@@ -54,31 +53,6 @@ public abstract class Gui {
         return splitPane;
     }
 
-    public static JFrame getMainFrame(JSplitPane splitPane){
-        JFrame frame = new JFrame("Game Of Life");
-        frame.setPreferredSize(new Dimension(400, 600));
-        frame.getContentPane().setLayout(new GridLayout());
-        frame.add(splitPane);
-        frame.pack();
-        frame.setSize(400, 600);
-        frame.setResizable(false);
-        frame.setLocationByPlatform(true);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
-        return frame;
-    }
-
-    public static JButton getButton(int iconSize, ActionListener actionListener) {
-        JButton button = new JButton();
-        button.setIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_ARGB)));
-        button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_RGB)));
-        button.setMargin(new Insets(0,0,0,0));
-        //button.setBorderPainted(false);
-        button.setContentAreaFilled(false);
-        button.addActionListener(actionListener);
-        return button;
-    }
-
     public static JButton getButton(int iconSize, ActionListener actionListener, Color color){
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_ARGB)));
@@ -90,16 +64,6 @@ public abstract class Gui {
         button.setOpaque(true);
         button.setBorderPainted(false);
         return button;
-    }
-
-    public static JPanel getJpanel(){
-        JPanel panel = new JPanel();
-        panel.setSize(400, 25);
-        panel.setBackground(Color.WHITE);
-        panel.setVisible(true);
-        panel.setBorder(BorderFactory.createTitledBorder("Chart"));
-        panel.add(new JLabel("Player_1: 100 Cells\n", SwingConstants.LEFT));
-        return panel;
     }
 
     public static JSplitPane getSplitPaneHorizontal(int width, int height, int divider, JButton left, JButton right) {
