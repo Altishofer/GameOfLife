@@ -40,8 +40,6 @@ public class Main {
 
     Main() {
 
-        UIManager.getDefaults().put("Button.disabledBackground",Color.BLACK);
-        
         confirmButton.addActionListener(e -> {
             playerName1 = textField1.getText().toString();
             playerName2 = textField2.getText().toString();
