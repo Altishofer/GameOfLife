@@ -25,7 +25,6 @@ public class Main {
         JTextField textField2 = new JTextField("Player_2");
         JButton button1 = new JButton("Confirm");
         JPanel chart = Gui.getJpanel();
-
         JPanel board = getBoard();
 
         JSplitPane splitPaneChartBoard =  Gui.getSplitPaneVertical(400, 600, 50, chart, board);
