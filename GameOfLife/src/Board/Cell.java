@@ -3,24 +3,20 @@ package Board;
 import javax.swing.*;
 import java.awt.*;
 
-
 public class Cell extends JButton{
-
     private int status;
     private int xCoordinate;
     private int yCoordinate;
     private int oneNeighbours;
     private int twoNeighbours;
+    private Color color;
     Grid aGrid;
-
-    Color colorP0 = Color.WHITE;
-    Color colorP1 = Color.BLUE;
-    Color colorP2 = Color.RED;
 
     public Cell(int xPlacement, int yPlacement, Grid pGrid) {
         xCoordinate = xPlacement;
         yCoordinate = yPlacement;
         status = 0;
+        color = Color.WHITE;
         aGrid = pGrid;
     }
 
@@ -31,10 +27,12 @@ public class Cell extends JButton{
     public void evolutionStep(){
         if (!(oneNeighbours == 3 && twoNeighbours == 3)){
             if (oneNeighbours == 3){
+                setColor();
                 status = 1;
                 return;}
             if (twoNeighbours == 3){
                 status = 2;
+                setColor();
                 return;}
         }
         if (status == 1){
@@ -47,13 +45,14 @@ public class Cell extends JButton{
                 status = 0;
             }
         }
+        setColor();
     }
 
-    public Color getColor(){
+    private Color setColor(){
         switch(status){
-            case 0: return colorP0;
-            case 1: return colorP1;
-            case 2: return colorP2;
+            case 0: return Color.WHITE;
+            case 1: return Color.BLUE;
+            case 2: return Color.RED;
             default: return null;
         }
     }
