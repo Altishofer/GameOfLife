@@ -4,10 +4,16 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class Main {
+
+    public static void main(String[] args) {
+        Runnable r = () -> new Main();
+        SwingUtilities.invokeLater(r);
+    }
 
     // TODO: farbe assignen via coordinates, Adrian
     // TODO: dashboard statistik neben Grid, mit fields die assignt werden können, Adrian
@@ -19,13 +25,21 @@ public class Main {
     private JButton[][] buttonArray = new JButton[size][size];
     private ActionListener actionListener;
     private JLabel output = new JLabel("Click somewhere on the GUI");
+    JTextField textField1 = new JTextField("Player_1");
+    JTextField textField2 = new JTextField("Player_2");
+    JButton button1 = new JButton("Confirm");
+    String playerName1 = new String();
+    String playerName2 = new String();
 
     Main() {
-        JTextField textField1 = new JTextField("Player_1");
-        JTextField textField2 = new JTextField("Player_2");
-        JButton button1 = new JButton("Confirm");
+        button1.addActionListener(e -> {
+            playerName1 = textField1.getText().toString();
+            playerName2 = textField2.getText().toString();
+            textField1.setEnabled(false);
+            textField2.setEnabled(false);
+            button1.setEnabled(false);
+        });
         JPanel chart = Gui.getJpanel();
-
         JPanel board = getBoard();
 
         JSplitPane splitPaneChartBoard =  Gui.getSplitPaneVertical(400, 600, 50, chart, board);
@@ -65,12 +79,5 @@ public class Main {
             }
         }
         return sb.toString();
-    }
-
-
-
-    public static void main(String[] args) {
-        Runnable r = () -> new Main();
-        SwingUtilities.invokeLater(r);
     }
 }
