@@ -1,7 +1,5 @@
 package Board;
 
-import java.sql.Array;
-
 public class Grid {
 
     private Cell[][] aGrid;
