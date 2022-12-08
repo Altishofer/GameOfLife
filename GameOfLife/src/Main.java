@@ -3,7 +3,6 @@ import Gui.GuiUtils;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
@@ -132,5 +131,15 @@ public class Main {
         button.setContentAreaFilled(false);
         button.addActionListener(actionListener);
         return button;
+    }
+
+    public JPanel getJpanel(){
+        JPanel panel = new JPanel();
+        panel.setSize(400, 25);
+        panel.setBackground(Color.WHITE);
+        panel.setVisible(true);
+        panel.setBorder(BorderFactory.createTitledBorder("Chart"));
+        panel.add(new JLabel("Player_1: 100 Cells\n", SwingConstants.LEFT));
+        return panel;
     }
 }
