@@ -17,7 +17,12 @@ public class InputUtils {
         }
     }
 
-    public static boolean cleanString(String string){
+    public String cleanUpString(String in) {
+        String out = in.replaceAll("\\s+", "");
+        return out;
+    }
+
+    public static boolean checkCleanString(String string){
         if (string == null || string.isEmpty() || string.contains(" ")){return false;}
         return true;
     }
