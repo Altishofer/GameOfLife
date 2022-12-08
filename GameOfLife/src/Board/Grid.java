@@ -1,7 +1,5 @@
 package Board;
 
-import javax.swing.*;
-
 public class Grid {
 
     private Cell[][] aGrid;
@@ -41,7 +39,6 @@ public class Grid {
                 } else {
                     int numberOfNeighbors = countNeighbors(i, j);
                     ColorType dominator = getDominantColor(i, j);
-                    System.out.println(dominator);
 
                     if (!aGrid[i][j].isAlive() && numberOfNeighbors == 3) {
                         aNextGrid[i][j] = aGrid[i][j];
@@ -84,10 +81,10 @@ public class Grid {
                 int col = (x+i) % aDimension;
                 int row = (y+j) % aDimension;
 
-                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.ROYALBLUE){
+                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.ROYALBLUE && aGrid[col][row].isAlive()){
                     cntBlue++;
                 }
-                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.LAVARED){
+                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.LAVARED && aGrid[col][row].isAlive()){
                     cntRed++;
                 }
             }
@@ -144,11 +141,18 @@ public class Grid {
         myGrid.setupGrid(6,5,ColorType.LAVARED);
         myGrid.setupGrid(7,5,ColorType.LAVARED);
 
-        while (true){
-            myGrid.printGrid();
-            myGrid.createNextGeneration();
-            System.out.flush();
-        }
+        myGrid.printGrid();
+        myGrid.createNextGeneration();
+        System.out.println();
+        myGrid.printGrid();
+        myGrid.createNextGeneration();
+        System.out.println();myGrid.printGrid();
+        myGrid.createNextGeneration();
+        System.out.println();myGrid.printGrid();
+        myGrid.createNextGeneration();
+        System.out.println();myGrid.printGrid();
+        myGrid.createNextGeneration();
+        System.out.println();
     }
 
 }
