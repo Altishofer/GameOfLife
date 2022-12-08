@@ -1,12 +1,9 @@
 import Gui.Gui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 public class Main {
 
@@ -27,26 +24,60 @@ public class Main {
     private JLabel output = new JLabel("Click somewhere on the GUI");
     JTextField textField1 = new JTextField("Player_1");
     JTextField textField2 = new JTextField("Player_2");
-    JButton button1 = new JButton("Confirm");
+    JButton confirmButton = new JButton("Confirm");
+    JButton redButton1 = Gui.getButton(iconSize, actionListener);
+
+    JButton blueButton1 = Gui.getButton(iconSize, actionListener);
+
+    JButton redButton2 = Gui.getButton(iconSize, actionListener);
+    JButton greenButton2 = Gui.getButton(iconSize, actionListener);
+    JButton blueButton2 = Gui.getButton(iconSize, actionListener);
     String playerName1 = new String();
     String playerName2 = new String();
 
     Main() {
-        button1.addActionListener(e -> {
+
+        redButton1.setBackground(new Color(222, 23, 56));
+        redButton1.setOpaque(true);
+        redButton1.setBorderPainted(false);
+        redButton2.setBackground(new Color(222, 23, 56));
+        redButton2.setOpaque(true);
+        redButton2.setBorderPainted(false);
+
+        blueButton1.setBackground(new Color(51, 102, 153));
+        blueButton1.setOpaque(true);
+        blueButton1.setBorderPainted(false);
+        blueButton2.setBackground(new Color(51, 102, 153));
+        blueButton2.setOpaque(true);
+        blueButton2.setBorderPainted(false);
+
+
+
+        confirmButton.addActionListener(e -> {
             playerName1 = textField1.getText().toString();
             playerName2 = textField2.getText().toString();
             textField1.setEnabled(false);
             textField2.setEnabled(false);
-            button1.setEnabled(false);
+            redButton1.setEnabled(false);
+            redButton2.setEnabled(false);
+            blueButton1.setEnabled(false);
+            blueButton2.setEnabled(false);
+            confirmButton.setEnabled(false);
         });
         JPanel chart = Gui.getJpanel();
         JPanel board = getBoard();
 
-        JSplitPane splitPaneChartBoard =  Gui.getSplitPaneVertical(400, 600, 50, chart, board);
-        JSplitPane splitPaneTextFields = Gui.getSplitPaneHorizontal(400, 50, 200, textField1, textField2);
-        JSplitPane splitPaneButtonText = Gui.getSplitPaneVertical(400, 100, 25, splitPaneTextFields, button1);
-        JSplitPane splitPaneBoardFields = Gui.getSplitPaneVertical(400, 700, 500, splitPaneChartBoard, splitPaneButtonText);
+        JSplitPane splitPaneChartBoard =  Gui.getSplitPaneVertical(400, 450, 50, chart, board);
+
+        JSplitPane colorDual1 = Gui.getSplitPaneHorizontal(400, 30, 100, redButton1, blueButton1);
+        JSplitPane colorDual2 = Gui.getSplitPaneHorizontal(400, 30, 100, redButton2, blueButton2);
+        JSplitPane splitPaneTextFieldsColor1 = Gui.getSplitPaneVertical(400, 60, 30, textField1, colorDual1);
+        JSplitPane splitPaneTextFieldsColor2 = Gui.getSplitPaneVertical(400, 60, 30, textField2, colorDual2);
+        JSplitPane splitPaneTextFields = Gui.getSplitPaneHorizontal(400, 60, 200, splitPaneTextFieldsColor1, splitPaneTextFieldsColor2);
+        JSplitPane splitPaneButtonText = Gui.getSplitPaneVertical(400, 90, 60, splitPaneTextFields, confirmButton);
+        JSplitPane splitPaneBoardFields = Gui.getSplitPaneVertical(400, 700, 450, splitPaneChartBoard, splitPaneButtonText);
         JFrame frame = Gui.getMainFrame(splitPaneBoardFields);
+
     }
 
     private JPanel getBoard(){

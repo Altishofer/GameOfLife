@@ -19,6 +19,17 @@ public abstract class Gui {
         return splitPane;
     }
 
+    public static JSplitPane getSplitPaneHorizontal(int width, int height, int divider, JSplitPane left, JSplitPane right){
+        JSplitPane splitPane = new JSplitPane();
+        splitPane.setSize(width, height);
+        splitPane.setDividerSize(0);
+        splitPane.setDividerLocation(divider);
+        splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setLeftComponent(left);
+        splitPane.setRightComponent(right);
+        return splitPane;
+    }
+
     public static JSplitPane getSplitPaneVertical(int width, int height, int divider, JPanel top, JPanel bottom){
         JSplitPane splitPane = new JSplitPane();
         splitPane.setSize(width, height);
@@ -70,8 +81,7 @@ public abstract class Gui {
         frame.add(splitPane);
         frame.pack();
         frame.setSize(400, 600);
-        frame.setMinimumSize(frame.getSize());
-        frame.setMaximumSize(frame.getSize());
+        frame.setResizable(false);
         frame.setLocationByPlatform(true);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
@@ -99,5 +109,38 @@ public abstract class Gui {
         panel.setBorder(BorderFactory.createTitledBorder("Chart"));
         panel.add(new JLabel("Player_1: 100 Cells\n", SwingConstants.LEFT));
         return panel;
+    }
+
+    public static JSplitPane getSplitPaneVertical(int width, int height, int divider, JTextField top, JFrame bottom) {
+        JSplitPane splitPane = new JSplitPane();
+        splitPane.setSize(width, height);
+        splitPane.setDividerSize(0);
+        splitPane.setDividerLocation(divider);
+        splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+        splitPane.setTopComponent(top);
+        splitPane.setBottomComponent(bottom);
+        return splitPane;
+    }
+
+    public static JSplitPane getSplitPaneHorizontal(int width, int height, int divider, JButton left, JButton right) {
+        JSplitPane splitPane = new JSplitPane();
+        splitPane.setSize(width, height);
+        splitPane.setDividerSize(0);
+        splitPane.setDividerLocation(divider);
+        splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setLeftComponent(left);
+        splitPane.setRightComponent(right);
+        return splitPane;
+    }
+
+    public static JSplitPane getSplitPaneVertical(int width, int height, int divider, JTextField top, JSplitPane bottom) {
+        JSplitPane splitPane = new JSplitPane();
+        splitPane.setSize(width, height);
+        splitPane.setDividerSize(0);
+        splitPane.setDividerLocation(divider);
+        splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+        splitPane.setTopComponent(top);
+        splitPane.setBottomComponent(bottom);
+        return splitPane;
     }
 }
