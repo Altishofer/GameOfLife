@@ -1,4 +1,6 @@
 package Board;
 
-public class Cell {
+import javax.swing.*;
+
+public class Cell extends JButton {
 }
