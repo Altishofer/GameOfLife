@@ -1,5 +1,7 @@
 package Board;
 
+import javax.swing.*;
+
 public class Grid {
 
     private Cell[][] aGrid;
@@ -39,6 +41,7 @@ public class Grid {
                 } else {
                     int numberOfNeighbors = countNeighbors(i, j);
                     ColorType dominator = getDominantColor(i, j);
+                    System.out.println(dominator);
 
                     if (!aGrid[i][j].isAlive() && numberOfNeighbors == 3) {
                         aNextGrid[i][j] = aGrid[i][j];
@@ -103,4 +106,49 @@ public class Grid {
             }
         }
     }
+    // TODO: only for debugging
+    private void printGrid(){
+
+        for(int i = 0; i<aDimension;i++) {
+            System.out.print("|");
+            for (int j = 0; j < aDimension; j++) {
+                if(aGrid[i][j].isAlive()){
+                    if(aGrid[i][j].getColor() == ColorType.LAVARED){
+                        System.out.print("O|");
+                    }else {
+                        System.out.print("X|");
+                    }
+                }else {
+                    System.out.print(" |");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    private void setupGrid(int x,int y, ColorType pColor){
+        if(aGrid[x][y].isAlive()){
+            throw new IllegalArgumentException("Cell is already alive");
+        }
+        aGrid[x][y].revive();
+        aGrid[x][y].setColor(pColor);
+    }
+
+    public static void main(String[] args) {
+        Grid myGrid = new Grid(20);
+        myGrid.setupGrid(0,0,ColorType.ROYALBLUE);
+        myGrid.setupGrid(1,0,ColorType.ROYALBLUE);
+        myGrid.setupGrid(2,0,ColorType.ROYALBLUE);
+
+        myGrid.setupGrid(5,5,ColorType.LAVARED);
+        myGrid.setupGrid(6,5,ColorType.LAVARED);
+        myGrid.setupGrid(7,5,ColorType.LAVARED);
+
+        while (true){
+            myGrid.printGrid();
+            myGrid.createNextGeneration();
+            System.out.flush();
+        }
+    }
+
 }
