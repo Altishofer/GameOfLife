@@ -99,7 +99,7 @@ public abstract class Gui {
         return button;
     }
 
-    public static JButton getButton(int iconSize, ActionListener actionListener, Color color){
+    public static JButton getButton(int iconSize, Color color){
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize,iconSize,BufferedImage.TYPE_INT_RGB)));
@@ -109,7 +109,6 @@ public abstract class Gui {
         button.setBackground(color);
         button.setOpaque(true);
         button.setBorderPainted(false);
-        //button.addActionListener(actionListener);
         return button;
     }
 
