@@ -80,7 +80,6 @@ public class Main {
         JPanel board = getBoard();
 
         JSplitPane splitPaneChartBoard =  Gui.getSplitPaneVertical(400, 450, 50, chart, board);
-
         JSplitPane colorDual1 = Gui.getSplitPaneHorizontal(400, 30, 100, redButton1, blueButton1);
         JSplitPane colorDual2 = Gui.getSplitPaneHorizontal(400, 30, 100, redButton2, blueButton2);
         JSplitPane splitPaneTextFieldsColor1 = Gui.getSplitPaneVertical(400, 60, 30, textField1, colorDual1);
@@ -88,8 +87,7 @@ public class Main {
         JSplitPane splitPaneTextFields = Gui.getSplitPaneHorizontal(400, 60, 200, splitPaneTextFieldsColor1, splitPaneTextFieldsColor2);
         JSplitPane splitPaneButtonText = Gui.getSplitPaneVertical(400, 90, 60, splitPaneTextFields, confirmButton);
         JSplitPane splitPaneBoardFields = Gui.getSplitPaneVertical(400, 700, 450, splitPaneChartBoard, splitPaneButtonText);
-        JFrame frame = Gui.getMainFrame(splitPaneBoardFields);
-
+        Gui.getMainFrame(splitPaneBoardFields);
     }
 
     private JPanel getBoard(){
