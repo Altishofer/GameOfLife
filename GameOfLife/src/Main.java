@@ -18,20 +18,17 @@ public class Main {
 
     // TODO: User Input at beginning, Color and Name, Sandrin
     
-    private Color blue = new Color(0,0,255);
-    private Color red = new Color(255, 0, 0);
     private int size = 20;
     private int iconSize = 10;
     private JButton[][] buttonArray = new JButton[size][size];
-
     private JLabel output = new JLabel("Click somewhere on the GUI");
     JTextField textField1 = new JTextField("Player_1");
     JTextField textField2 = new JTextField("Player_2");
     JButton confirmButton = new JButton("Confirm");
-    JButton redButton1 = Gui.getButton(iconSize, red);
-    JButton blueButton1 = Gui.getButton(iconSize, blue);
-    JButton redButton2 = Gui.getButton(iconSize, red);
-    JButton blueButton2 = Gui.getButton(iconSize, blue);
+    JButton redButton1 = Gui.getButton(iconSize, Color.RED);
+    JButton redButton2 = Gui.getButton(iconSize, Color.RED);
+    JButton blueButton1 = Gui.getButton(iconSize, Color.BLUE);
+    JButton blueButton2 = Gui.getButton(iconSize, Color.BLUE);
     String playerName1 = new String();
     String playerName2 = new String();
 
@@ -43,10 +40,10 @@ public class Main {
             disableAll();
         });
 
-        redButton1.addActionListener(e -> action(red, Color.GRAY, Color.GRAY, blue));
-        redButton2.addActionListener(e -> action(Color.GRAY, red, blue, Color.GRAY));
-        blueButton1.addActionListener(e -> action(Color.GRAY, red, blue, Color.GRAY));
-        blueButton2.addActionListener(e -> action(red, Color.GRAY, Color.GRAY, blue));
+        redButton1.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE));
+        redButton2.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY));
+        blueButton1.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY));
+        blueButton2.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE));
 
         JPanel chart = Gui.getJpanel();
         JPanel board = getBoard();
