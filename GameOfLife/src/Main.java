@@ -17,6 +17,10 @@ public class Main {
 
     // TODO: User Input at beginning, Color and Name, Sandrin
 
+    private Color darkBlue = Color.GRAY;
+    private Color blue = new Color(0,0,255);
+    private Color darkRed =  Color.GRAY;
+    private Color red = new Color(255, 0, 0);
     private int size = 20;
     private int iconSize = 10;
     private JButton[][] buttonArray = new JButton[size][size];
@@ -27,15 +31,17 @@ public class Main {
     JTextField textField1 = new JTextField("Player_1");
     JTextField textField2 = new JTextField("Player_2");
     JButton confirmButton = new JButton("Confirm");
-    JButton redButton1 = Gui.getButton(iconSize, actionListener1, new Color(222, 23, 56));
-    JButton blueButton1 = Gui.getButton(iconSize, actionListener1, new Color(51, 102, 153));
-    JButton redButton2 = Gui.getButton(iconSize, actionListener2, new Color(222, 23, 56));
-    JButton blueButton2 = Gui.getButton(iconSize, actionListener2, new Color(51, 102, 153));
+    JButton redButton1 = Gui.getButton(iconSize, actionListener1, red);
+    JButton blueButton1 = Gui.getButton(iconSize, actionListener1, blue);
+    JButton redButton2 = Gui.getButton(iconSize, actionListener2, red);
+    JButton blueButton2 = Gui.getButton(iconSize, actionListener2, blue);
     String playerName1 = new String();
     String playerName2 = new String();
 
     Main() {
 
+        UIManager.getDefaults().put("Button.disabledBackground",Color.BLACK);
+        
         confirmButton.addActionListener(e -> {
             playerName1 = textField1.getText().toString();
             playerName2 = textField2.getText().toString();
@@ -47,6 +53,31 @@ public class Main {
             blueButton2.setEnabled(false);
             confirmButton.setEnabled(false);
         });
+        redButton1.addActionListener(e -> {
+            redButton1.setBackground(red);
+            redButton2.setBackground(darkRed);
+            blueButton2.setBackground(blue);
+            blueButton1.setBackground(darkBlue);
+        });
+        redButton2.addActionListener(e -> {
+            redButton2.setBackground(red);
+            redButton1.setBackground(darkRed);
+            blueButton2.setBackground(darkBlue);
+            blueButton1.setBackground(blue);
+        });
+        blueButton1.addActionListener(e -> {
+            blueButton1.setBackground(blue);
+            blueButton2.setBackground(darkBlue);
+            redButton2.setBackground(red);
+            redButton1.setBackground(darkRed);
+        });
+        blueButton2.addActionListener(e -> {
+            blueButton2.setBackground(blue);
+            blueButton1.setBackground(darkBlue);
+            redButton2.setBackground(darkRed);
+            redButton1.setBackground(red);
+        });
+
         JPanel chart = Gui.getJpanel();
         JPanel board = getBoard();
 

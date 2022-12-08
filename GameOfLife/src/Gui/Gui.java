@@ -109,7 +109,7 @@ public abstract class Gui {
         button.setBackground(color);
         button.setOpaque(true);
         button.setBorderPainted(false);
-        button.addActionListener(actionListener);
+        //button.addActionListener(actionListener);
         return button;
     }
 
