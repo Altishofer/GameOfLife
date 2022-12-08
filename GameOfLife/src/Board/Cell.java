@@ -10,6 +10,11 @@ public class Cell {
         aColor = ColorType.WHITE;
     }
 
+    public void passData(Cell pCell){
+        this.aIsAlive = pCell.aIsAlive;
+        this.aColor = pCell.aColor;
+    }
+
     public void setColor(ColorType x){
         aColor = x;
     }

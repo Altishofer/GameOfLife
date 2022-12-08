@@ -10,7 +10,7 @@ public class Grid {
         aDimension = pDimension;
         aGrid = new Cell[aDimension][aDimension];
         aNextGrid = new Cell[aDimension][aDimension];
-        this.initGrid();
+        this.initGrids();
     }
 
     //TODO: getColor from cell and player
@@ -35,25 +35,32 @@ public class Grid {
         for(int i = 0; i < aDimension;i++) {
             for (int j = 0; j < aDimension;j++) {
                 if(i == 0|| i == aDimension-1 || j == 0 || j == aDimension-1){
-                    aNextGrid[i][j] = aGrid[i][j];
+                    aNextGrid[i][j].passData(aGrid[i][j]);
                 } else {
                     int numberOfNeighbors = countNeighbors(i, j);
-                    ColorType dominator = getDominantColor(i, j);
 
                     if (!aGrid[i][j].isAlive() && numberOfNeighbors == 3) {
-                        aNextGrid[i][j] = aGrid[i][j];
                         aNextGrid[i][j].revive();
+                        ColorType dominator = getDominantColor(i, j);
                         aNextGrid[i][j].setColor(dominator);
                     } else if (aGrid[i][j].isAlive() && (numberOfNeighbors < 2 || numberOfNeighbors > 3)) {
-                        aNextGrid[i][j] = aGrid[i][j];
                         aNextGrid[i][j].kill();
                     } else {
-                        aNextGrid[i][j] = aGrid[i][j];
+                        aNextGrid[i][j].passData(aGrid[i][j]);
                     }
                 }
             }
         }
-        aGrid = aNextGrid;
+        this.makeGridsSame();
+    }
+
+    private void makeGridsSame(){
+
+        for(int i = 0; i<aDimension;i++){
+            for(int j = 0; j<aDimension;j++){
+                aGrid[i][j].passData(aNextGrid[i][j]);
+            }
+        }
     }
 
     private int countNeighbors(int x, int y){
@@ -68,6 +75,9 @@ public class Grid {
                     numberOfNeighbors += 1;
                 }
             }
+        }
+        if(aGrid[x][y].isAlive()){
+            numberOfNeighbors -=1;
         }
         return numberOfNeighbors;
     }
@@ -96,13 +106,15 @@ public class Grid {
         return ColorType.ROYALBLUE;
     }
 
-    private void initGrid(){
+    private void initGrids(){
         for(int i = 0; i<aDimension;i++){
             for(int j = 0; j<aDimension;j++){
                 aGrid[i][j] = new Cell();
+                aNextGrid[i][j] = new Cell();
             }
         }
     }
+
     // TODO: only for debugging
     private void printGrid(){
 
@@ -132,27 +144,27 @@ public class Grid {
     }
 
     public static void main(String[] args) {
-        Grid myGrid = new Grid(20);
-        myGrid.setupGrid(0,0,ColorType.ROYALBLUE);
-        myGrid.setupGrid(1,0,ColorType.ROYALBLUE);
-        myGrid.setupGrid(2,0,ColorType.ROYALBLUE);
+        Grid myGrid = new Grid(10);
+        myGrid.setupGrid(1,1,ColorType.LAVARED);
+        myGrid.setupGrid(2,1,ColorType.LAVARED);
+        myGrid.setupGrid(1,2,ColorType.LAVARED);
 
-        myGrid.setupGrid(5,5,ColorType.LAVARED);
-        myGrid.setupGrid(6,5,ColorType.LAVARED);
-        myGrid.setupGrid(7,5,ColorType.LAVARED);
+        myGrid.setupGrid(4,7,ColorType.ROYALBLUE);
+        myGrid.setupGrid(5,7,ColorType.ROYALBLUE);
+        myGrid.setupGrid(6,7,ColorType.ROYALBLUE);
+
+        myGrid.setupGrid(6,2,ColorType.LAVARED);
+        myGrid.setupGrid(7,1,ColorType.LAVARED);
+        myGrid.setupGrid(8,1,ColorType.LAVARED);
+
 
         myGrid.printGrid();
         myGrid.createNextGeneration();
         System.out.println();
         myGrid.printGrid();
         myGrid.createNextGeneration();
-        System.out.println();myGrid.printGrid();
-        myGrid.createNextGeneration();
-        System.out.println();myGrid.printGrid();
-        myGrid.createNextGeneration();
-        System.out.println();myGrid.printGrid();
-        myGrid.createNextGeneration();
         System.out.println();
+        myGrid.printGrid();
     }
 
 }
