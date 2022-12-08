@@ -1,10 +1,12 @@
-import Gui.Gui;
+import Gui.GuiUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+
 
 public class Main {
 
@@ -25,10 +27,10 @@ public class Main {
     JTextField textField1 = new JTextField("Player_1");
     JTextField textField2 = new JTextField("Player_2");
     JButton confirmButton = new JButton("Confirm");
-    JButton redButton1 = Gui.getButton(iconSize, Color.RED);
-    JButton redButton2 = Gui.getButton(iconSize, Color.RED);
-    JButton blueButton1 = Gui.getButton(iconSize, Color.BLUE);
-    JButton blueButton2 = Gui.getButton(iconSize, Color.BLUE);
+    JButton redButton1 = GuiUtils.getButton(iconSize, Color.RED);
+    JButton redButton2 = GuiUtils.getButton(iconSize, Color.RED);
+    JButton blueButton1 = GuiUtils.getButton(iconSize, Color.BLUE);
+    JButton blueButton2 = GuiUtils.getButton(iconSize, Color.BLUE);
     String playerName1 = new String();
     String playerName2 = new String();
 
@@ -45,18 +47,18 @@ public class Main {
         blueButton1.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY));
         blueButton2.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE));
 
-        JPanel chart = Gui.getJpanel();
+        JPanel chart = getJpanel();
         JPanel board = getBoard();
 
-        JSplitPane splitPaneChartBoard =  Gui.getSplitPaneVertical(400, 450, 50, chart, board);
-        JSplitPane colorDual1 = Gui.getSplitPaneHorizontal(400, 30, 100, redButton1, blueButton1);
-        JSplitPane colorDual2 = Gui.getSplitPaneHorizontal(400, 30, 100, redButton2, blueButton2);
-        JSplitPane splitPaneTextFieldsColor1 = Gui.getSplitPaneVertical(400, 60, 30, textField1, colorDual1);
-        JSplitPane splitPaneTextFieldsColor2 = Gui.getSplitPaneVertical(400, 60, 30, textField2, colorDual2);
-        JSplitPane splitPaneTextFields = Gui.getSplitPaneHorizontal(400, 60, 200, splitPaneTextFieldsColor1, splitPaneTextFieldsColor2);
-        JSplitPane splitPaneButtonText = Gui.getSplitPaneVertical(400, 90, 60, splitPaneTextFields, confirmButton);
-        JSplitPane splitPaneBoardFields = Gui.getSplitPaneVertical(400, 700, 450, splitPaneChartBoard, splitPaneButtonText);
-        Gui.getMainFrame(splitPaneBoardFields);
+        JSplitPane splitPaneChartBoard =  GuiUtils.getSplitPaneVertical(400, 450, 50, chart, board);
+        JSplitPane colorDual1 = GuiUtils.getSplitPaneHorizontal(400, 30, 100, redButton1, blueButton1);
+        JSplitPane colorDual2 = GuiUtils.getSplitPaneHorizontal(400, 30, 100, redButton2, blueButton2);
+        JSplitPane splitPaneTextFieldsColor1 = GuiUtils.getSplitPaneVertical(400, 60, 30, textField1, colorDual1);
+        JSplitPane splitPaneTextFieldsColor2 = GuiUtils.getSplitPaneVertical(400, 60, 30, textField2, colorDual2);
+        JSplitPane splitPaneTextFields = GuiUtils.getSplitPaneHorizontal(400, 60, 200, splitPaneTextFieldsColor1, splitPaneTextFieldsColor2);
+        JSplitPane splitPaneButtonText = GuiUtils.getSplitPaneVertical(400, 90, 60, splitPaneTextFields, confirmButton);
+        JSplitPane splitPaneBoardFields = GuiUtils.getSplitPaneVertical(400, 700, 450, splitPaneChartBoard, splitPaneButtonText);
+        getMainFrame(splitPaneBoardFields);
     }
 
     private JPanel getBoard(){
@@ -68,7 +70,7 @@ public class Main {
         board.add(gameContainer);
         actionListener = e -> output.setText(getButtonRowCol((JButton)e.getSource()));
         for (int ii=0; ii<size*size; ii++) {
-            JButton b = Gui.getButton(iconSize, actionListener);
+            JButton b = getButton(iconSize, actionListener);
             gameContainer.add(b);
             buttonArray[ii%size][ii/size] = b;
         }
@@ -106,5 +108,29 @@ public class Main {
             }
         }
         return sb.toString();
+    }
+
+    public static JFrame getMainFrame(JSplitPane splitPane){
+        JFrame frame = new JFrame("Game Of Life");
+        frame.setPreferredSize(new Dimension(400, 600));
+        frame.getContentPane().setLayout(new GridLayout());
+        frame.add(splitPane);
+        frame.pack();
+        frame.setSize(400, 600);
+        frame.setResizable(false);
+        frame.setLocationByPlatform(true);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
+        return frame;
+    }
+
+    public JButton getButton(int iconSize, ActionListener actionListener) {
+        JButton button = new JButton();
+        button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
+        button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
+        button.setMargin(new Insets(0, 0, 0, 0));
+        button.setContentAreaFilled(false);
+        button.addActionListener(actionListener);
+        return button;
     }
 }
