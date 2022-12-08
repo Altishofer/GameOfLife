@@ -1,48 +1,44 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class Main {
+public class GUI extends JFrame implements ActionListener {
 
-    // TODO: farbe assignen via coordinates, Adrian
-    // TODO: dashboard statistik neben Grid, mit fields die assignt werden können, Adrian
-
-    // TODO: User Input at beginning, Color and Name, Sandrin
-
+    // TODO: assign colour after turns (via coords), Adrian
+    // TODO: dashboard statistic: generations, cells of each player: content should be updatable after each turn, Adrian
 
     int size = 15;
     int iconSize = 10;
 
     JButton[][] buttonArray = new JButton[size][size];
-    ActionListener actionListener;
+    ActionListener actionListener; // Should we implement this differently?
     JLabel output = new JLabel("Click somewhere on the GUI");
 
-    Main() {
-        JFrame f = new JFrame("Game Of Life");
-        f.setPreferredSize(new Dimension(400, 600));
-        f.getContentPane().setLayout(new GridLayout());
+    GUI() {
+        setName("Game of Life");
+        setPreferredSize(new Dimension(400, 600));
+        getContentPane().setLayout(new GridLayout());
 
-        JLabel labelStatsP1 = new JLabel();
-        labelStatsP1.setText("Player_1: 100 Cells        ");
-        labelStatsP1.setVerticalAlignment(JLabel.TOP);
+        JLabel statsP1 = new JLabel();
+        statsP1.setText("Player_1: 100 Cells        ");
+        statsP1.setVerticalAlignment(JLabel.TOP);
 
-        JLabel labelStatsP2 = new JLabel();
-        labelStatsP2.setText("        Player_1: 100 Cells\n");
-        labelStatsP2.setVerticalAlignment(JLabel.BOTTOM);
+        JLabel statsP2 = new JLabel();
+        statsP2.setText("        Player_1: 100 Cells\n");
+        statsP2.setVerticalAlignment(JLabel.BOTTOM);
 
         JPanel chart = new JPanel();
         chart.setSize(400, 25);
         chart.setBackground(Color.WHITE);
         chart.setVisible(true);
         chart.setBorder(BorderFactory.createTitledBorder("Chart"));
-        chart.add(labelStatsP1);
-        chart.add(labelStatsP2);
+        chart.add(statsP1);
+        chart.add(statsP2);
         //chart.add(new JLabel("Player_1: 100 Cells       \n", SwingConstants.LEFT));
         //chart.add(new JLabel("       Player_2: 100 Cells\n", SwingConstants.RIGHT));
-
 
         JPanel board = new JPanel(new BorderLayout(2,2));
         board.setBorder(new EmptyBorder(4,4,4,4));
@@ -97,14 +93,14 @@ public class Main {
         splitPane7.setTopComponent(splitPane1);
         splitPane7.setBottomComponent(splitPane2);
 
-        f.add(splitPane7);
-        f.pack();
-        f.setSize(400, 600);
-        f.setMinimumSize(f.getSize());
-        f.setMaximumSize(f.getSize());
-        f.setLocationByPlatform(true);
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setVisible(true);
+        add(splitPane7);
+        pack();
+        setSize(400, 600);
+        setMinimumSize(getSize());
+        setMaximumSize(getSize());
+        setLocationByPlatform(true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setVisible(true);
     }
 
     private String getButtonRowCol(JButton button) {
@@ -133,8 +129,10 @@ public class Main {
         return b;
     }
 
-    public static void main(String[] args) {
-        Runnable r = () -> new GUI();
-        SwingUtilities.invokeLater(r);
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
+
+
 }
