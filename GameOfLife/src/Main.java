@@ -17,7 +17,7 @@ public class Main {
 
     // TODO: User Input at beginning, Color and Name, Sandrin
 
-    private int size = 15;
+    private int size = 20;
     private int iconSize = 10;
     private JButton[][] buttonArray = new JButton[size][size];
     private ActionListener actionListener;
