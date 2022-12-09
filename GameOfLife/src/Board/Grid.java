@@ -99,7 +99,7 @@ public class Grid {
                 }
             }
         }
-
+        
         if(cntRed>cntBlue){
             return ColorType.LAVARED;
         }
