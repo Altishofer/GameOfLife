@@ -1,17 +1,19 @@
 package Board;
 
+import java.awt.*;
+
 public class Player implements Comparable{
 
     private final String PLAYER_NAME;
-    private final String PLAYER_COLOR;
+    private final Color PLAYER_COLOR;
 
-    public Player (String pName, String player_color){
+    public Player (String pName, Color player_color){
         PLAYER_NAME = pName;
         PLAYER_COLOR = player_color;
     }
 
     public String getPlayerName(){return PLAYER_NAME;}
-    public String getPlayerColor(){return PLAYER_COLOR;}
+    public Color getPlayerColor(){return PLAYER_COLOR;}
 
     public Character getPlayerInitial(){return PLAYER_NAME.charAt(0);}
 

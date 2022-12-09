@@ -1,3 +1,4 @@
+import Board.Player;
 import Gui.GuiUtils;
 
 import javax.swing.*;
@@ -32,6 +33,10 @@ public class Main {
     JButton blueButton2 = GuiUtils.getButton(iconSize, Color.BLUE);
     String playerName1 = new String();
     String playerName2 = new String();
+    Color playerColor1;
+    Color playerColor2;
+    Player player1;
+    Player player2;
 
     Main() {
 
@@ -41,10 +46,10 @@ public class Main {
             disableAll();
         });
 
-        redButton1.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE));
-        redButton2.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY));
-        blueButton1.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY));
-        blueButton2.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE));
+        redButton1.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE, Color.RED, Color.BLUE));
+        redButton2.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY, Color.BLUE, Color.RED));
+        blueButton1.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY, Color.BLUE, Color.RED));
+        blueButton2.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE, Color.RED, Color.BLUE));
 
         JPanel chart = getJpanel();
         JPanel board = getBoard();
@@ -76,11 +81,13 @@ public class Main {
         return board;
     }
 
-    private void action(Color red1, Color red2, Color blue1, Color blue2){
+    private void action(Color red1, Color red2, Color blue1, Color blue2, Color player1, Color player2){
         redButton1.setBackground(red1);
         redButton2.setBackground(red2);
         blueButton1.setBackground(blue1);
         blueButton2.setBackground(blue2);
+        playerColor1 = player1;
+        playerColor2 = player2;
     }
 
     private void disableAll(){
@@ -91,6 +98,8 @@ public class Main {
         blueButton1.setEnabled(false);
         blueButton2.setEnabled(false);
         confirmButton.setEnabled(false);
+        player1 = new Player(playerName1, playerColor1);
+        player2 = new Player(playerName1, playerColor2);
     }
 
     private String getButtonRowCol(JButton button) {
