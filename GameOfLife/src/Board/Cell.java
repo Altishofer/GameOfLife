@@ -27,40 +27,38 @@ public class Cell extends JButton{
     public void evolutionStep(){
         if (!(oneNeighbours == 3 && twoNeighbours == 3)){
             if (oneNeighbours == 3){
-                setColor();
-                status = 1;
+                setStatus(1);
                 return;}
             if (twoNeighbours == 3){
-                status = 2;
-                setColor();
+                setStatus(2);
                 return;}
         }
         if (status == 1){
             if (oneNeighbours < 2 || oneNeighbours > 3){
-                status = 0;
+                setStatus(0);
             }
         }
         if (status == 2){
             if (twoNeighbours < 2 || twoNeighbours > 3){
-                status = 0;
+                setStatus(0);
             }
         }
-        setColor();
     }
 
-    private Color setColor(){
-        switch(status){
-            case 0: return Color.WHITE;
-            case 1: return Color.BLUE;
-            case 2: return Color.RED;
-            default: return null;
-        }
-    }
-
-    public int getStatus() {
-        return status;
-    }
     public void setStatus(int change) {
         status = change;
+        switch(status){
+            case 0: color = Color.WHITE;
+                break;
+            case 1: color = Color.BLUE;
+                break;
+            case 2: color = Color.RED;
+                break;
+            default: color = null;
+                break;
+        }
+    }
+    public int getStatus() {
+        return status;
     }
 }

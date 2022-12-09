@@ -57,7 +57,7 @@ public class Grid{
         cellsMap[xPlacement][yPlacement].setStatus(status);
     }
 
-    //TODO: Remove after testing
+    //TODO: Debugg - Remove after testing
     public void printGrid() {
         for (int col = 0; col < aSize; col++) {
             String stringTemp = "";
