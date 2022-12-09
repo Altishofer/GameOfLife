@@ -1,4 +1,7 @@
+package Board;
+
 import Board.Cell;
+import Board.ColorType;
 
 public class Grid {
 
@@ -15,7 +18,7 @@ public class Grid {
 
     //TODO: getColor from cell and player
     public void killACell(Cell pCell){
-        if(!pCell.isAlive() && pCell.getColor()==ColorType.WHITE){
+        if(!pCell.isAlive() && pCell.getColor()== ColorType.WHITE){
             throw new IllegalArgumentException("Please select a valid cell!");
         }
         pCell.kill();
