@@ -16,7 +16,7 @@ public class SingletonGUI {
 
     public static SingletonGUI INSTANCE;
 
-    private int size = 10;
+    private int size = 20;
     private int iconSize = 10;
     private JButton[][] buttonArray = new JButton[size][size];
     private JLabel output = new JLabel("Click somewhere on the GUI");
