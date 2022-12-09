@@ -1,70 +1,174 @@
 package Board;
 
-import javax.naming.directory.InvalidAttributeValueException;
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
+import Board.Cell;
+import Board.ColorType;
 
-public class Grid{
+public class Grid {
 
-    private int iconSize = 10;
-    Cell buttonArray[][];
-    private int aSize;
-    Cell[][] cellsMap;
-    private int generation;
+    private Cell[][] aGrid;
+    private Cell[][] aNextGrid;
+    private final int aDimension;
 
-    public Grid(int pSize) {
-        aSize = pSize;
-        cellsMap = new Cell[aSize][aSize];
-        for (int col = 0; col < aSize; col++) {
-            for (int row = 0; row < aSize; row++) {
-                cellsMap[col][row] = new Cell(col, row, this);
-            }
-        }
+    public Grid(int pDimension){
+        aDimension = pDimension;
+        aGrid = new Cell[aDimension][aDimension];
+        aNextGrid = new Cell[aDimension][aDimension];
+        this.initGrids();
     }
 
-    public void evolveCells() {
-        for (int col = 0; col < aSize; col++) {
-            for (int row = 0; row < aSize; row++) {
-                cellsMap[col][row].updateNeighbours();
-            }
+    //TODO: getColor from cell and player
+    public void killACell(Cell pCell){
+        if(!pCell.isAlive() && pCell.getColor()== ColorType.WHITE){
+            throw new IllegalArgumentException("Please select a valid cell!");
         }
-        for (int col = 0; col < aSize; col++) {
-            for (int row = 0; row < aSize; row++) {
-                cellsMap[col][row].evolutionStep();
-            }
-        }
-        generation++;
+        pCell.kill();
     }
 
-    public int countNeighbours(int x, int y, int status) {
-        int cnt = 0;
-        for (int row = x - 1; row <= x + 1; row++)
-            for (int col = y - 1; col <= y + 1; col++)
-                if ((row == x && col == y) || (row < 0 || row > aSize - 1) || (col < 0 || col > aSize - 1)) {
-                } else if (cellsMap[row][col].getStatus() == status) {
-                    cnt++;
+    public void reviveACell(Cell pCell){
+        if(pCell.isAlive()){
+            throw new IllegalArgumentException("Please select a dead cell!");
+        }
+        pCell.revive();
+    }
+
+
+    // TODO: Try less branches
+    // TODO: # of alive Cells from a specific player is not done yet
+    public void createNextGeneration(){
+        for(int i = 0; i < aDimension;i++) {
+            for (int j = 0; j < aDimension;j++) {
+                if(i == 0|| i == aDimension-1 || j == 0 || j == aDimension-1){
+                    aNextGrid[i][j].passData(aGrid[i][j]);
+                } else {
+                    int numberOfNeighbors = countNeighbors(i, j);
+
+                    if (!aGrid[i][j].isAlive() && numberOfNeighbors == 3) {
+                        aNextGrid[i][j].revive();
+                        ColorType dominator = getDominantColor(i, j);
+                        aNextGrid[i][j].setColor(dominator);
+                    } else if (aGrid[i][j].isAlive() && (numberOfNeighbors < 2 || numberOfNeighbors > 3)) {
+                        aNextGrid[i][j].kill();
+                    } else {
+                        aNextGrid[i][j].passData(aGrid[i][j]);
+                    }
                 }
-        return cnt;
-    }
-
-    public int getGeneration() {
-        return generation;
-    }
-
-    public void paintCell(int xPlacement, int yPlacement, int status) {
-        cellsMap[xPlacement][yPlacement].setStatus(status);
-    }
-
-    //TODO: Debug - Remove after testing
-    public void printGrid() {
-        for (int col = 0; col < aSize; col++) {
-            String stringTemp = "";
-            for (int row = 0; row < aSize; row++) {
-                stringTemp += cellsMap[col][row].getStatus();
             }
-            System.out.print(stringTemp + "\n");
+        }
+        this.makeGridsSame();
+    }
+
+    private void makeGridsSame(){
+
+        for(int i = 0; i<aDimension;i++){
+            for(int j = 0; j<aDimension;j++){
+                aGrid[i][j].passData(aNextGrid[i][j]);
+            }
         }
     }
+
+    private int countNeighbors(int x, int y){
+        int numberOfNeighbors = 0;
+
+        for(int i = -1; i<2;i++) {
+            for (int j = -1; j < 2; j++) {
+                int col = (x+i) % aDimension;
+                int row = (y+j) % aDimension;
+
+                if(col != 0 && row != 0 && aGrid[col][row].isAlive()){
+                    numberOfNeighbors += 1;
+                }
+            }
+        }
+        if(aGrid[x][y].isAlive()){
+            numberOfNeighbors -=1;
+        }
+        return numberOfNeighbors;
+    }
+
+    private ColorType getDominantColor(int x, int y){
+        int cntBlue = 0;
+        int cntRed = 0;
+
+        for(int i = -1; i < 2;i++) {
+            for (int j = -1; j < 2; j++) {
+                int col = (x+i) % aDimension;
+                int row = (y+j) % aDimension;
+
+                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.ROYALBLUE && aGrid[col][row].isAlive()){
+                    cntBlue++;
+                }
+                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.LAVARED && aGrid[col][row].isAlive()){
+                    cntRed++;
+                }
+            }
+        }
+
+        if(cntRed>cntBlue){
+            return ColorType.LAVARED;
+        }
+        return ColorType.ROYALBLUE;
+    }
+
+    private void initGrids(){
+        for(int i = 0; i<aDimension;i++){
+            for(int j = 0; j<aDimension;j++){
+                aGrid[i][j] = new Cell();
+                aNextGrid[i][j] = new Cell();
+            }
+        }
+    }
+
+    // TODO: only for debugging
+    private void printGrid(){
+
+        for(int i = 0; i<aDimension;i++) {
+            System.out.print("|");
+            for (int j = 0; j < aDimension; j++) {
+                if(aGrid[i][j].isAlive()){
+                    if(aGrid[i][j].getColor() == ColorType.LAVARED){
+                        System.out.print("O|");
+                    }else {
+                        System.out.print("X|");
+                    }
+                }else {
+                    System.out.print(" |");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    private void setupGrid(int x,int y, ColorType pColor){
+        if(aGrid[x][y].isAlive()){
+            throw new IllegalArgumentException("Cell is already alive");
+        }
+        aGrid[x][y].revive();
+        aGrid[x][y].setColor(pColor);
+    }
+
+    public static void main(String[] args) {
+        Grid myGrid = new Grid(10);
+        myGrid.setupGrid(1,1,ColorType.LAVARED);
+        myGrid.setupGrid(2,1,ColorType.LAVARED);
+        myGrid.setupGrid(1,2,ColorType.LAVARED);
+
+        myGrid.setupGrid(4,7,ColorType.ROYALBLUE);
+        myGrid.setupGrid(5,7,ColorType.ROYALBLUE);
+        myGrid.setupGrid(6,7,ColorType.ROYALBLUE);
+
+        myGrid.setupGrid(6,2,ColorType.LAVARED);
+        myGrid.setupGrid(7,1,ColorType.LAVARED);
+        myGrid.setupGrid(8,1,ColorType.LAVARED);
+
+
+        myGrid.printGrid();
+        myGrid.createNextGeneration();
+        System.out.println();
+        myGrid.printGrid();
+        myGrid.createNextGeneration();
+        System.out.println();
+        myGrid.printGrid();
+    }
+
 }
+
