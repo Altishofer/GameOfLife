@@ -1,3 +1,4 @@
+import Board.Grid;
 import Board.Player;
 import Gui.GuiUtils;
 
@@ -13,6 +14,18 @@ public class Main {
     public static void main(String[] args) {
         Runnable r = () -> new Main();
         SwingUtilities.invokeLater(r);
+        /*Grid grid = new Grid(10);
+        grid.paintCell(1,1,1);
+        grid.paintCell(1,2,1);
+        grid.paintCell(1,3,1);
+        grid.paintCell(5,5,2);
+        grid.paintCell(5,6,2);
+        grid.paintCell(6,5,2);
+        grid.printGrid();
+        grid.evolveCells();
+        System.out.print("\n");
+        grid.printGrid();*/
+
     }
 
     // TODO: farbe assignen via coordinates, Adrian

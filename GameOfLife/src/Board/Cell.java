@@ -45,6 +45,10 @@ public class Cell extends JButton{
         }
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     public void setStatus(int change) {
         status = change;
         switch(status){
