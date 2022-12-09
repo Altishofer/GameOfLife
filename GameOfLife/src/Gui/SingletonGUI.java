@@ -1,5 +1,6 @@
 package Gui;
 
+import Board.Grid;
 import Board.Player;
 
 import javax.swing.*;
@@ -38,7 +39,7 @@ public class SingletonGUI {
     private JLabel chartLabelP2 = new JLabel();
     private JPanel chart = getJpanel();
 
-
+    private Grid aGrid;
 
     private SingletonGUI() {
 
@@ -58,7 +59,7 @@ public class SingletonGUI {
 
         JPanel board = getBoard();
 
-        JSplitPane splitPaneChartBoard =  GuiUtils.getSplitPaneVertical(400, 450, 50, chart, board);
+        JSplitPane splitPaneChartBoard = GuiUtils.getSplitPaneVertical(400, 450, 50, chart, board);
         JSplitPane colorDual1 = GuiUtils.getSplitPaneHorizontal(400, 30, 100, redButton1, blueButton1);
         JSplitPane colorDual2 = GuiUtils.getSplitPaneHorizontal(400, 30, 100, redButton2, blueButton2);
         JSplitPane splitPaneTextFieldsColor1 = GuiUtils.getSplitPaneVertical(400, 60, 30, textField1, colorDual1);
@@ -69,30 +70,32 @@ public class SingletonGUI {
         getMainFrame(splitPaneBoardFields);
     }
 
-    public static synchronized SingletonGUI getInstance(){
-        if (INSTANCE == null){
+    public static synchronized SingletonGUI getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new SingletonGUI();
         }
         return INSTANCE;
     }
 
-    private JPanel getBoard(){
+    private JPanel getBoard() {
         ActionListener actionListener;
-        JPanel board = new JPanel(new BorderLayout(2,2));
-        board.setBorder(new EmptyBorder(4,4,4,4));
-        board.add(output,BorderLayout.PAGE_END);
-        JPanel gameContainer = new JPanel(new GridLayout(0,size,2,2));
+        JPanel board = new JPanel(new BorderLayout(2, 2));
+        board.setBorder(new EmptyBorder(4, 4, 4, 4));
+        board.add(output, BorderLayout.PAGE_END);
+        JPanel gameContainer = new JPanel(new GridLayout(0, size, 2, 2));
         board.add(gameContainer);
-        actionListener = e -> output.setText(getButtonRowCol((JButton)e.getSource()));
-        for (int ii=0; ii<size*size; ii++) {
-            JButton b = getButton(iconSize, actionListener);
+        actionListener = e -> output.setText(getButtonRowCol((JButton) e.getSource()));
+        ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton)s.getSource()));
+        ActionListener actionListener2 = y -> showGrid();
+        for (int ii = 0; ii < size * size; ii++) {
+            JButton b = getButton(iconSize, actionListener, actionListener1, actionListener2);
             gameContainer.add(b);
-            buttonArray[ii%size][ii/size] = b;
+            buttonArray[ii % size][ii / size] = b;
         }
         return board;
     }
 
-    private void action(Color red1, Color red2, Color blue1, Color blue2, Color player1, Color player2){
+    private void action(Color red1, Color red2, Color blue1, Color blue2, Color player1, Color player2) {
         redButton1.setBackground(red1);
         redButton2.setBackground(red2);
         blueButton1.setBackground(blue1);
@@ -101,7 +104,7 @@ public class SingletonGUI {
         playerColor2 = player2;
     }
 
-    private void disableAll(){
+    private void disableAll() {
         textField1.setEnabled(false);
         textField2.setEnabled(false);
         redButton1.setEnabled(false);
@@ -113,17 +116,18 @@ public class SingletonGUI {
         setStats(true);
         player2 = new Player(playerName2, playerColor2, 20, false);
         setStats(false);
+        aGrid = new Grid(20);
     }
 
     private String getButtonRowCol(JButton button) {
         StringBuilder sb = new StringBuilder();
-        for (int xx=0; xx<size; xx++) {
-            for (int yy=0; yy<size; yy++) {
+        for (int xx = 0; xx < size; xx++) {
+            for (int yy = 0; yy < size; yy++) {
                 if (button.equals(buttonArray[xx][yy])) {
                     sb.append("User selected button at: ");
-                    sb.append(xx+1);
+                    sb.append(xx);
                     sb.append(",");
-                    sb.append(yy+1);
+                    sb.append(yy);
                     break;
                 }
             }
@@ -131,7 +135,7 @@ public class SingletonGUI {
         return sb.toString();
     }
 
-    public static JFrame getMainFrame(JSplitPane splitPane){
+    public static JFrame getMainFrame(JSplitPane splitPane) {
         JFrame frame = new JFrame("Game Of Life");
         frame.setPreferredSize(new Dimension(400, 600));
         frame.getContentPane().setLayout(new GridLayout());
@@ -145,17 +149,20 @@ public class SingletonGUI {
         return frame;
     }
 
-    public JButton getButton(int iconSize, ActionListener actionListener) {
+    public JButton getButton(int iconSize, ActionListener actionListener, ActionListener actionListener1, ActionListener actionListener2) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
         button.setMargin(new Insets(0, 0, 0, 0));
         button.setContentAreaFilled(false);
+        button.setOpaque(true);
         button.addActionListener(actionListener);
+        button.addActionListener(actionListener1);
+        button.addActionListener(actionListener2);
         return button;
     }
 
-    public JPanel getJpanel(){
+    public JPanel getJpanel() {
         JPanel panel = new JPanel();
         panel.setSize(400, 25);
         panel.setBackground(Color.WHITE);
@@ -165,7 +172,20 @@ public class SingletonGUI {
     }
 
     public void setStats(boolean forPlayer1) {
-        if (forPlayer1) chartLabelP1.setText(player1.getPlayerName() + ": " + String.valueOf(player1.getCellCnt()) + " Cells       \n");
-        else chartLabelP2.setText("       " + player2.getPlayerName() + ": " + String.valueOf(player2.getCellCnt()) + " Cells\n");
+        if (forPlayer1)
+            chartLabelP1.setText(player1.getPlayerName() + ": " + String.valueOf(player1.getCellCnt()) + " Cells       \n");
+        else
+            chartLabelP2.setText("       " + player2.getPlayerName() + ": " + String.valueOf(player2.getCellCnt()) + " Cells\n");
+    }
+
+    private void showGrid() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                Color tmp = aGrid.aGrid[i][j].getColor().toColor();
+                buttonArray[i][j].setContentAreaFilled(false);
+                buttonArray[i][j].setOpaque(true);
+                buttonArray[i][j].setBackground(tmp);
+            }
+        }
     }
 }

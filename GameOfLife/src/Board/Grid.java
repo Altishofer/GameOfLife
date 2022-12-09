@@ -2,11 +2,16 @@ package Board;
 
 import Board.Cell;
 import Board.ColorType;
+import Utils.InputUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Grid {
 
-    private Cell[][] aGrid;
+    public Cell[][] aGrid;
     private Cell[][] aNextGrid;
+
     private final int aDimension;
 
     public Grid(int pDimension){
@@ -29,6 +34,24 @@ public class Grid {
             throw new IllegalArgumentException("Please select a dead cell!");
         }
         pCell.revive();
+    }
+
+    private int[] convert(String string){
+        ArrayList<String> coor = new ArrayList<>(Arrays.asList(string.split(":")[1].split(",")));
+        int y = Integer.parseInt(coor.get(0));
+        int x = Integer.parseInt(coor.get(1));
+        return new int[]{y, x};
+    }
+
+    public void reviveACell(String yx){
+        int[] coor = convert(InputUtils.cleanUpString(yx));
+
+        int y = coor[0];
+        int x = coor[1];
+        if(aGrid[y][x].isAlive()){
+            throw new IllegalArgumentException("Please select a dead cell!");
+        }
+        aGrid[y][x].revive();
     }
 
 

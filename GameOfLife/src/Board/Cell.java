@@ -33,5 +33,6 @@ public class Cell {
 
     public void revive(){
         aIsAlive = true;
+        aColor = ColorType.LAVARED;
     }
 }

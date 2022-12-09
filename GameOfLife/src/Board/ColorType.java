@@ -1,5 +1,7 @@
 package Board;
 
+import java.awt.*;
+
 public enum ColorType {
     WHITE(255,255,255),
     LAVARED(247,52,43),
@@ -18,5 +20,9 @@ public enum ColorType {
     @Override
     public String toString(){
         return this.name().toLowerCase();
+    }
+
+    public Color toColor(){
+        return new Color(this.aR, this.aR, this.aG);
     }
 }
