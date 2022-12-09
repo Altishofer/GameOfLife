@@ -8,11 +8,13 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class GUI {
+public class SingletonGUI {
     // TODO: farbe assignen via coordinates, Adrian
     // TODO: dashboard statistik neben Grid, mit fields die assignt werden können, Adrian
 
     // TODO: User Input at beginning, Color and Name, Sandrin
+
+    public static SingletonGUI INSTANCE;
 
     private int size = 20;
     private int iconSize = 10;
@@ -32,9 +34,13 @@ public class GUI {
     Player player1;
     Player player2;
 
-    JPanel chart = getJpanel();
+    private JLabel chartLabelP1 = new JLabel();
+    private JLabel chartLabelP2 = new JLabel();
+    private JPanel chart = getJpanel();
 
-    public GUI() {
+
+
+    private SingletonGUI() {
 
         confirmButton.addActionListener(e -> {
             playerName1 = textField1.getText().toString();
@@ -47,7 +53,9 @@ public class GUI {
         blueButton1.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY, Color.BLUE, Color.RED));
         blueButton2.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE, Color.RED, Color.BLUE));
 
-        // JPanel chart = getJpanel();
+        chart.add(chartLabelP1);
+        chart.add(chartLabelP2);
+
         JPanel board = getBoard();
 
         JSplitPane splitPaneChartBoard =  GuiUtils.getSplitPaneVertical(400, 450, 50, chart, board);
@@ -59,6 +67,13 @@ public class GUI {
         JSplitPane splitPaneButtonText = GuiUtils.getSplitPaneVertical(400, 90, 60, splitPaneTextFields, confirmButton);
         JSplitPane splitPaneBoardFields = GuiUtils.getSplitPaneVertical(400, 700, 450, splitPaneChartBoard, splitPaneButtonText);
         getMainFrame(splitPaneBoardFields);
+    }
+
+    public static synchronized SingletonGUI getInstance(){
+        if (INSTANCE == null){
+            INSTANCE = new SingletonGUI();
+        }
+        return INSTANCE;
     }
 
     private JPanel getBoard(){
@@ -94,8 +109,10 @@ public class GUI {
         blueButton1.setEnabled(false);
         blueButton2.setEnabled(false);
         confirmButton.setEnabled(false);
-        player1 = new Player(playerName1, playerColor1, 20); // cellCnt = 20 still has to be set differently
-        player2 = new Player(playerName2, playerColor2, 20);
+        player1 = new Player(playerName1, playerColor1, 20, true); // cellCnt = 20 still has to be set differently
+        setStats(true);
+        player2 = new Player(playerName2, playerColor2, 20, false);
+        setStats(false);
     }
 
     private String getButtonRowCol(JButton button) {
@@ -144,7 +161,11 @@ public class GUI {
         panel.setBackground(Color.WHITE);
         panel.setVisible(true);
         panel.setBorder(BorderFactory.createTitledBorder("Chart"));
-        panel.add(new JLabel(player1.getPlayerName() + ": " + String.valueOf(player1.getCellCnt()) + "Cells\n", SwingConstants.LEFT));
         return panel;
+    }
+
+    public void setStats(boolean forPlayer1) {
+        if (forPlayer1) chartLabelP1.setText(player1.getPlayerName() + ": " + String.valueOf(player1.getCellCnt()) + " Cells       \n");
+        else chartLabelP2.setText("       " + player2.getPlayerName() + ": " + String.valueOf(player2.getCellCnt()) + " Cells\n");
     }
 }
