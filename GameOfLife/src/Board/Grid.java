@@ -1,72 +1,171 @@
-package Board;
-
-import javax.naming.directory.InvalidAttributeValueException;
-import javax.swing.*;
-import java.awt.*;
+import Board.Cell;
 
 public class Grid {
 
-    private int size;
-    private int iconSize = 10;
-    int[][] cellsMap; // 0 for white, 1 for colour of player1, 2 for colour of player2
-    Cell buttonArray[][];
-    Color colorP1 = Color.BLUE;
-    Color colorP2 = Color.RED;
+    private Cell[][] aGrid;
+    private Cell[][] aNextGrid;
+    private final int aDimension;
 
-    public Grid(int pSize) {
-        size = pSize;
-        cellsMap = new int[pSize][pSize]; // assumed square grid
+    public Grid(int pDimension){
+        aDimension = pDimension;
+        aGrid = new Cell[aDimension][aDimension];
+        aNextGrid = new Cell[aDimension][aDimension];
+        this.initGrids();
     }
 
-    public void generation() throws InvalidAttributeValueException {
-        int[][] temp = new int[size][size];
-        // checking generation
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                int cnt = countNeighbours(i, j);
-                if (cellsMap[i][j] == 1 || cellsMap[i][j] == 2)
-                    if (cnt == 2 || cnt == 3)
-                        temp[i][j] = cellsMap[i][j]; // remains the same
-                    else if (cnt == 3)
-                        if (countPlayerOneNeighbors(i, j) < 2) // mainly playerTwo neighbors
-                            temp[i][j] = 2;
-                        else
-                            temp[i][j] = 1;
+    //TODO: getColor from cell and player
+    public void killACell(Cell pCell){
+        if(!pCell.isAlive() && pCell.getColor()==ColorType.WHITE){
+            throw new IllegalArgumentException("Please select a valid cell!");
+        }
+        pCell.kill();
+    }
+
+    public void reviveACell(Cell pCell){
+        if(pCell.isAlive()){
+            throw new IllegalArgumentException("Please select a dead cell!");
+        }
+        pCell.revive();
+    }
+
+
+    // TODO: Try less branches
+    // TODO: # of alive Cells from a specific player is not done yet
+    public void createNextGeneration(){
+        for(int i = 0; i < aDimension;i++) {
+            for (int j = 0; j < aDimension;j++) {
+                if(i == 0|| i == aDimension-1 || j == 0 || j == aDimension-1){
+                    aNextGrid[i][j].passData(aGrid[i][j]);
+                } else {
+                    int numberOfNeighbors = countNeighbors(i, j);
+
+                    if (!aGrid[i][j].isAlive() && numberOfNeighbors == 3) {
+                        aNextGrid[i][j].revive();
+                        ColorType dominator = getDominantColor(i, j);
+                        aNextGrid[i][j].setColor(dominator);
+                    } else if (aGrid[i][j].isAlive() && (numberOfNeighbors < 2 || numberOfNeighbors > 3)) {
+                        aNextGrid[i][j].kill();
+                    } else {
+                        aNextGrid[i][j].passData(aGrid[i][j]);
+                    }
+                }
             }
         }
-        cellsMap = temp;
+        this.makeGridsSame();
+    }
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (cellsMap[i][j] == 0)
-                    buttonArray[i][j].setBackground(Color.WHITE);
-                else if (cellsMap[i][j] == 1)
-                    buttonArray[i][j].setBackground(colorP1);
-                else if (cellsMap[i][j] == 2)
-                    buttonArray[i][j].setBackground(colorP2);
-                else
-                    throw new InvalidAttributeValueException();
+    private void makeGridsSame(){
+
+        for(int i = 0; i<aDimension;i++){
+            for(int j = 0; j<aDimension;j++){
+                aGrid[i][j].passData(aNextGrid[i][j]);
             }
         }
     }
 
-    int countNeighbours(int x, int y) {
-        int cnt = 0;
-        for (int i = x-1; i <= x+1; i++)
-            for (int j = y - 1; j <= y + 1; j++)
-                if (i == x && j == y){}
-                else if (cellsMap[i][j] == 1 || cellsMap[i][j] == 2) cnt++;
-        if (cellsMap[x][y] == 1 || cellsMap[x][y] == 2) cnt--;
-        return cnt;
+    private int countNeighbors(int x, int y){
+        int numberOfNeighbors = 0;
+
+        for(int i = -1; i<2;i++) {
+            for (int j = -1; j < 2; j++) {
+                int col = (x+i) % aDimension;
+                int row = (y+j) % aDimension;
+
+                if(col != 0 && row != 0 && aGrid[col][row].isAlive()){
+                    numberOfNeighbors += 1;
+                }
+            }
+        }
+        if(aGrid[x][y].isAlive()){
+            numberOfNeighbors -=1;
+        }
+        return numberOfNeighbors;
     }
 
-    int countPlayerOneNeighbors(int x, int y) {
-        int cnt = 0;
-        for (int i = x-1; i <= x+1; i++)
-            for (int j = y - 1; j <= y + 1; j++)
-                if (i == x && j == y){}
-                else if (cellsMap[i][j] == 1) cnt++;
-        if (cellsMap[x][y] == 1) cnt--;
-        return cnt;
+    private ColorType getDominantColor(int x, int y){
+        int cntBlue = 0;
+        int cntRed = 0;
+
+        for(int i = -1; i < 2;i++) {
+            for (int j = -1; j < 2; j++) {
+                int col = (x+i) % aDimension;
+                int row = (y+j) % aDimension;
+
+                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.ROYALBLUE && aGrid[col][row].isAlive()){
+                    cntBlue++;
+                }
+                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.LAVARED && aGrid[col][row].isAlive()){
+                    cntRed++;
+                }
+            }
+        }
+
+        if(cntRed>cntBlue){
+            return ColorType.LAVARED;
+        }
+        return ColorType.ROYALBLUE;
     }
+
+    private void initGrids(){
+        for(int i = 0; i<aDimension;i++){
+            for(int j = 0; j<aDimension;j++){
+                aGrid[i][j] = new Cell();
+                aNextGrid[i][j] = new Cell();
+            }
+        }
+    }
+
+    // TODO: only for debugging
+    private void printGrid(){
+
+        for(int i = 0; i<aDimension;i++) {
+            System.out.print("|");
+            for (int j = 0; j < aDimension; j++) {
+                if(aGrid[i][j].isAlive()){
+                    if(aGrid[i][j].getColor() == ColorType.LAVARED){
+                        System.out.print("O|");
+                    }else {
+                        System.out.print("X|");
+                    }
+                }else {
+                    System.out.print(" |");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    private void setupGrid(int x,int y, ColorType pColor){
+        if(aGrid[x][y].isAlive()){
+            throw new IllegalArgumentException("Cell is already alive");
+        }
+        aGrid[x][y].revive();
+        aGrid[x][y].setColor(pColor);
+    }
+
+    public static void main(String[] args) {
+        Grid myGrid = new Grid(10);
+        myGrid.setupGrid(1,1,ColorType.LAVARED);
+        myGrid.setupGrid(2,1,ColorType.LAVARED);
+        myGrid.setupGrid(1,2,ColorType.LAVARED);
+
+        myGrid.setupGrid(4,7,ColorType.ROYALBLUE);
+        myGrid.setupGrid(5,7,ColorType.ROYALBLUE);
+        myGrid.setupGrid(6,7,ColorType.ROYALBLUE);
+
+        myGrid.setupGrid(6,2,ColorType.LAVARED);
+        myGrid.setupGrid(7,1,ColorType.LAVARED);
+        myGrid.setupGrid(8,1,ColorType.LAVARED);
+
+
+        myGrid.printGrid();
+        myGrid.createNextGeneration();
+        System.out.println();
+        myGrid.printGrid();
+        myGrid.createNextGeneration();
+        System.out.println();
+        myGrid.printGrid();
+    }
+
 }
+
