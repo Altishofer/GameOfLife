@@ -1,6 +1,37 @@
 package Board;
 
-import javax.swing.*;
+public class Cell {
 
-public class Cell extends JButton {
+    private boolean aIsAlive;
+    private ColorType aColor;
+
+    public Cell(){
+        aIsAlive = false;
+        aColor = ColorType.WHITE;
+    }
+
+    public void passData(Cell pCell){
+        this.aIsAlive = pCell.aIsAlive;
+        this.aColor = pCell.aColor;
+    }
+
+    public void setColor(ColorType x){
+        aColor = x;
+    }
+
+    public ColorType getColor(){
+        return this.aColor;
+    }
+
+    public boolean isAlive(){
+        return aIsAlive;
+    }
+
+    public void kill(){
+        aIsAlive = false;
+    }
+
+    public void revive(){
+        aIsAlive = true;
+    }
 }
