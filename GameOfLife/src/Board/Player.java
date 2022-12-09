@@ -1,5 +1,6 @@
 package Board;
 
+import Gui.SingletonGUI;
 import com.sun.tools.javac.Main;
 
 import java.awt.*;
@@ -11,7 +12,7 @@ public class Player implements Comparable{
 
     private int cellCnt;
 
-    public Player (String pName, Color player_color, int pCellCnt){
+    public Player (String pName, Color player_color, int pCellCnt, boolean isPlayer1){
         PLAYER_NAME = pName;
         PLAYER_COLOR = player_color;
 
