@@ -3,13 +3,11 @@ package Board;
 import javax.naming.directory.InvalidAttributeValueException;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
 
 public class Grid {
 
     private int size;
     private int iconSize = 10;
-    Random rnd = new Random();
     int[][] cellsMap; // 0 for white, 1 for colour of player1, 2 for colour of player2
     Cell buttonArray[][];
     Color colorP1 = Color.BLUE;
@@ -71,5 +69,4 @@ public class Grid {
         if (cellsMap[x][y] == 1) cnt--;
         return cnt;
     }
-
 }
