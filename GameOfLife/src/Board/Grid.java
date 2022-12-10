@@ -37,13 +37,11 @@ public class Grid {
         pCell.revive();
     }
 
-    public void mirrorCell(String yx, Player placingPlayer){
-        int[] coor = convert(InputUtils.cleanUpString(yx));
-
-        int yCoor = coor[0];
-        int xCoor = coor[1];
-
+    public void mirrorCell(int xCoor, int yCoor, Player placingPlayer, Player waitingPlayer){
+        reviveACell(yCoor, xCoor);
+        aGrid[yCoor][xCoor].setColor(placingPlayer.getPlayerColor());
         reviveACell(yCoor, aDimension - xCoor);
+        aGrid[yCoor][aDimension - xCoor].setColor(waitingPlayer.getPlayerColor());
     }
 
     private int[] convert(String string){
