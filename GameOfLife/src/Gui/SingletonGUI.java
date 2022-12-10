@@ -1,5 +1,6 @@
 package Gui;
 
+import Board.ColorType;
 import Board.Grid;
 import Board.Player;
 import Utils.InputUtils;
@@ -23,18 +24,22 @@ public class SingletonGUI {
     private int iconSize = 10;
     private JButton[][] buttonArray;
     private JLabel output = new JLabel("Click somewhere on the GUI");
-    JTextField textField1 = new JTextField("Player_1");
-    JTextField textField2 = new JTextField("Player_2");
-    JTextField textField3 = new JTextField("10");
+    // JTextField textField1 = new JTextField("Player_1");
+    // JTextField textField2 = new JTextField("Player_2");
+    TextFieldWithPrompt textField1 = new TextFieldWithPrompt("Player_1", 8, 18);
+    TextFieldWithPrompt textField2 = new TextFieldWithPrompt("Player_2", 8, 18);
+    TextFieldWithPrompt textField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 26);
+
+    // textField3.setPrompt("Enter Even Board Size (9<size<31");
     JButton confirmButton = new JButton("Confirm");
-    JButton redButton1 = GuiUtils.getButton(iconSize, Color.RED);
-    JButton redButton2 = GuiUtils.getButton(iconSize, Color.RED);
-    JButton blueButton1 = GuiUtils.getButton(iconSize, Color.BLUE);
-    JButton blueButton2 = GuiUtils.getButton(iconSize, Color.BLUE);
+    JButton redButton1 = GuiUtils.getButton(iconSize, ColorType.RED.toColor());
+    JButton redButton2 = GuiUtils.getButton(iconSize, ColorType.RED.toColor());
+    JButton blueButton1 = GuiUtils.getButton(iconSize, ColorType.BLUE.toColor());
+    JButton blueButton2 = GuiUtils.getButton(iconSize, ColorType.BLUE.toColor());
     String playerName1 = new String();
     String playerName2 = new String();
-    Color playerColor1;
-    Color playerColor2;
+    ColorType playerColor1;
+    ColorType playerColor2;
     Player player1;
     Player player2;
     JSplitPane splitPaneChartBoard;
@@ -62,10 +67,10 @@ public class SingletonGUI {
 
         });
 
-        redButton1.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE, Color.RED, Color.BLUE));
-        redButton2.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY, Color.BLUE, Color.RED));
-        blueButton1.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY, Color.BLUE, Color.RED));
-        blueButton2.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE, Color.RED, Color.BLUE));
+        redButton1.addActionListener(e -> action(ColorType.RED, ColorType.GREY, ColorType.GREY, ColorType.BLUE, ColorType.RED, ColorType.BLUE));
+        redButton2.addActionListener(e -> action(ColorType.GREY, ColorType.RED, ColorType.BLUE, ColorType.GREY, ColorType.BLUE, ColorType.RED));
+        blueButton1.addActionListener(e -> action(ColorType.GREY, ColorType.RED, ColorType.BLUE, ColorType.GREY, ColorType.BLUE, ColorType.RED));
+        blueButton2.addActionListener(e -> action(ColorType.RED, ColorType.GREY, ColorType.GREY, ColorType.BLUE, ColorType.RED, ColorType.BLUE));
 
         chart.add(chartLabelP1);
         chart.add(chartLabelP2);
@@ -108,11 +113,11 @@ public class SingletonGUI {
         return board;
     }
 
-    private void action(Color red1, Color red2, Color blue1, Color blue2, Color player1, Color player2) {
-        redButton1.setBackground(red1);
-        redButton2.setBackground(red2);
-        blueButton1.setBackground(blue1);
-        blueButton2.setBackground(blue2);
+    private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType player1, ColorType player2) {
+        redButton1.setBackground(red1.toColor());
+        redButton2.setBackground(red2.toColor());
+        blueButton1.setBackground(blue1.toColor());
+        blueButton2.setBackground(blue2.toColor());
         playerColor1 = player1;
         playerColor2 = player2;
     }
@@ -136,10 +141,10 @@ public class SingletonGUI {
                     blueButton1.setEnabled(false);
                     blueButton2.setEnabled(false);
                     confirmButton.setEnabled(false);
-                    redButton1.setBackground(playerColor1);
-                    blueButton1.setBackground(playerColor1);
-                    redButton2.setBackground(playerColor2);
-                    blueButton2.setBackground(playerColor2);
+                    redButton1.setBackground(playerColor1.toColor());
+                    blueButton1.setBackground(playerColor1.toColor());
+                    redButton2.setBackground(playerColor2.toColor());
+                    blueButton2.setBackground(playerColor2.toColor());
                     player1 = new Player(playerName1, playerColor1, 20, true); // cellCnt = 20 still has to be set differently
                     setStats(true);
                     player2 = new Player(playerName2, playerColor2, 20, false);
@@ -203,7 +208,7 @@ public class SingletonGUI {
     public JPanel getJpanel(String title) {
         JPanel panel = new JPanel();
         panel.setSize(400, 25);
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(ColorType.WHITE.toColor());
         panel.setVisible(true);
         panel.setBorder(BorderFactory.createTitledBorder(title));
         return panel;
