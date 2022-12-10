@@ -23,9 +23,13 @@ public class SingletonGUI {
     private int iconSize = 10;
     private JButton[][] buttonArray;
     private JLabel output = new JLabel("Click somewhere on the GUI");
-    JTextField textField1 = new JTextField("Player_1");
-    JTextField textField2 = new JTextField("Player_2");
-    JTextField textField3 = new JTextField("10");
+    // JTextField textField1 = new JTextField("Player_1");
+    // JTextField textField2 = new JTextField("Player_2");
+    TextFieldWithPrompt textField1 = new TextFieldWithPrompt("Player_1", 8, 18);
+    TextFieldWithPrompt textField2 = new TextFieldWithPrompt("Player_2", 8, 18);
+    TextFieldWithPrompt textField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 26);
+
+    // textField3.setPrompt("Enter Even Board Size (9<size<31");
     JButton confirmButton = new JButton("Confirm");
     JButton redButton1 = GuiUtils.getButton(iconSize, Color.RED);
     JButton redButton2 = GuiUtils.getButton(iconSize, Color.RED);
@@ -89,7 +93,7 @@ public class SingletonGUI {
         gameContainer = new JPanel(new GridLayout(0, size, 2, 2));
         board.add(gameContainer);
         ActionListener actionListener = e -> output.setText(getButtonRowCol((JButton) e.getSource()));
-        ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton)s.getSource()));
+        ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton) s.getSource()));
         ActionListener actionListener2 = y -> showGrid();
         for (int ii = 0; ii < size * size; ii++) {
             JButton b = getButton(iconSize, actionListener, actionListener1, actionListener2);
@@ -159,7 +163,7 @@ public class SingletonGUI {
         return frame;
     }
 
-    private void setButtonGrid(){
+    private void setButtonGrid() {
 
     }
 
