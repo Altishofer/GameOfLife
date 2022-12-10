@@ -1,6 +1,8 @@
-package Board;
+package GameState;
 
-public class Kill implements GameState{
+import Board.GameState;
+
+public class Kill implements GameState {
 
     Game game;
 

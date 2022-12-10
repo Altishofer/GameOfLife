@@ -1,6 +1,8 @@
-package Board;
+package GameState;
 
-public class Initialization implements GameState{
+import Board.GameState;
+
+public class Initialization implements GameState {
 
     private int clickCount;
     Game game;
@@ -20,7 +22,9 @@ public class Initialization implements GameState{
     public void clickedEmptyCell(int y, int x) {
         game.mirrorCell(y, x);
         clickCount++;
-        game.setState(game.getKill());
+        if(initOver()){
+            game.setState(game.getKill());
+        }
     }
 
     @Override

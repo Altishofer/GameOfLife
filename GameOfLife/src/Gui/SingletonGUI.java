@@ -1,6 +1,7 @@
 package Gui;
 
 import Board.*;
+import GameState.*;
 import Utils.InputUtils;
 
 import javax.swing.*;
@@ -113,8 +114,9 @@ public class SingletonGUI {
 
 
     private void gameLogic(int[] buttonRowCol) {
-        int x = buttonRowCol[1];
         int y = buttonRowCol[0];
+        int x = buttonRowCol[1];
+
         if (!game.initOver()) {
             if (!aGrid.cellhasColor(y, x, currentPlayer.getPlayerColor())) {
                 game.clickedExistingCell(y, x);
@@ -160,8 +162,8 @@ public class SingletonGUI {
                     setStats(true);
                     player2 = new Player(playerName2, playerColor2, 20, false);
                     setStats(false);
-                    game = new Game(player1, player2, aGrid);
                     aGrid = new Grid(size);
+                    game = new Game(player1, player2, aGrid);
                     splitPaneChartBoard.setBottomComponent(getBoard());
                     // TODO: return player which is first if sorted alphabetically
                     currentPlayer = player1;
@@ -184,8 +186,10 @@ public class SingletonGUI {
     private int[] getButtonRowCol(JButton button) {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                if (button.equals(buttonArray[y][x])) {
-                    return new int[]{y, x};
+                if (button.equals(buttonArray[x][y])) {
+                    System.out.println(y);
+                    System.out.println(x);
+                    return new int[]{x, y};
                 }
             }
         }

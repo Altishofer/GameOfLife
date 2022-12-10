@@ -1,6 +1,8 @@
-package Board;
+package GameState;
 
-public class Revive implements GameState{
+import Board.GameState;
+
+public class Revive implements GameState {
 
     Game game;
 

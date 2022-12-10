@@ -1,6 +1,10 @@
-package Board;
+package GameState;
 
-public class Game implements GameState{
+import Board.GameState;
+import Board.Grid;
+import Board.Player;
+
+public class Game implements GameState {
     private GameState initialisation;
     private GameState kill;
     private GameState revive;
