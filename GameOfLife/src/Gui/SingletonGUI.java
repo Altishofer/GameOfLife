@@ -14,10 +14,6 @@ import java.awt.image.BufferedImage;
 
 public class SingletonGUI {
 
-    // TODO: Panel which tells user what to do (Sandrin -> DONE)
-    // TODO: Make confirm button setEnabled(false) if input is not valid -> Cedi (DONE)
-    // TODO: make ButtonGrid after user has klicked submit but have placeholder in frame -> Sandrin Done
-    // TODO: have placeholder in JTextFileds -> Adrian
     // TODO: make overall game logic -> Cedi
 
     public static SingletonGUI INSTANCE;
@@ -28,7 +24,7 @@ public class SingletonGUI {
 
     TextFieldWithPrompt textField1 = new TextFieldWithPrompt("Player_1", 8, 18);
     TextFieldWithPrompt textField2 = new TextFieldWithPrompt("Player_2", 8, 18);
-    TextFieldWithPrompt textField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 26);
+    TextFieldWithPrompt textField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 27);
 
     JButton confirmButton = new JButton("Confirm");
     JButton redButton1 = GuiUtils.getButton(iconSize, ColorType.RED.toColor());
