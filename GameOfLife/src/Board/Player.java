@@ -8,11 +8,11 @@ import java.awt.*;
 public class Player implements Comparable{
 
     private final String PLAYER_NAME;
-    private final Color PLAYER_COLOR;
+    private final ColorType PLAYER_COLOR;
 
     private int cellCnt;
 
-    public Player (String pName, Color player_color, int pCellCnt, boolean isPlayer1){
+    public Player (String pName, ColorType player_color, int pCellCnt, boolean isPlayer1){
         PLAYER_NAME = pName;
         PLAYER_COLOR = player_color;
 
@@ -20,7 +20,7 @@ public class Player implements Comparable{
     }
 
     public String getPlayerName(){return PLAYER_NAME;}
-    public Color getPlayerColor(){return PLAYER_COLOR;}
+    public ColorType getPlayerColor(){return PLAYER_COLOR;}
     public int getCellCnt(){return cellCnt;}
 
     public Character getPlayerInitial(){return PLAYER_NAME.charAt(0);}

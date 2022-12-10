@@ -4,8 +4,9 @@ import java.awt.*;
 
 public enum ColorType {
     WHITE(255,255,255),
-    LAVARED(247,52,43),
-    ROYALBLUE(65,105,225);
+    RED(247,52,43),
+    BLUE(65,105,225),
+    GREY(190,190,190);
 
     public final int aR;
     public final int aG;

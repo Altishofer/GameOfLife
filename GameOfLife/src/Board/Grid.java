@@ -134,19 +134,19 @@ public class Grid {
                 int col = (x+i) % aDimension;
                 int row = (y+j) % aDimension;
 
-                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.ROYALBLUE && aGrid[col][row].isAlive()){
+                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.BLUE && aGrid[col][row].isAlive()){
                     cntBlue++;
                 }
-                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.LAVARED && aGrid[col][row].isAlive()){
+                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.RED && aGrid[col][row].isAlive()){
                     cntRed++;
                 }
             }
         }
 
         if(cntRed>cntBlue){
-            return ColorType.LAVARED;
+            return ColorType.RED;
         }
-        return ColorType.ROYALBLUE;
+        return ColorType.BLUE;
     }
 
     private void initGrids(){
@@ -165,7 +165,7 @@ public class Grid {
             System.out.print("|");
             for (int j = 0; j < aDimension; j++) {
                 if(aGrid[i][j].isAlive()){
-                    if(aGrid[i][j].getColor() == ColorType.LAVARED){
+                    if(aGrid[i][j].getColor() == ColorType.RED){
                         System.out.print("O|");
                     }else {
                         System.out.print("X|");
@@ -188,17 +188,17 @@ public class Grid {
 
     public static void main(String[] args) {
         Grid myGrid = new Grid(10);
-        myGrid.setupGrid(1,1,ColorType.LAVARED);
-        myGrid.setupGrid(2,1,ColorType.LAVARED);
-        myGrid.setupGrid(1,2,ColorType.LAVARED);
+        myGrid.setupGrid(1,1,ColorType.RED);
+        myGrid.setupGrid(2,1,ColorType.RED);
+        myGrid.setupGrid(1,2,ColorType.RED);
 
-        myGrid.setupGrid(4,7,ColorType.ROYALBLUE);
-        myGrid.setupGrid(5,7,ColorType.ROYALBLUE);
-        myGrid.setupGrid(6,7,ColorType.ROYALBLUE);
+        myGrid.setupGrid(4,7,ColorType.BLUE);
+        myGrid.setupGrid(5,7,ColorType.BLUE);
+        myGrid.setupGrid(6,7,ColorType.BLUE);
 
-        myGrid.setupGrid(6,2,ColorType.LAVARED);
-        myGrid.setupGrid(7,1,ColorType.LAVARED);
-        myGrid.setupGrid(8,1,ColorType.LAVARED);
+        myGrid.setupGrid(6,2,ColorType.RED);
+        myGrid.setupGrid(7,1,ColorType.RED);
+        myGrid.setupGrid(8,1,ColorType.RED);
 
 
         myGrid.printGrid();
