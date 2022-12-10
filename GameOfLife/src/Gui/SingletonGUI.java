@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class SingletonGUI {
+public class SingletonGUI extends JFrame{
 
     // TODO: make overall game logic -> Cedi
 
@@ -79,7 +79,17 @@ public class SingletonGUI {
         JSplitPane splitPaneConfirmResolution = GuiUtils.getSplitPaneHorizontal(400, 30, 200, textField3, confirmButton);
         JSplitPane splitPaneButtonText = GuiUtils.getSplitPaneVertical(400, 90, 60, splitPaneTextFields, splitPaneConfirmResolution);
         JSplitPane splitPaneBoardFields = GuiUtils.getSplitPaneVertical(400, 700, 450, splitPaneChartBoard, splitPaneButtonText);
-        getMainFrame(splitPaneBoardFields);
+
+        setName("Game Of Life");
+        setPreferredSize(new Dimension(400, 600));
+        getContentPane().setLayout(new GridLayout());
+        add(splitPaneBoardFields);
+        pack();
+        setSize(400, 600);
+        setResizable(false);
+        setLocationByPlatform(true);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setVisible(true);
     }
 
     public static synchronized SingletonGUI getInstance() {
@@ -200,20 +210,6 @@ public class SingletonGUI {
             }
         }
         return new int[]{0,0};
-    }
-
-    public static JFrame getMainFrame(JSplitPane splitPane) {
-        JFrame frame = new JFrame("Game Of Life");
-        frame.setPreferredSize(new Dimension(400, 600));
-        frame.getContentPane().setLayout(new GridLayout());
-        frame.add(splitPane);
-        frame.pack();
-        frame.setSize(400, 600);
-        frame.setResizable(false);
-        frame.setLocationByPlatform(true);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
-        return frame;
     }
 
     public JButton getButton(int iconSize, ActionListener actionListener1, ActionListener actionListener2) {
