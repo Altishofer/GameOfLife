@@ -12,12 +12,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class SingletonGUI {
+public class SingletonGUI extends JFrame{
 
-    // TODO: Panel which tells user what to do (Sandrin -> DONE)
-    // TODO: Make confirm button setEnabled(false) if input is not valid -> Cedi (DONE)
-    // TODO: make ButtonGrid after user has klicked submit but have placeholder in frame -> Sandrin Done
-    // TODO: have placeholder in JTextFileds -> Adrian
     // TODO: make overall game logic -> Cedi
 
     public static SingletonGUI INSTANCE;
@@ -28,15 +24,15 @@ public class SingletonGUI {
 
     TextFieldWithPrompt textField1 = new TextFieldWithPrompt("Player_1", 8, 18);
     TextFieldWithPrompt textField2 = new TextFieldWithPrompt("Player_2", 8, 18);
-    TextFieldWithPrompt textField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 26);
+    TextFieldWithPrompt textField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 27);
 
     JButton confirmButton = new JButton("Confirm");
     JButton redButton1 = GuiUtils.getButton(iconSize, ColorType.RED.toColor());
     JButton redButton2 = GuiUtils.getButton(iconSize, ColorType.RED.toColor());
     JButton blueButton1 = GuiUtils.getButton(iconSize, ColorType.BLUE.toColor());
     JButton blueButton2 = GuiUtils.getButton(iconSize, ColorType.BLUE.toColor());
-    String playerName1 = new String();
-    String playerName2 = new String();
+    String playerName1 = "";
+    String playerName2 = "";
     ColorType playerColor1;
     ColorType playerColor2;
     Player player1;
@@ -83,7 +79,17 @@ public class SingletonGUI {
         JSplitPane splitPaneConfirmResolution = GuiUtils.getSplitPaneHorizontal(400, 30, 200, textField3, confirmButton);
         JSplitPane splitPaneButtonText = GuiUtils.getSplitPaneVertical(400, 90, 60, splitPaneTextFields, splitPaneConfirmResolution);
         JSplitPane splitPaneBoardFields = GuiUtils.getSplitPaneVertical(400, 700, 450, splitPaneChartBoard, splitPaneButtonText);
-        getMainFrame(splitPaneBoardFields);
+
+        setName("Game Of Life");
+        setPreferredSize(new Dimension(400, 600));
+        getContentPane().setLayout(new GridLayout());
+        add(splitPaneBoardFields);
+        pack();
+        setSize(400, 600);
+        setResizable(false);
+        setLocationByPlatform(true);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setVisible(true);
     }
 
     public static synchronized SingletonGUI getInstance() {
@@ -137,17 +143,17 @@ public class SingletonGUI {
         }
     }
 
-    private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType player1, ColorType player2) {
+    private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType colourP1, ColorType colourP2) {
         redButton1.setBackground(red1.toColor());
         redButton2.setBackground(red2.toColor());
         blueButton1.setBackground(blue1.toColor());
         blueButton2.setBackground(blue2.toColor());
-        playerColor1 = player1;
-        playerColor2 = player2;
+        playerColor1 = colourP1;
+        playerColor2 = colourP2;
     }
 
     private void disableAll() {
-        if(!textField1.getText().isBlank()&& !textField2.getText().isBlank() && !textField3.getText().isBlank()){
+        if(!textField1.getText().isBlank() && !textField2.getText().isBlank() && !textField3.getText().isBlank()){
             int cleanUpText3 = 0;
             try{
                 cleanUpText3 = Integer.parseInt(InputUtils.cleanUpString(textField3.getText()));
@@ -176,6 +182,9 @@ public class SingletonGUI {
                     splitPaneChartBoard.setBottomComponent(getBoard());
                     // TODO: return player which is first if sorted alphabetically
                     currentPlayer = player1;
+                    if (player1.compareTo(player2) == 1) {
+                        currentPlayer = player2;
+                    }
                 } else {
                     setMessage("Please select a color for the players.");
                 }
@@ -217,7 +226,8 @@ public class SingletonGUI {
         return frame;
     }
 
-    public JButton getButton(int iconSize, ActionListener actionListener1, ActionListener actionListener2, ActionListener actionListener3) {
+
+    public JButton getButton(int iconSize, ActionListener actionListener1, ActionListener actionListener2) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
@@ -226,7 +236,6 @@ public class SingletonGUI {
         button.setOpaque(true);
         button.addActionListener(actionListener1);
         button.addActionListener(actionListener2);
-        button.addActionListener(actionListener3);
         return button;
     }
 

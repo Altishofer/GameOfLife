@@ -9,11 +9,10 @@ import java.util.Arrays;
 
 public class Grid {
 
+    private final int aDimension;
     // TODO: mirrorGrid(), make mirroring on the flow: Pädi
     public Cell[][] aGrid;
     private Cell[][] aNextGrid;
-
-    private final int aDimension;
 
     public Grid(int pDimension){
         aDimension = pDimension;
@@ -158,7 +157,6 @@ public class Grid {
 
     // TODO: only for debugging
     private void printGrid(){
-
         for(int i = 0; i<aDimension;i++) {
             System.out.print("|");
             for (int j = 0; j < aDimension; j++) {
@@ -197,7 +195,6 @@ public class Grid {
         myGrid.setupGrid(6,2,ColorType.RED);
         myGrid.setupGrid(7,1,ColorType.RED);
         myGrid.setupGrid(8,1,ColorType.RED);
-
 
         myGrid.printGrid();
         myGrid.createNextGeneration();
