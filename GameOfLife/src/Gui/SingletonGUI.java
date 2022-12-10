@@ -29,7 +29,6 @@ public class SingletonGUI {
     TextFieldWithPrompt textField2 = new TextFieldWithPrompt("Player_2", 8, 18);
     TextFieldWithPrompt textField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 26);
 
-    // textField3.setPrompt("Enter Even Board Size (9<size<31");
     JButton confirmButton = new JButton("Confirm");
     JButton redButton1 = GuiUtils.getButton(iconSize, ColorType.RED.toColor());
     JButton redButton2 = GuiUtils.getButton(iconSize, ColorType.RED.toColor());
@@ -62,8 +61,6 @@ public class SingletonGUI {
             messages.repaint();
             chartLabelMessage.revalidate();
             chartLabelMessage.revalidate();
-
-
         });
 
         redButton1.addActionListener(e -> action(ColorType.RED, ColorType.GREY, ColorType.GREY, ColorType.BLUE, ColorType.RED, ColorType.BLUE));
