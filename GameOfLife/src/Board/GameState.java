@@ -1,9 +1,8 @@
 package Board;
 
-public class GameState {
+public interface GameState {
+    public void clickedExistingCell(int y, int x);
+    public void clickedEmptyCell(int y, int x);
 
-    public int initial = 0;
-    public boolean revive = false;
-
-
+    public boolean initOver();
 }

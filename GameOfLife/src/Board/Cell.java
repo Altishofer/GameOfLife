@@ -36,4 +36,8 @@ public class Cell {
         aIsAlive = true;
         aColor = ColorType.RED;
     }
+
+    public boolean cellIsOwnedBy(Player player){
+        return getColor().equals(player.getPlayerColor());
+    }
 }

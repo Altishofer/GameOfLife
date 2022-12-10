@@ -4,6 +4,7 @@ import Board.Cell;
 import Board.ColorType;
 import Utils.InputUtils;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -206,6 +207,14 @@ public class Grid {
         myGrid.createNextGeneration();
         System.out.println();
         myGrid.printGrid();
+    }
+
+    public boolean cellIsAlive(int y, int x){
+        return aGrid[y][x].isAlive();
+    }
+
+    public boolean cellhasColor(int y, int x, ColorType color){
+        return aGrid[y][x].getColor().equals(color);
     }
 
 }

@@ -1,9 +1,6 @@
 package Gui;
 
-import Board.ColorType;
-import Board.GameState;
-import Board.Grid;
-import Board.Player;
+import Board.*;
 import Utils.InputUtils;
 
 import javax.swing.*;
@@ -26,6 +23,7 @@ public class SingletonGUI {
     private JButton[][] buttonArray;
     private JLabel output = new JLabel("Click somewhere on the GUI");
 
+    Player currentPlayer;
     TextFieldWithPrompt textField1 = new TextFieldWithPrompt("Player_1", 8, 18);
     TextFieldWithPrompt textField2 = new TextFieldWithPrompt("Player_2", 8, 18);
     TextFieldWithPrompt textField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 26);
@@ -49,6 +47,7 @@ public class SingletonGUI {
     private JPanel messages = getJpanel("Game Rules");
     private JPanel gameContainer;
 
+    private Game game;
     private Grid aGrid;
 
     private SingletonGUI() {
@@ -100,8 +99,9 @@ public class SingletonGUI {
         board.add(output, BorderLayout.PAGE_END);
         gameContainer = new JPanel(new GridLayout(0, size, 2, 2));
         board.add(gameContainer);
-        ActionListener actionListenerGameLogic = g -> gameLogic2(getButtonRowCol((JButton) g.getSource()));
-        ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton) s.getSource()));
+        ActionListener actionListenerGameLogic = g -> System.out.print("");
+        //ActionListener actionListenerGameLogic = g -> gameLogic2(getButtonRowCol((JButton) g.getSource()));
+        ActionListener actionListener1 = s -> gameLogic(getButtonRowCol((JButton) s.getSource()));
         ActionListener actionListener2 = y -> showGrid();
         for (int ii = 0; ii < size * size; ii++) {
             JButton b = getButton(iconSize, actionListener1, actionListener2, actionListenerGameLogic);
@@ -111,28 +111,16 @@ public class SingletonGUI {
         return board;
     }
 
-    private GameState gameState = new GameState();
-    private Player currentPlayer;
 
-
-    private void gameLogic2(int[] buttonRowCol) {
-        if (gameState.initial < 5){
-            aGrid.mirrorCell(buttonRowCol[0], buttonRowCol[1], player1, player2);
-            gameState.initial++;
-        }
-        else {
-            if (!gameState.revive) {
-                aGrid.killACell(buttonRowCol[0], buttonRowCol[1]);
-                gameState.revive = true;
-            } else {
-                aGrid.reviveACell(buttonRowCol[0], buttonRowCol[1]);
-                gameState.revive = false;
-                if (currentPlayer.equals(player1)){
-                    currentPlayer = player2;
-                }
-                else {
-                    currentPlayer = player1;
-                }
+    private void gameLogic(int[] buttonRowCol) {
+        int x = buttonRowCol[1];
+        int y = buttonRowCol[0];
+        if (!game.initOver()) {
+            if (!aGrid.cellhasColor(y, x, currentPlayer.getPlayerColor())) {
+                game.clickedExistingCell(y, x);
+            }
+            if (!aGrid.cellIsAlive(y, x)) {
+                game.clickedEmptyCell(y, x);
             }
         }
     }
@@ -172,6 +160,7 @@ public class SingletonGUI {
                     setStats(true);
                     player2 = new Player(playerName2, playerColor2, 20, false);
                     setStats(false);
+                    game = new Game(player1, player2, aGrid);
                     aGrid = new Grid(size);
                     splitPaneChartBoard.setBottomComponent(getBoard());
                     // TODO: return player which is first if sorted alphabetically
