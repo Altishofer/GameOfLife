@@ -100,11 +100,11 @@ public class SingletonGUI {
         board.add(output, BorderLayout.PAGE_END);
         gameContainer = new JPanel(new GridLayout(0, size, 2, 2));
         board.add(gameContainer);
-        //ActionListener actionListenerGameLogic = g -> gameLogic2(getButtonRowCol((JButton) g.getSource()));
+        ActionListener actionListenerGameLogic = g -> gameLogic2(getButtonRowCol((JButton) g.getSource()));
         ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton) s.getSource()));
         ActionListener actionListener2 = y -> showGrid();
         for (int ii = 0; ii < size * size; ii++) {
-            JButton b = getButton(iconSize, actionListener1, actionListener2);
+            JButton b = getButton(iconSize, actionListener1, actionListener2, actionListenerGameLogic);
             gameContainer.add(b);
             buttonArray[ii % size][ii / size] = b;
         }
@@ -217,7 +217,7 @@ public class SingletonGUI {
         return frame;
     }
 
-    public JButton getButton(int iconSize, ActionListener actionListener1, ActionListener actionListener2) {
+    public JButton getButton(int iconSize, ActionListener actionListener1, ActionListener actionListener2, ActionListener actionListener3) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
@@ -226,6 +226,7 @@ public class SingletonGUI {
         button.setOpaque(true);
         button.addActionListener(actionListener1);
         button.addActionListener(actionListener2);
+        button.addActionListener(actionListener3);
         return button;
     }
 
