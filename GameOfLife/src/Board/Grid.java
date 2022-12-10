@@ -44,9 +44,7 @@ public class Grid {
         return new int[]{y, x};
     }
 
-    public void reviveACell(String yx){
-        int[] coor = convert(InputUtils.cleanUpString(yx));
-
+    public void reviveACell(int[] coor){
         int y = coor[0];
         int x = coor[1];
         if(aGrid[y][x].isAlive()){

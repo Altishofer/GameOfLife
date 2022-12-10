@@ -12,13 +12,12 @@ import java.awt.image.BufferedImage;
 
 public class SingletonGUI {
 
-    // TODO: Panel which tells user what to do
-    // TODO: Make confirm button setEnabled(false) if input is not valid -> Cedi
-    // TODO: make ButtonGrid after user has klicked submit but have placeholder in frame
+    // TODO: Panel which tells user what to do (Sandrin -> DONE)
+    // TODO: Make confirm button setEnabled(false) if input is not valid -> Cedi (DONE)
+    // TODO: make ButtonGrid after user has klicked submit but have placeholder in frame -> Sandrin Done
     // TODO: have placeholder in JTextFileds -> Adrian
-    // TODO: make overall game logic
+    // TODO: make overall game logic -> Cedi
 
-    JPanel board;
     public static SingletonGUI INSTANCE;
     private int size;
     private int iconSize = 10;
@@ -55,6 +54,12 @@ public class SingletonGUI {
             playerName2 = textField2.getText().toString();
             size = Integer.parseInt(textField3.getText().toString());
             disableAll();
+            messages.revalidate();
+            messages.repaint();
+            chartLabelMessage.revalidate();
+            chartLabelMessage.revalidate();
+
+
         });
 
         redButton1.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE, Color.RED, Color.BLUE));
@@ -93,11 +98,10 @@ public class SingletonGUI {
         board.add(output, BorderLayout.PAGE_END);
         gameContainer = new JPanel(new GridLayout(0, size, 2, 2));
         board.add(gameContainer);
-        ActionListener actionListener = e -> output.setText(getButtonRowCol((JButton) e.getSource()));
-        ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton)s.getSource()));
+        ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton) s.getSource()));
         ActionListener actionListener2 = y -> showGrid();
         for (int ii = 0; ii < size * size; ii++) {
-            JButton b = getButton(iconSize, actionListener, actionListener1, actionListener2);
+            JButton b = getButton(iconSize, actionListener1, actionListener2);
             gameContainer.add(b);
             buttonArray[ii % size][ii / size] = b;
         }
@@ -120,7 +124,7 @@ public class SingletonGUI {
             try{
                 cleanUpText3 = Integer.parseInt(InputUtils.cleanUpString(textField3.getText()));
             }catch (NumberFormatException e){
-                System.out.println("Please select a resolution type.");
+                setMessage("Please select a resolution type.");
             }
             if(cleanUpText3 % 2 == 0 && cleanUpText3 != 0){
                 if(playerColor1 != null){
@@ -142,35 +146,32 @@ public class SingletonGUI {
                     setStats(false);
                     aGrid = new Grid(size);
                     splitPaneChartBoard.setBottomComponent(getBoard());
+                    //startGameLogic();
                 } else {
-                    System.out.println("Please select a color for the players.");
+                    setMessage("Please select a color for the players.");
                 }
             } else {
-                System.out.println("Please select a valid resolution type. Only even numbers are allowed.");
+                setMessage("Please select a valid resolution type. Only even numbers are allowed.");
             }
         } else {
-            System.out.println("Please fill in your usernames.");
+            setMessage("Please fill in your usernames.");
         }
     }
 
     private void setMessage(String message){
         chartLabelMessage.setText(message);
+        //messages.
     }
 
-    private String getButtonRowCol(JButton button) {
-        StringBuilder sb = new StringBuilder();
-        for (int xx = 0; xx < size; xx++) {
-            for (int yy = 0; yy < size; yy++) {
-                if (button.equals(buttonArray[xx][yy])) {
-                    sb.append("User selected button at: ");
-                    sb.append(xx);
-                    sb.append(",");
-                    sb.append(yy);
-                    break;
+    private int[] getButtonRowCol(JButton button) {
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                if (button.equals(buttonArray[y][x])) {
+                    return new int[]{y, x};
                 }
             }
         }
-        return sb.toString();
+        return new int[]{0,0};
     }
 
     public static JFrame getMainFrame(JSplitPane splitPane) {
@@ -187,14 +188,13 @@ public class SingletonGUI {
         return frame;
     }
 
-    public JButton getButton(int iconSize, ActionListener actionListener, ActionListener actionListener1, ActionListener actionListener2) {
+    public JButton getButton(int iconSize, ActionListener actionListener1, ActionListener actionListener2) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
         button.setMargin(new Insets(0, 0, 0, 0));
         button.setContentAreaFilled(false);
         button.setOpaque(true);
-        button.addActionListener(actionListener);
         button.addActionListener(actionListener1);
         button.addActionListener(actionListener2);
         return button;
