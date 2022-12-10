@@ -37,6 +37,15 @@ public class Grid {
         pCell.revive();
     }
 
+    public void mirrorCell(String yx, Player placingPlayer){
+        int[] coor = convert(InputUtils.cleanUpString(yx));
+
+        int yCoor = coor[0];
+        int xCoor = coor[1];
+
+        reviveACell(yCoor, aDimension - xCoor);
+    }
+
     private int[] convert(String string){
         ArrayList<String> coor = new ArrayList<>(Arrays.asList(string.split(":")[1].split(",")));
         int y = Integer.parseInt(coor.get(0));
@@ -53,6 +62,13 @@ public class Grid {
             throw new IllegalArgumentException("Please select a dead cell!");
         }
         aGrid[y][x].revive();
+    }
+
+    public void reviveACell(int yCoor, int xCoor){
+        if(aGrid[yCoor][xCoor].isAlive()){
+            throw new IllegalArgumentException("Please select a dead cell!");
+        }
+        aGrid[yCoor][xCoor].revive();
     }
 
 
