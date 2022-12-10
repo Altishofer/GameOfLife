@@ -24,8 +24,7 @@ public class SingletonGUI {
     private int iconSize = 10;
     private JButton[][] buttonArray;
     private JLabel output = new JLabel("Click somewhere on the GUI");
-    // JTextField textField1 = new JTextField("Player_1");
-    // JTextField textField2 = new JTextField("Player_2");
+
     TextFieldWithPrompt textField1 = new TextFieldWithPrompt("Player_1", 8, 18);
     TextFieldWithPrompt textField2 = new TextFieldWithPrompt("Player_2", 8, 18);
     TextFieldWithPrompt textField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 26);
