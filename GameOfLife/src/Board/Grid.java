@@ -99,12 +99,12 @@ public class Grid {
                 int row = (y+j) % aDimension;
 
                 if(col != 0 && row != 0 && aGrid[col][row].isAlive()){
-                    numberOfNeighbors += 1;
+                    numberOfNeighbors++;
                 }
             }
         }
         if(aGrid[x][y].isAlive()){
-            numberOfNeighbors -=1;
+            numberOfNeighbors--;
         }
         return numberOfNeighbors;
     }
