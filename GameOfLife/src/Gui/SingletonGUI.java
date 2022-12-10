@@ -63,6 +63,7 @@ public class SingletonGUI {
 
         chart.add(chartLabelP1);
         chart.add(chartLabelP2);
+        messages.add(chartLabelMessage);
 
         JSplitPane SplitPaneMessagesChars = GuiUtils.getSplitPaneVertical(400, 60, 30, chart, messages);
         splitPaneChartBoard = GuiUtils.getSplitPaneVertical(400, 450, 60, SplitPaneMessagesChars, new JPanel());
