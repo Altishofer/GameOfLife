@@ -2,6 +2,7 @@ package Gui;
 
 import Board.Grid;
 import Board.Player;
+import Utils.InputUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -102,24 +103,42 @@ public class SingletonGUI {
     }
 
     private void disableAll() {
-        textField1.setEnabled(false);
-        textField2.setEnabled(false);
-        textField3.setEnabled(false);
-        redButton1.setEnabled(false);
-        redButton2.setEnabled(false);
-        blueButton1.setEnabled(false);
-        blueButton2.setEnabled(false);
-        confirmButton.setEnabled(false);
-        redButton1.setBackground(playerColor1);
-        blueButton1.setBackground(playerColor1);
-        redButton2.setBackground(playerColor2);
-        blueButton2.setBackground(playerColor2);
-        player1 = new Player(playerName1, playerColor1, 20, true); // cellCnt = 20 still has to be set differently
-        setStats(true);
-        player2 = new Player(playerName2, playerColor2, 20, false);
-        setStats(false);
-        aGrid = new Grid(size);
-        setButtonGrid(size);
+        if(!textField1.getText().isBlank()&& !textField2.getText().isBlank() && !textField3.getText().isBlank()){
+            int cleanUpText3 = 0;
+            try{
+                cleanUpText3 = Integer.parseInt(InputUtils.cleanUpString(textField3.getText()));
+            }catch (NumberFormatException e){
+                System.out.println("Please select a resolution type.");
+            }
+            if(cleanUpText3 % 2 == 0 && cleanUpText3 != 0){
+                if(playerColor1 != null){
+                    textField1.setEnabled(false);
+                    textField2.setEnabled(false);
+                    textField3.setEnabled(false);
+                    redButton1.setEnabled(false);
+                    redButton2.setEnabled(false);
+                    blueButton1.setEnabled(false);
+                    blueButton2.setEnabled(false);
+                    confirmButton.setEnabled(false);
+                    redButton1.setBackground(playerColor1);
+                    blueButton1.setBackground(playerColor1);
+                    redButton2.setBackground(playerColor2);
+                    blueButton2.setBackground(playerColor2);
+                    player1 = new Player(playerName1, playerColor1, 20, true); // cellCnt = 20 still has to be set differently
+                    setStats(true);
+                    player2 = new Player(playerName2, playerColor2, 20, false);
+                    setStats(false);
+                    aGrid = new Grid(size);
+                    setButtonGrid(size);
+                } else {
+                    System.out.println("Please select a color for the players.");
+                }
+            } else {
+                System.out.println("Please select a valid resolution type. Only even numbers are allowed.");
+            }
+        } else {
+            System.out.println("Please fill in your usernames.");
+        }
     }
 
     private String getButtonRowCol(JButton button) {
