@@ -79,4 +79,11 @@ public abstract class GuiUtils {
         splitPane.setBottomComponent(bottom);
         return splitPane;
     }
+
+    public static JSplitPane getSplitPaneHorizontal(int width, int height, int divider, JTextField left, JButton right) {
+        JSplitPane splitPane = getSplitPaneHorizontal(width, height, divider);
+        splitPane.setLeftComponent(left);
+        splitPane.setRightComponent(right);
+        return splitPane;
+    }
 }

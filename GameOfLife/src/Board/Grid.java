@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 public class Grid {
 
+    // TODO: mirrorGrid(), make mirroring on the flow: Pädi
     public Cell[][] aGrid;
     private Cell[][] aNextGrid;
 
