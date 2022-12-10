@@ -1,6 +1,7 @@
 package Gui;
 
 import Board.ColorType;
+import Board.GameState;
 import Board.Grid;
 import Board.Player;
 import Utils.InputUtils;
@@ -99,6 +100,7 @@ public class SingletonGUI {
         board.add(output, BorderLayout.PAGE_END);
         gameContainer = new JPanel(new GridLayout(0, size, 2, 2));
         board.add(gameContainer);
+        //ActionListener actionListenerGameLogic = g -> gameLogic2(getButtonRowCol((JButton) g.getSource()));
         ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton) s.getSource()));
         ActionListener actionListener2 = y -> showGrid();
         for (int ii = 0; ii < size * size; ii++) {
@@ -107,6 +109,32 @@ public class SingletonGUI {
             buttonArray[ii % size][ii / size] = b;
         }
         return board;
+    }
+
+    private GameState gameState = new GameState();
+    private Player currentPlayer;
+
+
+    private void gameLogic2(int[] buttonRowCol) {
+        if (gameState.initial < 5){
+            aGrid.mirrorCell(buttonRowCol[0], buttonRowCol[1], player1, player2);
+            gameState.initial++;
+        }
+        else {
+            if (!gameState.revive) {
+                aGrid.killACell(buttonRowCol[0], buttonRowCol[1]);
+                gameState.revive = true;
+            } else {
+                aGrid.reviveACell(buttonRowCol[0], buttonRowCol[1]);
+                gameState.revive = false;
+                if (currentPlayer.equals(player1)){
+                    currentPlayer = player2;
+                }
+                else {
+                    currentPlayer = player1;
+                }
+            }
+        }
     }
 
     private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType player1, ColorType player2) {
@@ -119,7 +147,6 @@ public class SingletonGUI {
     }
 
     private void disableAll() {
-
         if(!textField1.getText().isBlank()&& !textField2.getText().isBlank() && !textField3.getText().isBlank()){
             int cleanUpText3 = 0;
             try{
@@ -147,7 +174,8 @@ public class SingletonGUI {
                     setStats(false);
                     aGrid = new Grid(size);
                     splitPaneChartBoard.setBottomComponent(getBoard());
-                    //startGameLogic();
+                    // TODO: return player which is first if sorted alphabetically
+                    currentPlayer = player1;
                 } else {
                     setMessage("Please select a color for the players.");
                 }

@@ -30,6 +30,8 @@ public class Grid {
         pCell.kill();
     }
 
+    public void killACell(int y, int x){killACell(aGrid[y][x]);}
+
     public void reviveACell(Cell pCell){
         if(pCell.isAlive()){
             throw new IllegalArgumentException("Please select a dead cell!");
