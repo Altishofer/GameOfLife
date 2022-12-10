@@ -23,6 +23,6 @@ public enum ColorType {
     }
 
     public Color toColor(){
-        return new Color(this.aR, this.aR, this.aG);
+        return new Color(this.aR, this.aG, this.aB);
     }
 }

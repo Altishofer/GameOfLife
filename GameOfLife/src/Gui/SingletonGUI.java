@@ -10,19 +10,22 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class SingletonGUI {
-    // TODO: farbe assignen via coordinates, Adrian
-    // TODO: dashboard statistik neben Grid, mit fields die assignt werden können, Adrian
 
-    // TODO: User Input at beginning, Color and Name, Sandrin
+    // TODO: Panel which tells user what to do
+    // TODO: Make confirm button setEnabled(false) if input is not valid -> Cedi
+    // TODO: make ButtonGrid after user has klicked submit but have placeholder in frame
+    // TODO: have placeholder in JTextFileds -> Adrian
+    // TODO: make overall game logic
 
+    JPanel board;
     public static SingletonGUI INSTANCE;
-
     private int size = 20;
     private int iconSize = 10;
     private JButton[][] buttonArray = new JButton[size][size];
     private JLabel output = new JLabel("Click somewhere on the GUI");
     JTextField textField1 = new JTextField("Player_1");
     JTextField textField2 = new JTextField("Player_2");
+    JTextField textField3 = new JTextField("10");
     JButton confirmButton = new JButton("Confirm");
     JButton redButton1 = GuiUtils.getButton(iconSize, Color.RED);
     JButton redButton2 = GuiUtils.getButton(iconSize, Color.RED);
@@ -34,10 +37,10 @@ public class SingletonGUI {
     Color playerColor2;
     Player player1;
     Player player2;
-
     private JLabel chartLabelP1 = new JLabel();
     private JLabel chartLabelP2 = new JLabel();
     private JPanel chart = getJpanel();
+    private JPanel gameContainer;
 
     private Grid aGrid;
 
@@ -46,6 +49,7 @@ public class SingletonGUI {
         confirmButton.addActionListener(e -> {
             playerName1 = textField1.getText().toString();
             playerName2 = textField2.getText().toString();
+            size = Integer.parseInt(textField3.getText().toString());
             disableAll();
         });
 
@@ -57,7 +61,7 @@ public class SingletonGUI {
         chart.add(chartLabelP1);
         chart.add(chartLabelP2);
 
-        JPanel board = getBoard();
+        board = getBoard();
 
         JSplitPane splitPaneChartBoard = GuiUtils.getSplitPaneVertical(400, 450, 50, chart, board);
         JSplitPane colorDual1 = GuiUtils.getSplitPaneHorizontal(400, 30, 100, redButton1, blueButton1);
@@ -65,7 +69,8 @@ public class SingletonGUI {
         JSplitPane splitPaneTextFieldsColor1 = GuiUtils.getSplitPaneVertical(400, 60, 30, textField1, colorDual1);
         JSplitPane splitPaneTextFieldsColor2 = GuiUtils.getSplitPaneVertical(400, 60, 30, textField2, colorDual2);
         JSplitPane splitPaneTextFields = GuiUtils.getSplitPaneHorizontal(400, 60, 200, splitPaneTextFieldsColor1, splitPaneTextFieldsColor2);
-        JSplitPane splitPaneButtonText = GuiUtils.getSplitPaneVertical(400, 90, 60, splitPaneTextFields, confirmButton);
+        JSplitPane splitPaneConfirmResolution = GuiUtils.getSplitPaneHorizontal(400, 30, 200, textField3, confirmButton);
+        JSplitPane splitPaneButtonText = GuiUtils.getSplitPaneVertical(400, 90, 60, splitPaneTextFields, splitPaneConfirmResolution);
         JSplitPane splitPaneBoardFields = GuiUtils.getSplitPaneVertical(400, 700, 450, splitPaneChartBoard, splitPaneButtonText);
         getMainFrame(splitPaneBoardFields);
     }
@@ -82,16 +87,8 @@ public class SingletonGUI {
         JPanel board = new JPanel(new BorderLayout(2, 2));
         board.setBorder(new EmptyBorder(4, 4, 4, 4));
         board.add(output, BorderLayout.PAGE_END);
-        JPanel gameContainer = new JPanel(new GridLayout(0, size, 2, 2));
+        gameContainer = new JPanel(new GridLayout(0, size, 2, 2));
         board.add(gameContainer);
-        actionListener = e -> output.setText(getButtonRowCol((JButton) e.getSource()));
-        ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton)s.getSource()));
-        ActionListener actionListener2 = y -> showGrid();
-        for (int ii = 0; ii < size * size; ii++) {
-            JButton b = getButton(iconSize, actionListener, actionListener1, actionListener2);
-            gameContainer.add(b);
-            buttonArray[ii % size][ii / size] = b;
-        }
         return board;
     }
 
@@ -107,16 +104,22 @@ public class SingletonGUI {
     private void disableAll() {
         textField1.setEnabled(false);
         textField2.setEnabled(false);
+        textField3.setEnabled(false);
         redButton1.setEnabled(false);
         redButton2.setEnabled(false);
         blueButton1.setEnabled(false);
         blueButton2.setEnabled(false);
         confirmButton.setEnabled(false);
+        redButton1.setBackground(playerColor1);
+        blueButton1.setBackground(playerColor1);
+        redButton2.setBackground(playerColor2);
+        blueButton2.setBackground(playerColor2);
         player1 = new Player(playerName1, playerColor1, 20, true); // cellCnt = 20 still has to be set differently
         setStats(true);
         player2 = new Player(playerName2, playerColor2, 20, false);
         setStats(false);
-        aGrid = new Grid(20);
+        aGrid = new Grid(size);
+        setButtonGrid(size);
     }
 
     private String getButtonRowCol(JButton button) {
@@ -147,6 +150,17 @@ public class SingletonGUI {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
         return frame;
+    }
+
+    private void setButtonGrid(int resolution){
+        ActionListener actionListener = e -> output.setText(getButtonRowCol((JButton) e.getSource()));
+        ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton)s.getSource()));
+        ActionListener actionListener2 = y -> showGrid();
+        for (int ii = 0; ii < size * size; ii++) {
+            JButton b = getButton(iconSize, actionListener, actionListener1, actionListener2);
+            gameContainer.add(b);
+            buttonArray[ii % size][ii / size] = b;
+        }
     }
 
     public JButton getButton(int iconSize, ActionListener actionListener, ActionListener actionListener1, ActionListener actionListener2) {
