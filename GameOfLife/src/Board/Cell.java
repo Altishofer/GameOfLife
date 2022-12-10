@@ -31,8 +31,9 @@ public class Cell {
         aIsAlive = false;
     }
 
+    //TODO: Revive Cell with right Color, not generally RED
     public void revive(){
         aIsAlive = true;
-        aColor = ColorType.LAVARED;
+        aColor = ColorType.RED;
     }
 }

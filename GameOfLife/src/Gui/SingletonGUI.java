@@ -1,7 +1,9 @@
 package Gui;
 
+import Board.ColorType;
 import Board.Grid;
 import Board.Player;
+import Utils.InputUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -31,20 +33,22 @@ public class SingletonGUI {
 
     // textField3.setPrompt("Enter Even Board Size (9<size<31");
     JButton confirmButton = new JButton("Confirm");
-    JButton redButton1 = GuiUtils.getButton(iconSize, Color.RED);
-    JButton redButton2 = GuiUtils.getButton(iconSize, Color.RED);
-    JButton blueButton1 = GuiUtils.getButton(iconSize, Color.BLUE);
-    JButton blueButton2 = GuiUtils.getButton(iconSize, Color.BLUE);
+    JButton redButton1 = GuiUtils.getButton(iconSize, ColorType.RED.toColor());
+    JButton redButton2 = GuiUtils.getButton(iconSize, ColorType.RED.toColor());
+    JButton blueButton1 = GuiUtils.getButton(iconSize, ColorType.BLUE.toColor());
+    JButton blueButton2 = GuiUtils.getButton(iconSize, ColorType.BLUE.toColor());
     String playerName1 = new String();
     String playerName2 = new String();
-    Color playerColor1;
-    Color playerColor2;
+    ColorType playerColor1;
+    ColorType playerColor2;
     Player player1;
     Player player2;
     JSplitPane splitPaneChartBoard;
     private JLabel chartLabelP1 = new JLabel();
     private JLabel chartLabelP2 = new JLabel();
-    private JPanel chart = getJpanel();
+    private JLabel chartLabelMessage = new JLabel();
+    private JPanel chart = getJpanel("Chart");
+    private JPanel messages = getJpanel("Game Rules");
     private JPanel gameContainer;
 
     private Grid aGrid;
@@ -58,15 +62,17 @@ public class SingletonGUI {
             disableAll();
         });
 
-        redButton1.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE, Color.RED, Color.BLUE));
-        redButton2.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY, Color.BLUE, Color.RED));
-        blueButton1.addActionListener(e -> action(Color.GRAY, Color.RED, Color.BLUE, Color.GRAY, Color.BLUE, Color.RED));
-        blueButton2.addActionListener(e -> action(Color.RED, Color.GRAY, Color.GRAY, Color.BLUE, Color.RED, Color.BLUE));
+        redButton1.addActionListener(e -> action(ColorType.RED, ColorType.GREY, ColorType.GREY, ColorType.BLUE, ColorType.RED, ColorType.BLUE));
+        redButton2.addActionListener(e -> action(ColorType.GREY, ColorType.RED, ColorType.BLUE, ColorType.GREY, ColorType.BLUE, ColorType.RED));
+        blueButton1.addActionListener(e -> action(ColorType.GREY, ColorType.RED, ColorType.BLUE, ColorType.GREY, ColorType.BLUE, ColorType.RED));
+        blueButton2.addActionListener(e -> action(ColorType.RED, ColorType.GREY, ColorType.GREY, ColorType.BLUE, ColorType.RED, ColorType.BLUE));
 
         chart.add(chartLabelP1);
         chart.add(chartLabelP2);
+        messages.add(chartLabelMessage);
 
-        splitPaneChartBoard = GuiUtils.getSplitPaneVertical(400, 450, 50, chart, new JPanel());
+        JSplitPane SplitPaneMessagesChars = GuiUtils.getSplitPaneVertical(400, 60, 30, chart, messages);
+        splitPaneChartBoard = GuiUtils.getSplitPaneVertical(400, 450, 60, SplitPaneMessagesChars, new JPanel());
         JSplitPane colorDual1 = GuiUtils.getSplitPaneHorizontal(400, 30, 100, redButton1, blueButton1);
         JSplitPane colorDual2 = GuiUtils.getSplitPaneHorizontal(400, 30, 100, redButton2, blueButton2);
         JSplitPane splitPaneTextFieldsColor1 = GuiUtils.getSplitPaneVertical(400, 60, 30, textField1, colorDual1);
@@ -103,34 +109,57 @@ public class SingletonGUI {
         return board;
     }
 
-    private void action(Color red1, Color red2, Color blue1, Color blue2, Color player1, Color player2) {
-        redButton1.setBackground(red1);
-        redButton2.setBackground(red2);
-        blueButton1.setBackground(blue1);
-        blueButton2.setBackground(blue2);
+    private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType player1, ColorType player2) {
+        redButton1.setBackground(red1.toColor());
+        redButton2.setBackground(red2.toColor());
+        blueButton1.setBackground(blue1.toColor());
+        blueButton2.setBackground(blue2.toColor());
         playerColor1 = player1;
         playerColor2 = player2;
     }
 
     private void disableAll() {
-        textField1.setEnabled(false);
-        textField2.setEnabled(false);
-        textField3.setEnabled(false);
-        redButton1.setEnabled(false);
-        redButton2.setEnabled(false);
-        blueButton1.setEnabled(false);
-        blueButton2.setEnabled(false);
-        confirmButton.setEnabled(false);
-        redButton1.setBackground(playerColor1);
-        blueButton1.setBackground(playerColor1);
-        redButton2.setBackground(playerColor2);
-        blueButton2.setBackground(playerColor2);
-        player1 = new Player(playerName1, playerColor1, 20, true); // cellCnt = 20 still has to be set differently
-        setStats(true);
-        player2 = new Player(playerName2, playerColor2, 20, false);
-        setStats(false);
-        aGrid = new Grid(size);
-        splitPaneChartBoard.setBottomComponent(getBoard());
+
+        if(!textField1.getText().isBlank()&& !textField2.getText().isBlank() && !textField3.getText().isBlank()){
+            int cleanUpText3 = 0;
+            try{
+                cleanUpText3 = Integer.parseInt(InputUtils.cleanUpString(textField3.getText()));
+            }catch (NumberFormatException e){
+                System.out.println("Please select a resolution type.");
+            }
+            if(cleanUpText3 % 2 == 0 && cleanUpText3 != 0){
+                if(playerColor1 != null){
+                    textField1.setEnabled(false);
+                    textField2.setEnabled(false);
+                    textField3.setEnabled(false);
+                    redButton1.setEnabled(false);
+                    redButton2.setEnabled(false);
+                    blueButton1.setEnabled(false);
+                    blueButton2.setEnabled(false);
+                    confirmButton.setEnabled(false);
+                    redButton1.setBackground(playerColor1.toColor());
+                    blueButton1.setBackground(playerColor1.toColor());
+                    redButton2.setBackground(playerColor2.toColor());
+                    blueButton2.setBackground(playerColor2.toColor());
+                    player1 = new Player(playerName1, playerColor1, 20, true); // cellCnt = 20 still has to be set differently
+                    setStats(true);
+                    player2 = new Player(playerName2, playerColor2, 20, false);
+                    setStats(false);
+                    aGrid = new Grid(size);
+                    splitPaneChartBoard.setBottomComponent(getBoard());
+                } else {
+                    System.out.println("Please select a color for the players.");
+                }
+            } else {
+                System.out.println("Please select a valid resolution type. Only even numbers are allowed.");
+            }
+        } else {
+            System.out.println("Please fill in your usernames.");
+        }
+    }
+
+    private void setMessage(String message){
+        chartLabelMessage.setText(message);
     }
 
     private String getButtonRowCol(JButton button) {
@@ -163,10 +192,13 @@ public class SingletonGUI {
         return frame;
     }
 
+<<<<<<< HEAD
     private void setButtonGrid() {
 
     }
 
+=======
+>>>>>>> 69320810c72b079a2094408313e07224503d8602
     public JButton getButton(int iconSize, ActionListener actionListener, ActionListener actionListener1, ActionListener actionListener2) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
@@ -180,12 +212,12 @@ public class SingletonGUI {
         return button;
     }
 
-    public JPanel getJpanel() {
+    public JPanel getJpanel(String title) {
         JPanel panel = new JPanel();
         panel.setSize(400, 25);
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(ColorType.WHITE.toColor());
         panel.setVisible(true);
-        panel.setBorder(BorderFactory.createTitledBorder("Chart"));
+        panel.setBorder(BorderFactory.createTitledBorder(title));
         return panel;
     }
 
