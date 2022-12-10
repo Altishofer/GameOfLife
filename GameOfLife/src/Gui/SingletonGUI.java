@@ -40,6 +40,7 @@ public class SingletonGUI {
     JSplitPane splitPaneChartBoard;
     private JLabel chartLabelP1 = new JLabel();
     private JLabel chartLabelP2 = new JLabel();
+    private JLabel chartLabelMessage = new JLabel();
     private JPanel chart = getJpanel("Chart");
     private JPanel messages = getJpanel("Game Rules");
     private JPanel gameContainer;
@@ -129,6 +130,10 @@ public class SingletonGUI {
         setStats(false);
         aGrid = new Grid(size);
         splitPaneChartBoard.setBottomComponent(getBoard());
+    }
+
+    private void setMessage(String message){
+        chartLabelMessage.setText(message);
     }
 
     private String getButtonRowCol(JButton button) {
