@@ -36,9 +36,6 @@ public class Player implements Comparable{
         }
         if (this.PLAYER_NAME.length() == minNameSize) {return -1;}
         else {return 1;}
-        //if (this.getPlayerInitial() < otherPlayer.getPlayerInitial()){return -1;}
-        //if (this.getPlayerInitial() > otherPlayer.getPlayerInitial()){return 1;}
-        //return 0;
     }
 
     @Override
