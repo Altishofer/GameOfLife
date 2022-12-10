@@ -31,8 +31,8 @@ public class SingletonGUI {
     JButton redButton2 = GuiUtils.getButton(iconSize, ColorType.RED.toColor());
     JButton blueButton1 = GuiUtils.getButton(iconSize, ColorType.BLUE.toColor());
     JButton blueButton2 = GuiUtils.getButton(iconSize, ColorType.BLUE.toColor());
-    String playerName1 = new String();
-    String playerName2 = new String();
+    String playerName1 = "";
+    String playerName2 = "";
     ColorType playerColor1;
     ColorType playerColor2;
     Player player1;
@@ -133,17 +133,17 @@ public class SingletonGUI {
         }
     }
 
-    private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType player1, ColorType player2) {
+    private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType colourP1, ColorType colourP2) {
         redButton1.setBackground(red1.toColor());
         redButton2.setBackground(red2.toColor());
         blueButton1.setBackground(blue1.toColor());
         blueButton2.setBackground(blue2.toColor());
-        playerColor1 = player1;
-        playerColor2 = player2;
+        playerColor1 = colourP1;
+        playerColor2 = colourP2;
     }
 
     private void disableAll() {
-        if(!textField1.getText().isBlank()&& !textField2.getText().isBlank() && !textField3.getText().isBlank()){
+        if(!textField1.getText().isBlank() && !textField2.getText().isBlank() && !textField3.getText().isBlank()){
             int cleanUpText3 = 0;
             try{
                 cleanUpText3 = Integer.parseInt(InputUtils.cleanUpString(textField3.getText()));
@@ -172,6 +172,9 @@ public class SingletonGUI {
                     splitPaneChartBoard.setBottomComponent(getBoard());
                     // TODO: return player which is first if sorted alphabetically
                     currentPlayer = player1;
+                    if (player1.compareTo(player2) == 1) {
+                        currentPlayer = player2;
+                    }
                 } else {
                     setMessage("Please select a color for the players.");
                 }
