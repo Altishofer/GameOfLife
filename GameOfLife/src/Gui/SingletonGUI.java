@@ -40,7 +40,8 @@ public class SingletonGUI {
     JSplitPane splitPaneChartBoard;
     private JLabel chartLabelP1 = new JLabel();
     private JLabel chartLabelP2 = new JLabel();
-    private JPanel chart = getJpanel();
+    private JPanel chart = getJpanel("Chart");
+    private JPanel messages = getJpanel("Game Rules");
     private JPanel gameContainer;
 
     private Grid aGrid;
@@ -62,7 +63,8 @@ public class SingletonGUI {
         chart.add(chartLabelP1);
         chart.add(chartLabelP2);
 
-        splitPaneChartBoard = GuiUtils.getSplitPaneVertical(400, 450, 50, chart, new JPanel());
+        JSplitPane SplitPaneMessagesChars = GuiUtils.getSplitPaneVertical(400, 60, 30, chart, messages);
+        splitPaneChartBoard = GuiUtils.getSplitPaneVertical(400, 450, 60, SplitPaneMessagesChars, new JPanel());
         JSplitPane colorDual1 = GuiUtils.getSplitPaneHorizontal(400, 30, 100, redButton1, blueButton1);
         JSplitPane colorDual2 = GuiUtils.getSplitPaneHorizontal(400, 30, 100, redButton2, blueButton2);
         JSplitPane splitPaneTextFieldsColor1 = GuiUtils.getSplitPaneVertical(400, 60, 30, textField1, colorDual1);
@@ -159,10 +161,6 @@ public class SingletonGUI {
         return frame;
     }
 
-    private void setButtonGrid(){
-
-    }
-
     public JButton getButton(int iconSize, ActionListener actionListener, ActionListener actionListener1, ActionListener actionListener2) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
@@ -176,12 +174,12 @@ public class SingletonGUI {
         return button;
     }
 
-    public JPanel getJpanel() {
+    public JPanel getJpanel(String title) {
         JPanel panel = new JPanel();
         panel.setSize(400, 25);
         panel.setBackground(Color.WHITE);
         panel.setVisible(true);
-        panel.setBorder(BorderFactory.createTitledBorder("Chart"));
+        panel.setBorder(BorderFactory.createTitledBorder(title));
         return panel;
     }
 
