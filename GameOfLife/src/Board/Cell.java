@@ -32,8 +32,8 @@ public class Cell {
     }
 
     //TODO: Revive Cell with right Color, not generally RED
-    public void revive(){
+    public void revive(ColorType playerColor){
         aIsAlive = true;
-        aColor = ColorType.RED;
+        setColor(playerColor);
     }
 }

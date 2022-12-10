@@ -95,7 +95,7 @@ public class SingletonGUI {
         gameContainer = new JPanel(new GridLayout(0, size, 2, 2));
         board.add(gameContainer);
         ActionListener actionListener = e -> output.setText(getButtonRowCol((JButton) e.getSource()));
-        ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton)s.getSource()));
+        ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton)s.getSource()), ColorType.WHITE);
         ActionListener actionListener2 = y -> showGrid();
         for (int ii = 0; ii < size * size; ii++) {
             JButton b = getButton(iconSize, actionListener, actionListener1, actionListener2);

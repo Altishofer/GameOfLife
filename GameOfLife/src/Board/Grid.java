@@ -4,6 +4,7 @@ import Board.Cell;
 import Board.ColorType;
 import Utils.InputUtils;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -30,17 +31,17 @@ public class Grid {
         pCell.kill();
     }
 
-    public void reviveACell(Cell pCell){
+    public void reviveACell(Cell pCell, ColorType playerColor){
         if(pCell.isAlive()){
             throw new IllegalArgumentException("Please select a dead cell!");
         }
-        pCell.revive();
+        pCell.revive(playerColor);
     }
 
     public void mirrorCell(int xCoor, int yCoor, Player placingPlayer, Player waitingPlayer){
-        reviveACell(yCoor, xCoor);
+        reviveACell(yCoor, xCoor, placingPlayer.getPlayerColor());
         aGrid[yCoor][xCoor].setColor(placingPlayer.getPlayerColor());
-        reviveACell(yCoor, aDimension - xCoor);
+        reviveACell(yCoor, aDimension - xCoor, waitingPlayer.getPlayerColor());
         aGrid[yCoor][aDimension - xCoor].setColor(waitingPlayer.getPlayerColor());
     }
 
@@ -51,7 +52,7 @@ public class Grid {
         return new int[]{y, x};
     }
 
-    public void reviveACell(String yx){
+    public void reviveACell(String yx, ColorType playerColor){
         int[] coor = convert(InputUtils.cleanUpString(yx));
 
         int y = coor[0];
@@ -59,14 +60,14 @@ public class Grid {
         if(aGrid[y][x].isAlive()){
             throw new IllegalArgumentException("Please select a dead cell!");
         }
-        aGrid[y][x].revive();
+        aGrid[y][x].revive(playerColor);
     }
 
-    public void reviveACell(int yCoor, int xCoor){
+    public void reviveACell(int yCoor, int xCoor, ColorType playerColor){
         if(aGrid[yCoor][xCoor].isAlive()){
             throw new IllegalArgumentException("Please select a dead cell!");
         }
-        aGrid[yCoor][xCoor].revive();
+        aGrid[yCoor][xCoor].revive(playerColor);
     }
 
 
@@ -81,8 +82,8 @@ public class Grid {
                     int numberOfNeighbors = countNeighbors(i, j);
 
                     if (!aGrid[i][j].isAlive() && numberOfNeighbors == 3) {
-                        aNextGrid[i][j].revive();
                         ColorType dominator = getDominantColor(i, j);
+                        aNextGrid[i][j].revive(dominator);
                         aNextGrid[i][j].setColor(dominator);
                     } else if (aGrid[i][j].isAlive() && (numberOfNeighbors < 2 || numberOfNeighbors > 3)) {
                         aNextGrid[i][j].kill();
@@ -180,7 +181,7 @@ public class Grid {
         if(aGrid[x][y].isAlive()){
             throw new IllegalArgumentException("Cell is already alive");
         }
-        aGrid[x][y].revive();
+        aGrid[x][y].revive(ColorType.WHITE);
         aGrid[x][y].setColor(pColor);
     }
 
