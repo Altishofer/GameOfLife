@@ -1,14 +1,27 @@
 package Board;
 
+import Gui.SingletonGUI;
+import com.sun.tools.javac.Main;
+
+import java.awt.*;
+
 public class Player implements Comparable{
 
     private final String PLAYER_NAME;
+    private final Color PLAYER_COLOR;
 
-    public Player (String pName){
+    private int cellCnt;
+
+    public Player (String pName, Color player_color, int pCellCnt, boolean isPlayer1){
         PLAYER_NAME = pName;
+        PLAYER_COLOR = player_color;
+
+        cellCnt = pCellCnt;
     }
 
     public String getPlayerName(){return PLAYER_NAME;}
+    public Color getPlayerColor(){return PLAYER_COLOR;}
+    public int getCellCnt(){return cellCnt;}
 
     public Character getPlayerInitial(){return PLAYER_NAME.charAt(0);}
 
