@@ -1,9 +1,7 @@
 package Gui;
 
-import Board.ColorType;
-import Board.GameState;
-import Board.Grid;
-import Board.Player;
+import Board.*;
+import GameState.*;
 import Utils.InputUtils;
 
 import javax.swing.*;
@@ -22,6 +20,7 @@ public class SingletonGUI extends JFrame{
     private JButton[][] buttonArray;
     private JLabel output = new JLabel("Click somewhere on the GUI");
 
+    Player currentPlayer;
     TextFieldWithPrompt textField1 = new TextFieldWithPrompt("Player_1", 8, 18);
     TextFieldWithPrompt textField2 = new TextFieldWithPrompt("Player_2", 8, 18);
     TextFieldWithPrompt textField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 27);
@@ -45,6 +44,7 @@ public class SingletonGUI extends JFrame{
     private JPanel messages = getJpanel("Game Rules");
     private JPanel gameContainer;
 
+    private Game game;
     private Grid aGrid;
 
     private SingletonGUI() {
@@ -106,8 +106,9 @@ public class SingletonGUI extends JFrame{
         board.add(output, BorderLayout.PAGE_END);
         gameContainer = new JPanel(new GridLayout(0, size, 2, 2));
         board.add(gameContainer);
-        ActionListener actionListenerGameLogic = g -> gameLogic2(getButtonRowCol((JButton) g.getSource()));
-        ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton) s.getSource()));
+        ActionListener actionListenerGameLogic = g -> System.out.print("");
+        //ActionListener actionListenerGameLogic = g -> gameLogic2(getButtonRowCol((JButton) g.getSource()));
+        ActionListener actionListener1 = s -> gameLogic(getButtonRowCol((JButton) s.getSource()));
         ActionListener actionListener2 = y -> showGrid();
         for (int ii = 0; ii < size * size; ii++) {
             JButton b = getButton(iconSize, actionListener1, actionListener2, actionListenerGameLogic);
@@ -117,28 +118,17 @@ public class SingletonGUI extends JFrame{
         return board;
     }
 
-    private GameState gameState = new GameState();
-    private Player currentPlayer;
 
+    private void gameLogic(int[] buttonRowCol) {
+        int y = buttonRowCol[0];
+        int x = buttonRowCol[1];
 
-    private void gameLogic2(int[] buttonRowCol) {
-        if (gameState.initial < 5){
-            aGrid.mirrorCell(buttonRowCol[0], buttonRowCol[1], player1, player2);
-            gameState.initial++;
-        }
-        else {
-            if (!gameState.revive) {
-                aGrid.killACell(buttonRowCol[0], buttonRowCol[1]);
-                gameState.revive = true;
-            } else {
-                aGrid.reviveACell(buttonRowCol[0], buttonRowCol[1]);
-                gameState.revive = false;
-                if (currentPlayer.equals(player1)){
-                    currentPlayer = player2;
-                }
-                else {
-                    currentPlayer = player1;
-                }
+        if (!game.initOver()) {
+            if (!aGrid.cellhasColor(y, x, currentPlayer.getPlayerColor())) {
+                game.clickedExistingCell(y, x);
+            }
+            if (!aGrid.cellIsAlive(y, x)) {
+                game.clickedEmptyCell(y, x);
             }
         }
     }
@@ -179,6 +169,7 @@ public class SingletonGUI extends JFrame{
                     player2 = new Player(playerName2, playerColor2, 20, false);
                     setStats(false);
                     aGrid = new Grid(size);
+                    game = new Game(player1, player2, aGrid);
                     splitPaneChartBoard.setBottomComponent(getBoard());
                     // TODO: return player which is first if sorted alphabetically
                     currentPlayer = player1;
@@ -204,8 +195,10 @@ public class SingletonGUI extends JFrame{
     private int[] getButtonRowCol(JButton button) {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                if (button.equals(buttonArray[y][x])) {
-                    return new int[]{y, x};
+                if (button.equals(buttonArray[x][y])) {
+                    System.out.println(y);
+                    System.out.println(x);
+                    return new int[]{x, y};
                 }
             }
         }
@@ -227,7 +220,7 @@ public class SingletonGUI extends JFrame{
     }
 
 
-    public JButton getButton(int iconSize, ActionListener actionListener1, ActionListener actionListener2) {
+    public JButton getButton(int iconSize, ActionListener actionListener1, ActionListener actionListener2, ActionListener actionListener3) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
@@ -236,6 +229,7 @@ public class SingletonGUI extends JFrame{
         button.setOpaque(true);
         button.addActionListener(actionListener1);
         button.addActionListener(actionListener2);
+        button.addActionListener(actionListener3);
         return button;
     }
 

@@ -4,6 +4,7 @@ import Board.Cell;
 import Board.ColorType;
 import Utils.InputUtils;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -38,7 +39,7 @@ public class Grid {
         pCell.revive();
     }
 
-    public void mirrorCell(int xCoor, int yCoor, Player placingPlayer, Player waitingPlayer){
+    public void mirrorCell(int yCoor, int xCoor, Player placingPlayer, Player waitingPlayer){
         reviveACell(yCoor, xCoor);
         aGrid[yCoor][xCoor].setColor(placingPlayer.getPlayerColor());
         reviveACell(yCoor, aDimension - xCoor);
@@ -203,6 +204,14 @@ public class Grid {
         myGrid.createNextGeneration();
         System.out.println();
         myGrid.printGrid();
+    }
+
+    public boolean cellIsAlive(int y, int x){
+        return aGrid[y][x].isAlive();
+    }
+
+    public boolean cellhasColor(int y, int x, ColorType color){
+        return aGrid[y][x].getColor().equals(color);
     }
 
 }
