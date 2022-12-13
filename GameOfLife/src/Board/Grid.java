@@ -42,8 +42,8 @@ public class Grid {
     public void mirrorCell(int yCoor, int xCoor, Player placingPlayer, Player waitingPlayer){
         reviveACell(yCoor, xCoor);
         aGrid[yCoor][xCoor].setColor(placingPlayer.getPlayerColor());
-        reviveACell(yCoor, aDimension - xCoor);
-        aGrid[yCoor][aDimension - xCoor].setColor(waitingPlayer.getPlayerColor());
+        reviveACell(yCoor, aDimension - xCoor-1);
+        aGrid[yCoor][aDimension - xCoor-1].setColor(waitingPlayer.getPlayerColor());
     }
 
     private int[] convert(String string){
