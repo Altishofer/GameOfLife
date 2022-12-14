@@ -3,25 +3,15 @@ package Board;
 import static java.lang.Math.min;
 
 public class Player implements Comparable{
+    private String aPlayerName;
+    private ColorType aPlayerColor;
+    public void setPlayerName(String pName){aPlayerName = pName;}
+    public String getPlayerName(){return aPlayerName;}
+    public ColorType getPlayerColor(){return aPlayerColor;}
+    public void setPlayerColor(ColorType pColor){aPlayerColor = pColor;}
 
-    private final String PLAYER_NAME;
-    private final ColorType PLAYER_COLOR;
-
-    private int cellCnt;
-
-    public Player (String pName, ColorType player_color, int pCellCnt, boolean isPlayer1){
-        PLAYER_NAME = pName;
-        PLAYER_COLOR = player_color;
-
-        cellCnt = pCellCnt;
-    }
-
-    public String getPlayerName(){return PLAYER_NAME;}
-    public ColorType getPlayerColor(){return PLAYER_COLOR;}
-    public int getCellCnt(){return cellCnt;}
-
-    public Character getPlayerInitial(){return Character.toUpperCase(PLAYER_NAME.charAt(0));}
-
+    // TODO: call aGrid.getCellCount();
+    public int getCellCnt(){return 20;}
     @Override
     public int compareTo(Object other) {
         if (other == null){return 0;}
@@ -29,17 +19,17 @@ public class Player implements Comparable{
         Player otherPlayer = (Player) other;
         int minNameSize = min(this.getPlayerName().length(), otherPlayer.getPlayerName().length());
         for (int i = 0; i < minNameSize; i++) {
-            char currCharThis = Character.toUpperCase(this.PLAYER_NAME.charAt(i));
-            char currCharOther = Character.toUpperCase(otherPlayer.PLAYER_NAME.charAt(i));
+            char currCharThis = Character.toUpperCase(this.aPlayerName.charAt(i));
+            char currCharOther = Character.toUpperCase(otherPlayer.aPlayerName.charAt(i));
             if(currCharThis < currCharOther){return -1;}
             if(currCharThis > currCharOther){return 1;}
         }
-        if (this.PLAYER_NAME.length() == minNameSize) {return -1;}
+        if (this.aPlayerName.length() == minNameSize) {return -1;}
         else {return 1;}
     }
 
     @Override
     public int hashCode(){
-        return PLAYER_NAME.length();
+        return aPlayerName.length();
     }
 }

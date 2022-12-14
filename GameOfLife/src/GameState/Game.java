@@ -1,9 +1,11 @@
 package GameState;
 
 import Board.ColorType;
-import GameState.GameState;
 import Board.Grid;
 import Board.Player;
+import Gui.SingletonGUI;
+
+import javax.swing.*;
 
 public class Game implements GameState {
     private GameState initialisation;
@@ -12,7 +14,6 @@ public class Game implements GameState {
     private GameState gameState;
     private final Player player1;
     private final Player player2;
-
     private Grid aGrid;
 
     public Game(Player newPlayer1, Player newPlayer2, Grid newGrid){
@@ -23,6 +24,8 @@ public class Game implements GameState {
         kill = new Kill(this);
         revive = new Revive(this);
         gameState = initialisation;
+        Runnable r = () -> SingletonGUI.getInstance();
+        SwingUtilities.invokeLater(r);
     }
 
     public void mirrorCell(int y, int x){

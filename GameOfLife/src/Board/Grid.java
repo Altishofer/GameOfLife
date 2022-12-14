@@ -42,22 +42,8 @@ public class Grid {
         reviveACell(yCoor, aDimension - xCoor-1, waitingPlayer.getPlayerColor());
     }
 
-    private int[] convert(String string){
-        ArrayList<String> coor = new ArrayList<>(Arrays.asList(string.split(":")[1].split(",")));
-        int y = Integer.parseInt(coor.get(0));
-        int x = Integer.parseInt(coor.get(1));
-        return new int[]{y, x};
-    }
-
-    public void reviveACell(int[] coor, ColorType pColor){
-        int y = coor[0];
-        int x = coor[1];
-        if(aGrid[y][x].isAlive()){
-            throw new IllegalArgumentException("Please select a dead cell!");
-        }
-        aGrid[y][x].revive(pColor);
-    }
-
+    // TODO: return number of cells in given color
+    public int getCellCount(ColorType pColor){return 20;}
 
     public void reviveACell(int y, int x, ColorType pColor){
         if(aGrid[y][x].isAlive()){
