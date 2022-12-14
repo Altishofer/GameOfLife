@@ -217,11 +217,7 @@ public class SingletonGUI extends JFrame{
                 buttonArray[i][j].setContentAreaFilled(false);
                 buttonArray[i][j].setOpaque(true);
                 buttonArray[i][j].setBackground(tmp);
-                buttonArray[i][j].addActionListener(n -> performedAction());
             }
         }
-    }
-
-    private void performedAction() {
     }
 }
