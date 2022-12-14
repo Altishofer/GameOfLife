@@ -16,7 +16,9 @@ public class Game implements GameState {
     private final Player player2;
     private Grid aGrid;
 
-    public Game(Player newPlayer1, Player newPlayer2, Grid newGrid){
+    private SingletonGUI aGui;
+
+    public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui){
         aGrid = newGrid;
         player1 = newPlayer1;
         player2 = newPlayer2;
@@ -24,6 +26,7 @@ public class Game implements GameState {
         kill = new Kill(this);
         revive = new Revive(this);
         gameState = initialisation;
+        aGui = pGui;
         Runnable r = () -> SingletonGUI.getInstance();
         SwingUtilities.invokeLater(r);
     }
@@ -49,6 +52,10 @@ public class Game implements GameState {
     @Override
     public void clickedEmptyCell(int y, int x, ColorType pColor){
         gameState.clickedEmptyCell(y, x, pColor);
+    }
+
+    public void switchCurrentPlayer(){
+        aGui.switchCurrentPlayer();
     }
 
     public GameState getInitialisation(){return initialisation;}

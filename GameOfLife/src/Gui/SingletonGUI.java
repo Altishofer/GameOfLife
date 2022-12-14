@@ -121,22 +121,22 @@ public class SingletonGUI extends JFrame {
                 game.clickedExistingCell(y, x, currentPlayer.getPlayerColor());
                 setMessage("An Empty Cell Was Clicked.");
             }
+            checkIfLost();
         }
         showGrid();
-        checkIfLost();
     }
 
     private void checkIfLost(){
         if (player1.getCellCnt() == 0 && player2.getCellCnt() == 0){
-            disableAll();
+            disableAllFinished();
             setMessage("Both player have lost the game -> TIE");
         }
         if (player1.getCellCnt() == 0){
-            disableAll();
+            disableAllFinished();
             setMessage("Player " + player1.getPlayerName() + "has lost! -> " + player2.getPlayerName());
         }
         if (player2.getCellCnt() == 0){
-            disableAll();
+            disableAllFinished();
             setMessage("Player " + player2.getPlayerName() + "has lost! -> " + player1.getPlayerName());
         }
     }
@@ -189,7 +189,7 @@ public class SingletonGUI extends JFrame {
         player1.setPlayerName(textField1.getText());
         player1.setPlayerName(textField2.getText());
         aGrid = new Grid(size, player1, player2);
-        game = new Game(player1, player2, aGrid);
+        game = new Game(player1, player2, aGrid, this);
         splitPaneChartBoard.setBottomComponent(getBoard());
         currentPlayer = player1;
         if (player1.compareTo(player2) == 1) {
@@ -212,7 +212,7 @@ public class SingletonGUI extends JFrame {
         return new int[]{0, 0};
     }
 
-    public JButton getButton(int iconSize, ActionListener actionListener1) {
+    private JButton getButton(int iconSize, ActionListener actionListener1) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
@@ -223,7 +223,7 @@ public class SingletonGUI extends JFrame {
         return button;
     }
 
-    public JPanel getJpanel(String title) {
+    private JPanel getJpanel(String title) {
         JPanel panel = new JPanel();
         panel.setSize(400, 25);
         panel.setBackground(ColorType.WHITE.toColor());
@@ -232,7 +232,15 @@ public class SingletonGUI extends JFrame {
         return panel;
     }
 
-    public void setStats() {
+    public void switchCurrentPlayer(){
+        if (player1.equals(currentPlayer)) {
+            currentPlayer = player2;
+            return;
+        }
+        currentPlayer = player1;
+    }
+
+    private void setStats() {
         chartLabelP1.setText(player1.getPlayerName() + ": " + player1.getCellCnt() + " Cells\t\t" + player2.getPlayerName() + " : " + player2.getCellCnt() + " Cells");
     }
 
