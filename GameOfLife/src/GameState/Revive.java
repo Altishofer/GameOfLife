@@ -24,6 +24,6 @@ public class Revive implements GameState {
 
     @Override
     public boolean initOver() {
-        return true;
+        return false;
     }
 }
