@@ -212,7 +212,7 @@ public class SingletonGUI extends JFrame {
         return new int[]{0, 0};
     }
 
-    public JButton getButton(int iconSize, ActionListener actionListener1) {
+    private JButton getButton(int iconSize, ActionListener actionListener1) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
@@ -223,7 +223,7 @@ public class SingletonGUI extends JFrame {
         return button;
     }
 
-    public JPanel getJpanel(String title) {
+    private JPanel getJpanel(String title) {
         JPanel panel = new JPanel();
         panel.setSize(400, 25);
         panel.setBackground(ColorType.WHITE.toColor());
@@ -232,7 +232,7 @@ public class SingletonGUI extends JFrame {
         return panel;
     }
 
-    public void setStats() {
+    private void setStats() {
         chartLabelP1.setText(player1.getPlayerName() + ": " + player1.getCellCnt() + " Cells\t\t" + player2.getPlayerName() + " : " + player2.getCellCnt() + " Cells");
     }
 
