@@ -169,7 +169,7 @@ public class SingletonGUI extends JFrame {
             setMessage("Please select a valid resolution type. Only even numbers are allowed.");
             return;
         }
-        if (cleanUpText3 % 2 != 0 && cleanUpText3 == 0 && aPlayer1.getPlayerColor() == null) {
+        if (cleanUpText3 % 2 != 0 || cleanUpText3 == 0 || aPlayer1.getPlayerColor() == null) {
             setMessage("Please select a color for the players.");
             return;
         }
@@ -211,7 +211,7 @@ public class SingletonGUI extends JFrame {
         return new int[]{0, 0};
     }
 
-    public JButton getButton(int iconSize, ActionListener actionListener1) {
+    private JButton getButton(int iconSize, ActionListener actionListener1) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
@@ -222,7 +222,7 @@ public class SingletonGUI extends JFrame {
         return button;
     }
 
-    public JPanel getJpanel(String title) {
+    private JPanel getJpanel(String title) {
         JPanel panel = new JPanel();
         panel.setSize(400, 25);
         panel.setBackground(ColorType.WHITE.toColor());
@@ -231,7 +231,7 @@ public class SingletonGUI extends JFrame {
         return panel;
     }
 
-    public void setStats() {
+    private void setStats() {
         aChartLabelP1.setText(aPlayer1.getPlayerName() + ": " + aPlayer1.getCellCnt() + " Cells\t\t" + aPlayer2.getPlayerName() + " : " + aPlayer2.getCellCnt() + " Cells");
     }
 
