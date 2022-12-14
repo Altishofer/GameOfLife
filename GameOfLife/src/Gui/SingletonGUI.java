@@ -170,7 +170,7 @@ public class SingletonGUI extends JFrame {
             setMessage("Please select a valid resolution type. Only even numbers are allowed.");
             return;
         }
-        if (cleanUpText3 % 2 != 0 && cleanUpText3 == 0 && player1.getPlayerColor() == null) {
+        if (cleanUpText3 % 2 != 0 || cleanUpText3 == 0 || player1.getPlayerColor() == null) {
             setMessage("Please select a color for the players.");
             return;
         }
