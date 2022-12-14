@@ -131,6 +131,14 @@ public class SingletonGUI extends JFrame {
         player2.setPlayerColor(colourP2);
     }
 
+    private void disableAllFinished(){
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                buttonArray[row][col].setEnabled(false);
+            }
+        }
+    }
+
     private void disableAll() {
         if (textField1.getText().isBlank() || textField2.getText().isBlank() || textField3.getText().isBlank()) {
             setMessage("Please fill in your usernames.");
