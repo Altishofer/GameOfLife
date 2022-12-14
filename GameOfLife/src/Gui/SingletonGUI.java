@@ -123,6 +123,22 @@ public class SingletonGUI extends JFrame {
             }
         }
         showGrid();
+        checkIfLost();
+    }
+
+    private void checkIfLost(){
+        if (player1.getCellCnt() == 0 && player2.getCellCnt() == 0){
+            disableAll();
+            setMessage("Both player have lost the game -> TIE");
+        }
+        if (player1.getCellCnt() == 0){
+            disableAll();
+            setMessage("Player " + player1.getPlayerName() + "has lost! -> " + player2.getPlayerName());
+        }
+        if (player2.getCellCnt() == 0){
+            disableAll();
+            setMessage("Player " + player2.getPlayerName() + "has lost! -> " + player1.getPlayerName());
+        }
     }
 
     private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType colourP1, ColorType colourP2) {
@@ -200,7 +216,7 @@ public class SingletonGUI extends JFrame {
         return new int[]{0, 0};
     }
 
-    public JButton getButton(int iconSize, ActionListener actionListener1) {
+    private JButton getButton(int iconSize, ActionListener actionListener1) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
@@ -211,7 +227,7 @@ public class SingletonGUI extends JFrame {
         return button;
     }
 
-    public JPanel getJpanel(String title) {
+    private JPanel getJpanel(String title) {
         JPanel panel = new JPanel();
         panel.setSize(400, 25);
         panel.setBackground(ColorType.WHITE.toColor());
@@ -220,7 +236,7 @@ public class SingletonGUI extends JFrame {
         return panel;
     }
 
-    public void setStats() {
+    private void setStats() {
         chartLabelP1.setText(player1.getPlayerName() + ": " + player1.getCellCnt() + " Cells\t\t" + player2.getPlayerName() + " : " + player2.getCellCnt() + " Cells");
     }
 
