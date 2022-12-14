@@ -23,8 +23,8 @@ public class Initialization implements GameState {
     }
 
     @Override
-    public void clickedEmptyCell(int y, int x, ColorType pColor) {
-        aGame.mirrorCell(y, x);
+    public void clickedEmptyCell(int y, int x, ColorType pCurrentPlayerColor, ColorType pOtherPlayerColor) {
+        aGame.mirrorCell(y, x, pCurrentPlayerColor, pOtherPlayerColor);
         aClickCount++;
         if(initOver()){
             aGame.setState(aGame.getKill());
