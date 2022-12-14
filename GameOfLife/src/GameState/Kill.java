@@ -12,8 +12,6 @@ public class Kill implements GameState {
     }
     @Override
     public void clickedExistingCell(int y, int x, ColorType pColor) {
-        System.out.println(y);
-        System.out.println(x);
         game.killACell(y, x);
         game.setState(game.getRevive());
     }
@@ -25,6 +23,6 @@ public class Kill implements GameState {
 
     @Override
     public boolean initOver() {
-        return true;
+        return false;
     }
 }
