@@ -7,6 +7,7 @@ import Utils.InputUtils;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
@@ -255,7 +256,11 @@ public class SingletonGUI extends JFrame{
                 buttonArray[i][j].setContentAreaFilled(false);
                 buttonArray[i][j].setOpaque(true);
                 buttonArray[i][j].setBackground(tmp);
+                buttonArray[i][j].addActionListener(n -> performedAction());
             }
         }
+    }
+
+    private void performedAction() {
     }
 }
