@@ -22,6 +22,7 @@ public class SingletonGUI {
     public static SingletonGUI INSTANCE;
     private int size;
     private int iconSize = 10;
+    private int startUpCells = 5;
     private JButton[][] buttonArray;
     private JLabel output = new JLabel("Click somewhere on the GUI");
     JTextField textField1 = new JTextField("Player_1");
