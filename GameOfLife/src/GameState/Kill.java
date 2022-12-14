@@ -5,20 +5,20 @@ import Board.ColorType;
 
 public class Kill implements GameState {
 
-    Game game;
+    Game aGame;
 
     public Kill(Game newGame){
-        game = newGame;
+        aGame = newGame;
     }
     @Override
     public void clickedExistingCell(int y, int x, ColorType pColor) {
-        game.killACell(y, x);
-        game.setState(game.getRevive());
+        aGame.killACell(y, x);
+        aGame.setState(aGame.getRevive());
     }
 
     @Override
     public void clickedEmptyCell(int y, int x, ColorType pColor) {
-        System.out.println("NothingHappens: Cell already dead");
+        aGame.setMessage("NothingHappens: Cell already dead");
     }
 
     @Override

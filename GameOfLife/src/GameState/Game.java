@@ -8,12 +8,12 @@ import Gui.SingletonGUI;
 import javax.swing.*;
 
 public class Game implements GameState {
-    private GameState initialisation;
-    private GameState kill;
-    private GameState revive;
-    private GameState gameState;
-    private final Player player1;
-    private final Player player2;
+    private GameState aInitialisation;
+    private GameState aKill;
+    private GameState aRevive;
+    private GameState aGameState;
+    private final Player aPlayer1;
+    private final Player aPlayer2;
     private Grid aGrid;
     private boolean bothHavePlayed;
     private SingletonGUI aGui;
@@ -21,19 +21,19 @@ public class Game implements GameState {
     public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui){
         bothHavePlayed = false;
         aGrid = newGrid;
-        player1 = newPlayer1;
-        player2 = newPlayer2;
-        initialisation = new Initialization(this);
-        kill = new Kill(this);
-        revive = new Revive(this);
-        gameState = initialisation;
         aGui = pGui;
+        aPlayer1 = newPlayer1;
+        aPlayer2 = newPlayer2;
+        aInitialisation = new Initialization(this);
+        aKill = new Kill(this);
+        aRevive = new Revive(this);
+        aGameState = aInitialisation;
         Runnable r = () -> SingletonGUI.getInstance();
         SwingUtilities.invokeLater(r);
     }
 
     public void mirrorCell(int y, int x){
-        aGrid.mirrorCell(y, x, player1, player2);
+        aGrid.mirrorCell(y, x, aPlayer1, aPlayer2);
     }
 
     public void reviveACell(int y, int x, ColorType pColor){
@@ -43,24 +43,25 @@ public class Game implements GameState {
         aGrid.killACell(y, x);
     }
     public void setState(GameState newState){
-        gameState = newState;
+        aGameState = newState;
     }
-    public boolean initOver(){return gameState.initOver();}
+    public boolean initOver(){return aGameState.initOver();}
     @Override
     public void clickedExistingCell(int y, int x, ColorType pColor){
-        gameState.clickedExistingCell(y, x, pColor);
+        aGameState.clickedExistingCell(y, x, pColor);
     }
     @Override
     public void clickedEmptyCell(int y, int x, ColorType pColor){
-        gameState.clickedEmptyCell(y, x, pColor);
+        aGameState.clickedEmptyCell(y, x, pColor);
     }
 
     public void switchCurrentPlayer(){
         aGui.switchCurrentPlayer();
     }
 
-    public GameState getKill(){return kill;}
-    public GameState getRevive(){return revive;}
+    public GameState getKill(){return aKill;}
+    public GameState getRevive(){return aRevive;}
+
     public void evolute(){
         if (bothHavePlayed){
             aGrid.createNextGeneration();
@@ -68,5 +69,9 @@ public class Game implements GameState {
         }
         switchCurrentPlayer();
         bothHavePlayed = true;
+    }
+
+    public void setMessage(String pMessage){
+        aGui.setMessage(pMessage);
     }
 }
