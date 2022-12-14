@@ -27,9 +27,9 @@ public class Grid {
         cell.kill();
     }
 
-    public void mirrorCell(int yCoor, int xCoor, Player placingPlayer, Player waitingPlayer){
-        reviveACell(yCoor, xCoor, placingPlayer.getPlayerColor());
-        reviveACell(yCoor, aDimension - xCoor-1, waitingPlayer.getPlayerColor());
+    public void mirrorCell(int yCoor, int xCoor, ColorType pPlacingPlayerColor, ColorType pWaitingPlayerColor){
+        reviveACell(yCoor, xCoor, pPlacingPlayerColor);
+        reviveACell(yCoor, aDimension - xCoor-1, pWaitingPlayerColor);
     }
 
     public int getCellCount(ColorType pColor){

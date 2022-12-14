@@ -123,7 +123,7 @@ public class SingletonGUI extends JFrame {
         setStats();
         if (!aGame.initOver()) {
             if (!aGrid.cellIsAlive(y, x)) {
-                aGame.clickedEmptyCell(y, x, aCurrentPlayer.getPlayerColor());
+                aGame.clickedEmptyCell(y, x, aCurrentPlayer.getPlayerColor(), getOtherPlayerColor());
             }
             else if (!aGrid.cellhasColor(y, x, aCurrentPlayer.getPlayerColor())) {
                 aGame.clickedExistingCell(y, x, aCurrentPlayer.getPlayerColor());
@@ -131,7 +131,15 @@ public class SingletonGUI extends JFrame {
             checkIfLost();
         }
         showGrid();
+        setStats();
         aGame.getStateRule();
+    }
+
+    private ColorType getOtherPlayerColor(){
+        if (aCurrentPlayer.equals(aPlayer1)){
+            return aPlayer2.getPlayerColor();
+        }
+        return aPlayer1.getPlayerColor();
     }
 
     private void checkIfLost(){
