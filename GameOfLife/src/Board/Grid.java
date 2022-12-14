@@ -38,12 +38,22 @@ public class Grid {
     }
 
     public void mirrorCell(int yCoor, int xCoor, Player placingPlayer, Player waitingPlayer){
-        reviveACell(yCoor, xCoor, placingPlayer.getPlayerColor());
+        reviveACell(yCoor, xCoor, placingPlayer.getPlayerColor());w
         reviveACell(yCoor, aDimension - xCoor-1, waitingPlayer.getPlayerColor());
     }
 
-    // TODO: return number of cells in given color
-    public int getCellCount(ColorType pColor){return 20;}
+    public int getCellCount(ColorType pColor){
+        int count = 0;
+        for(int row = 0; row < aDimension; row++) {
+            for(int col = 0; col < aDimension; col++) {
+                if (aGrid[row][col].getColor() == pColor) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
 
     public void reviveACell(int y, int x, ColorType pColor){
         if(aGrid[y][x].isAlive()){
