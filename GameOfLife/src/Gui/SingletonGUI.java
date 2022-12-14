@@ -116,6 +116,7 @@ public class SingletonGUI extends JFrame {
     }
 
     private void gameLogic(int[] buttonRowCol) {
+        System.out.println("button was clicked");
         aGame.getStateRule();
         int y = buttonRowCol[0];
         int x = buttonRowCol[1];
@@ -124,12 +125,13 @@ public class SingletonGUI extends JFrame {
             if (!aGrid.cellIsAlive(y, x)) {
                 aGame.clickedEmptyCell(y, x, aCurrentPlayer.getPlayerColor());
             }
-            if (!aGrid.cellhasColor(y, x, aCurrentPlayer.getPlayerColor())) {
+            else if (!aGrid.cellhasColor(y, x, aCurrentPlayer.getPlayerColor())) {
                 aGame.clickedExistingCell(y, x, aCurrentPlayer.getPlayerColor());
             }
             checkIfLost();
         }
         showGrid();
+        aGame.getStateRule();
     }
 
     private void checkIfLost(){

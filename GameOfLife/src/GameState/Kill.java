@@ -20,7 +20,7 @@ public class Kill implements GameState {
 
     @Override
     public void clickedEmptyCell(int y, int x, ColorType pColor) {
-        aGame.setMessage("NothingHappens: Cell already dead");
+        System.out.println("NothingHappens: Cell already dead");
     }
 
     @Override

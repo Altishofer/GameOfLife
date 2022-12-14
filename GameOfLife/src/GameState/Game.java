@@ -14,13 +14,11 @@ public class Game implements GameState {
     private GameState aGameState;
     private final Player aPlayer1;
     private final Player aPlayer2;
-    private boolean bothHavePlayed;
     private SingletonGUI aGui;
     private final Grid aGrid;
 
 
     public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui){
-        bothHavePlayed = false;
         aGrid = newGrid;
         aGui = pGui;
         aPlayer1 = newPlayer1;
@@ -64,12 +62,8 @@ public class Game implements GameState {
     public GameState getRevive(){return aRevive;}
 
     public void evolute(){
-        if (bothHavePlayed){
-            aGrid.createNextGeneration();
-            bothHavePlayed = false;
-        }
+        aGrid.createNextGeneration();
         switchCurrentPlayer();
-        bothHavePlayed = true;
     }
 
     @Override

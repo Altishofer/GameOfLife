@@ -14,12 +14,12 @@ public class Initialization implements GameState {
 
     @Override
     public String getStateRule() {
-        return "you are the coosen one and can select " + MAX_INITIALIZATION + " cells to start";
+        return "you are the chosen one and can select " + MAX_INITIALIZATION + " cells to start";
     }
 
     @Override
     public void clickedExistingCell(int y, int x, ColorType pColor) {
-        aGame.setMessage("NothingHappens: Cell already occupied");
+        System.out.println("NothingHappens: Cell already occupied");
     }
 
     @Override

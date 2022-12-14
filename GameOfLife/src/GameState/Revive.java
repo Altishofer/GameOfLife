@@ -12,7 +12,7 @@ public class Revive implements GameState {
 
     @Override
     public void clickedExistingCell(int y, int x, ColorType pColor) {
-        aGame.setMessage("NothingHappens: Cell already alive");
+        System.out.println("NothingHappens: Cell already alive");
     }
 
 
