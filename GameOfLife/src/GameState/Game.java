@@ -17,7 +17,6 @@ public class Game implements GameState {
     private SingletonGUI aGui;
     private final Grid aGrid;
 
-
     public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui){
         aGrid = newGrid;
         aGui = pGui;
@@ -31,8 +30,8 @@ public class Game implements GameState {
         SwingUtilities.invokeLater(r);
     }
 
-    public void mirrorCell(int y, int x){
-        aGrid.mirrorCell(y, x, aPlayer1, aPlayer2);
+    public void mirrorCell(int y, int x, ColorType pCurrentPlayerColor, ColorType pOtherPlayerColor){
+        aGrid.mirrorCell(y, x, pCurrentPlayerColor, pOtherPlayerColor);
     }
 
     public void reviveACell(int y, int x, ColorType pColor){
@@ -50,8 +49,8 @@ public class Game implements GameState {
         aGameState.clickedExistingCell(y, x, pColor);
     }
     @Override
-    public void clickedEmptyCell(int y, int x, ColorType pColor){
-        aGameState.clickedEmptyCell(y, x, pColor);
+    public void clickedEmptyCell(int y, int x, ColorType pCurrentPlayerColor, ColorType pOtherPlayerColor){
+        aGameState.clickedEmptyCell(y, x, pCurrentPlayerColor, pOtherPlayerColor);
     }
 
     public void switchCurrentPlayer(){
