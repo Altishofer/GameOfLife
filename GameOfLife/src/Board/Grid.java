@@ -1,18 +1,10 @@
 package Board;
 
-import Board.Cell;
-import Board.ColorType;
-import Utils.InputUtils;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class Grid {
 
     private final int aDimension;
-    public Cell[][] aGrid;
-    private Cell[][] aNextGrid;
+    public final Cell[][] aGrid;
+    private final Cell[][] aNextGrid;
 
     private final Player aPlayer1;
 
@@ -33,13 +25,6 @@ public class Grid {
             throw new IllegalArgumentException("Please select a valid cell!");
         }
         cell.kill();
-    }
-
-    public void reviveACell(Cell pCell, ColorType pColor){
-        if(pCell.isAlive()){
-            throw new IllegalArgumentException("Please select a dead cell!");
-        }
-        pCell.revive(pColor);
     }
 
     public void mirrorCell(int yCoor, int xCoor, Player placingPlayer, Player waitingPlayer){
