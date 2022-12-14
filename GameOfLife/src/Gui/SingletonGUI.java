@@ -127,6 +127,7 @@ public class SingletonGUI extends JFrame {
     }
 
     private void checkIfLost(){
+        if (!game.initOver()){return;}
         if (player1.getCellCnt() == 0 && player2.getCellCnt() == 0){
             disableAllFinished();
             setMessage("Both player have lost the game -> TIE");

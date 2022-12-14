@@ -15,10 +15,11 @@ public class Game implements GameState {
     private final Player player1;
     private final Player player2;
     private Grid aGrid;
-
+    private boolean bothHavePlayed;
     private SingletonGUI aGui;
 
     public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui){
+        bothHavePlayed = false;
         aGrid = newGrid;
         player1 = newPlayer1;
         player2 = newPlayer2;
@@ -58,10 +59,14 @@ public class Game implements GameState {
         aGui.switchCurrentPlayer();
     }
 
-    public GameState getInitialisation(){return initialisation;}
     public GameState getKill(){return kill;}
     public GameState getRevive(){return revive;}
     public void evolute(){
-        aGrid.createNextGeneration();
+        if (bothHavePlayed){
+            aGrid.createNextGeneration();
+            bothHavePlayed = false;
+        }
+        switchCurrentPlayer();
+        bothHavePlayed = true;
     }
 }
