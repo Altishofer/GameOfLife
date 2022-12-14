@@ -36,7 +36,7 @@ public class Grid {
         int count = 0;
         for(int row = 0; row < aDimension; row++) {
             for(int col = 0; col < aDimension; col++) {
-                if (aGrid[row][col].getColor() == pColor) {
+                if (aGrid[row][col].getColor() == pColor && aGrid[row][col].isAlive()) {
                     count++;
                 }
             }
