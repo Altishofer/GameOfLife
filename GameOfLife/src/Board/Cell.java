@@ -15,10 +15,6 @@ public class Cell {
         this.aColor = pCell.aColor;
     }
 
-    public void setColor(ColorType x){
-        aColor = x;
-    }
-
     public ColorType getColor(){
         return this.aColor;
     }
@@ -29,12 +25,13 @@ public class Cell {
 
     public void kill(){
         aIsAlive = false;
+        aColor = ColorType.WHITE;
     }
 
-    //TODO: Revive Cell with right Color, not generally RED
-    public void revive(){
+
+    public void revive(ColorType pColor){
         aIsAlive = true;
-        aColor = ColorType.RED;
+        aColor = pColor;
     }
 
     public boolean cellIsOwnedBy(Player player){

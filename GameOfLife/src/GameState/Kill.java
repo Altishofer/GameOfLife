@@ -1,6 +1,8 @@
 package GameState;
 
 
+import Board.ColorType;
+
 public class Kill implements GameState {
 
     Game game;
@@ -9,13 +11,15 @@ public class Kill implements GameState {
         game = newGame;
     }
     @Override
-    public void clickedExistingCell(int y, int x) {
+    public void clickedExistingCell(int y, int x, ColorType pColor) {
+        System.out.println(y);
+        System.out.println(x);
         game.killACell(y, x);
         game.setState(game.getRevive());
     }
 
     @Override
-    public void clickedEmptyCell(int y, int x) {
+    public void clickedEmptyCell(int y, int x, ColorType pColor) {
         System.out.println("NothingHappens: Cell already dead");
     }
 

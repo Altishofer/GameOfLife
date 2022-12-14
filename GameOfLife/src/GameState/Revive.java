@@ -1,5 +1,7 @@
 package GameState;
 
+import Board.ColorType;
+
 public class Revive implements GameState {
 
     Game game;
@@ -9,13 +11,13 @@ public class Revive implements GameState {
     }
 
     @Override
-    public void clickedExistingCell(int y, int x) {
+    public void clickedExistingCell(int y, int x, ColorType pColor) {
         System.out.println("NothingHappens: Cell already alive");
     }
 
     @Override
-    public void clickedEmptyCell(int y, int x) {
-        game.reviveACell(y, x);
+    public void clickedEmptyCell(int y, int x, ColorType pColor) {
+        game.reviveACell(y, x, pColor);
         game.setState(game.getKill());
         game.evolute();
     }

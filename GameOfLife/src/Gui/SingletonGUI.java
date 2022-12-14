@@ -43,7 +43,6 @@ public class SingletonGUI extends JFrame{
     private JPanel chart = getJpanel("Chart");
     private JPanel messages = getJpanel("Game Rules");
     private JPanel gameContainer;
-
     private Game game;
     private Grid aGrid;
 
@@ -125,10 +124,10 @@ public class SingletonGUI extends JFrame{
 
         if (!game.initOver()) {
             if (!aGrid.cellhasColor(y, x, currentPlayer.getPlayerColor())) {
-                game.clickedExistingCell(y, x);
+                game.clickedExistingCell(y, x, currentPlayer.getPlayerColor());
             }
             if (!aGrid.cellIsAlive(y, x)) {
-                game.clickedEmptyCell(y, x);
+                game.clickedEmptyCell(y, x, currentPlayer.getPlayerColor());
             }
         }
     }
@@ -172,6 +171,7 @@ public class SingletonGUI extends JFrame{
                     game = new Game(player1, player2, aGrid);
                     splitPaneChartBoard.setBottomComponent(getBoard());
                     // TODO: return player which is first if sorted alphabetically
+                    // TODO: currentPlayer = returnPlayerWHichIsFirstAphabetically();
                     currentPlayer = player1;
                     if (player1.compareTo(player2) == 1) {
                         currentPlayer = player2;
@@ -189,15 +189,14 @@ public class SingletonGUI extends JFrame{
 
     private void setMessage(String message){
         chartLabelMessage.setText(message);
-        //messages.
     }
 
     private int[] getButtonRowCol(JButton button) {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
                 if (button.equals(buttonArray[x][y])) {
-                    System.out.println(y);
-                    System.out.println(x);
+                    //System.out.println(y);
+                    //System.out.println(x);
                     return new int[]{x, y};
                 }
             }

@@ -1,5 +1,6 @@
 package GameState;
 
+import Board.ColorType;
 import GameState.GameState;
 import Board.Grid;
 import Board.Player;
@@ -27,35 +28,28 @@ public class Game implements GameState {
     public void mirrorCell(int y, int x){
         aGrid.mirrorCell(y, x, player1, player2);
     }
-
-    public void reviveACell(int y, int x){
-        aGrid.reviveACell(y, x);
+    public void reviveACell(int y, int x, ColorType pColor){
+        aGrid.reviveACell(y, x, pColor);
     }
-
     public void killACell(int y, int x){
         aGrid.killACell(y, x);
     }
-
     public void setState(GameState newState){
         gameState = newState;
     }
-
     public boolean initOver(){return gameState.initOver();}
-
     @Override
-    public void clickedExistingCell(int y, int x){
-        gameState.clickedExistingCell(y, x);
+    public void clickedExistingCell(int y, int x, ColorType pColor){
+        gameState.clickedExistingCell(y, x, pColor);
     }
-
     @Override
-    public void clickedEmptyCell(int y, int x){
-        gameState.clickedEmptyCell(y, x);
+    public void clickedEmptyCell(int y, int x, ColorType pColor){
+        gameState.clickedEmptyCell(y, x, pColor);
     }
 
     public GameState getInitialisation(){return initialisation;}
     public GameState getKill(){return kill;}
     public GameState getRevive(){return revive;}
-
     public void evolute(){
         aGrid.createNextGeneration();
     }
