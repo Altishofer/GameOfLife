@@ -7,6 +7,7 @@ import Utils.InputUtils;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
@@ -99,9 +100,8 @@ public class SingletonGUI extends JFrame {
         gameContainer = new JPanel(new GridLayout(0, size, 2, 2));
         board.add(gameContainer);
         ActionListener actionListener1 = s -> gameLogic(getButtonRowCol((JButton) s.getSource()));
-        ActionListener actionListener2 = y -> showGrid();
         for (int ii = 0; ii < size * size; ii++) {
-            JButton b = getButton(iconSize, actionListener1, actionListener2);
+            JButton b = getButton(iconSize, actionListener1);
             gameContainer.add(b);
             buttonArray[ii % size][ii / size] = b;
         }
@@ -116,10 +116,13 @@ public class SingletonGUI extends JFrame {
             if (!aGrid.cellIsAlive(y, x)) {
                 game.clickedEmptyCell(y, x, currentPlayer.getPlayerColor());
             }
+            setMessage("An Existing Cell Was Clicked!");
             if (!aGrid.cellhasColor(y, x, currentPlayer.getPlayerColor())) {
                 game.clickedExistingCell(y, x, currentPlayer.getPlayerColor());
+                setMessage("An Empty Cell Was Clicked.");
             }
         }
+        showGrid();
     }
 
     private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType colourP1, ColorType colourP2) {
@@ -169,7 +172,7 @@ public class SingletonGUI extends JFrame {
         blueButton2.setBackground(player2.getPlayerColor().toColor());
         player1.setPlayerName(textField1.getText());
         player1.setPlayerName(textField2.getText());
-        aGrid = new Grid(size);
+        aGrid = new Grid(size, player1, player2);
         game = new Game(player1, player2, aGrid);
         splitPaneChartBoard.setBottomComponent(getBoard());
         currentPlayer = player1;
@@ -193,7 +196,7 @@ public class SingletonGUI extends JFrame {
         return new int[]{0, 0};
     }
 
-    public JButton getButton(int iconSize, ActionListener actionListener1, ActionListener actionListener2) {
+    public JButton getButton(int iconSize, ActionListener actionListener1) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
@@ -201,7 +204,6 @@ public class SingletonGUI extends JFrame {
         button.setContentAreaFilled(false);
         button.setOpaque(true);
         button.addActionListener(actionListener1);
-        button.addActionListener(actionListener2);
         return button;
     }
 
@@ -222,11 +224,12 @@ public class SingletonGUI extends JFrame {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 Color tmp = aGrid.aGrid[i][j].getColor().toColor();
+                final int z = i;
+                final int c = j;
                 buttonArray[i][j].setContentAreaFilled(false);
                 buttonArray[i][j].setOpaque(true);
                 buttonArray[i][j].setBackground(tmp);
                 buttonArray[i][j].repaint();
-                //SwingUtilities.invokeLater(() -> buttonArray[i][0].setBackground(tmp));
             }
         }
     }
