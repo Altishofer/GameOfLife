@@ -8,15 +8,16 @@ import Gui.SingletonGUI;
 import javax.swing.*;
 
 public class Game implements GameState {
-    private GameState aInitialisation;
-    private GameState aKill;
-    private GameState aRevive;
+    private final GameState aInitialisation;
+    private final GameState aKill;
+    private final GameState aRevive;
     private GameState aGameState;
     private final Player aPlayer1;
     private final Player aPlayer2;
-    private Grid aGrid;
     private boolean bothHavePlayed;
     private SingletonGUI aGui;
+    private final Grid aGrid;
+
 
     public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui){
         bothHavePlayed = false;
@@ -28,7 +29,7 @@ public class Game implements GameState {
         aKill = new Kill(this);
         aRevive = new Revive(this);
         aGameState = aInitialisation;
-        Runnable r = () -> SingletonGUI.getInstance();
+        Runnable r = SingletonGUI::getInstance;
         SwingUtilities.invokeLater(r);
     }
 
