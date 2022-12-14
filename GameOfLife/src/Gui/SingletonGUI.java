@@ -123,6 +123,22 @@ public class SingletonGUI extends JFrame {
             }
         }
         showGrid();
+        checkIfLost();
+    }
+
+    private void checkIfLost(){
+        if (player1.getCellCnt() == 0 && player2.getCellCnt() == 0){
+            disableAll();
+            setMessage("Both player have lost the game -> TIE");
+        }
+        if (player1.getCellCnt() == 0){
+            disableAll();
+            setMessage("Player " + player1.getPlayerName() + "has lost! -> " + player2.getPlayerName());
+        }
+        if (player2.getCellCnt() == 0){
+            disableAll();
+            setMessage("Player " + player2.getPlayerName() + "has lost! -> " + player1.getPlayerName());
+        }
     }
 
     private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType colourP1, ColorType colourP2) {
