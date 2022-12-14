@@ -144,17 +144,21 @@ public class SingletonGUI extends JFrame {
 
     private void disableAll() {
         if (textField1.getText().isBlank() || textField2.getText().isBlank() || textField3.getText().isBlank()) {
-            setMessage("Please fill in your usernames.");
+            setMessage("Please do not leave a field blank.");
             return;
         }
         int cleanUpText3;
         try {
             cleanUpText3 = Integer.parseInt(InputUtils.cleanUpString(textField3.getText()));
         } catch (NumberFormatException e) {
-            setMessage("Please select a valid resolution type. Only even numbers are allowed.");
+            setMessage("Please fill in a Integer. Only even numbers are allowed.");
             return;
         }
-        if (cleanUpText3 % 2 != 0 && cleanUpText3 == 0 && player1.getPlayerColor() == null) {
+        if (cleanUpText3 % 2 != 0 || cleanUpText3 == 0 || cleanUpText3<10 || cleanUpText3>20) {
+            setMessage("Please select a even Integer between 10 and 20.");
+            return;
+        }
+        if(player1.getPlayerColor() == null || player2.getPlayerColor() == null){
             setMessage("Please select a color for the players.");
             return;
         }
