@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class SingletonGUI extends JFrame{
+public class SingletonGUI extends JFrame {
     public static SingletonGUI INSTANCE;
     private int size;
     private int iconSize = 10;
@@ -35,6 +35,7 @@ public class SingletonGUI extends JFrame{
     private JPanel gameContainer;
     private Game game;
     private Grid aGrid;
+
 
     private SingletonGUI() {
 
@@ -131,18 +132,18 @@ public class SingletonGUI extends JFrame{
     }
 
     private void disableAll() {
-        if(textField1.getText().isBlank() || textField2.getText().isBlank() || textField3.getText().isBlank()) {
+        if (textField1.getText().isBlank() || textField2.getText().isBlank() || textField3.getText().isBlank()) {
             setMessage("Please fill in your usernames.");
             return;
         }
         int cleanUpText3;
-        try{
+        try {
             cleanUpText3 = Integer.parseInt(InputUtils.cleanUpString(textField3.getText()));
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             setMessage("Please select a valid resolution type. Only even numbers are allowed.");
             return;
         }
-        if(cleanUpText3 % 2 != 0 && cleanUpText3 == 0 && player1.getPlayerColor() == null) {
+        if (cleanUpText3 % 2 != 0 && cleanUpText3 == 0 && player1.getPlayerColor() == null) {
             setMessage("Please select a color for the players.");
             return;
         }
@@ -169,7 +170,7 @@ public class SingletonGUI extends JFrame{
         }
     }
 
-    private void setMessage(String message){
+    private void setMessage(String message) {
         chartLabelMessage.setText(message);
     }
 
@@ -181,7 +182,7 @@ public class SingletonGUI extends JFrame{
                 }
             }
         }
-        return new int[]{0,0};
+        return new int[]{0, 0};
     }
 
     public JButton getButton(int iconSize, ActionListener actionListener1, ActionListener actionListener2) {
@@ -216,6 +217,8 @@ public class SingletonGUI extends JFrame{
                 buttonArray[i][j].setContentAreaFilled(false);
                 buttonArray[i][j].setOpaque(true);
                 buttonArray[i][j].setBackground(tmp);
+                buttonArray[i][j].repaint();
+                //SwingUtilities.invokeLater(() -> buttonArray[i][0].setBackground(tmp));
             }
         }
     }
