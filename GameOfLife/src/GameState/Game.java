@@ -1,5 +1,6 @@
 package GameState;
 
+import Board.ColorType;
 import GameState.GameState;
 import Board.Grid;
 import Board.Player;
@@ -28,8 +29,8 @@ public class Game implements GameState {
         aGrid.mirrorCell(y, x, player1, player2);
     }
 
-    public void reviveACell(int y, int x){
-        aGrid.reviveACell(y, x);
+    public void reviveACell(int y, int x, ColorType pColor){
+        aGrid.reviveACell(y, x, pColor);
     }
 
     public void killACell(int y, int x){
