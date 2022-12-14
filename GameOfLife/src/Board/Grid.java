@@ -1,11 +1,18 @@
 package Board;
 
+import Board.Cell;
+import Board.ColorType;
+import Utils.InputUtils;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Grid {
 
     private final int aDimension;
-    // TODO: mirrorGrid(), make mirroring on the flow: Pädi
-    public final Cell[][] aGrid;
-    private final Cell[][] aNextGrid;
+    public Cell[][] aGrid;
+    private Cell[][] aNextGrid;
 
     private final Player aPlayer1;
 
@@ -26,6 +33,13 @@ public class Grid {
             throw new IllegalArgumentException("Please select a valid cell!");
         }
         cell.kill();
+    }
+
+    public void reviveACell(Cell pCell, ColorType pColor){
+        if(pCell.isAlive()){
+            throw new IllegalArgumentException("Please select a dead cell!");
+        }
+        pCell.revive(pColor);
     }
 
     public void mirrorCell(int yCoor, int xCoor, Player placingPlayer, Player waitingPlayer){
@@ -53,8 +67,6 @@ public class Grid {
         aGrid[y][x].revive(pColor);
     }
 
-    // TODO: Try less branches
-    // TODO: # of alive Cells from a specific player is not done yet
     public void createNextGeneration(){
         for(int i = 0; i < aDimension;i++) {
             for (int j = 0; j < aDimension;j++) {

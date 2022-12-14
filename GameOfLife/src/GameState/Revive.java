@@ -4,10 +4,10 @@ import Board.ColorType;
 
 public class Revive implements GameState {
 
-    Game game;
+    Game aGame;
 
     public Revive(Game newGame){
-        game = newGame;
+        aGame = newGame;
     }
 
     @Override
@@ -17,9 +17,9 @@ public class Revive implements GameState {
 
     @Override
     public void clickedEmptyCell(int y, int x, ColorType pColor) {
-        game.reviveACell(y, x, pColor);
-        game.setState(game.getKill());
-        game.evolute();
+        aGame.reviveACell(y, x, pColor);
+        aGame.setState(aGame.getKill());
+        aGame.evolute();
     }
 
     @Override

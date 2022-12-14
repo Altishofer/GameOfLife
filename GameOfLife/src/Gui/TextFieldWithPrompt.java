@@ -5,14 +5,14 @@ import java.awt.*;
 
 public class TextFieldWithPrompt extends JTextField {
 
-    private final String placeholder;
-    private final int placeHolderPosX;
-    private final int placeHolderPosY;
+    private String aPlaceholder;
+    private int aPlaceHolderPosX;
+    private int aPlaceHolderPosY;
 
     public TextFieldWithPrompt(String pPlaceholder, int pPlaceHolderPosX, int pPlaceHolderPosY) {
-        placeholder = pPlaceholder;
-        placeHolderPosX = pPlaceHolderPosX;
-        placeHolderPosY = pPlaceHolderPosY;
+        aPlaceholder = pPlaceholder;
+        aPlaceHolderPosX = pPlaceHolderPosX;
+        aPlaceHolderPosY = pPlaceHolderPosY;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class TextFieldWithPrompt extends JTextField {
 
         if (getText().isEmpty() && !(FocusManager.getCurrentKeyboardFocusManager().getFocusOwner() == this)) {
             Graphics2D g2 = (Graphics2D) g.create();
-            g2.drawString(placeholder, placeHolderPosX, placeHolderPosY); //figure out x, y from font's FontMetrics and size of component.
+            g2.drawString(aPlaceholder, aPlaceHolderPosX, aPlaceHolderPosY); //figure out x, y from font's FontMetrics and size of component.
             g2.dispose();
         }
     }
