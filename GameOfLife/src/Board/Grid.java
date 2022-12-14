@@ -55,19 +55,15 @@ public class Grid {
     public void createNextGeneration(){
         for(int i = 0; i < aDimension;i++) {
             for (int j = 0; j < aDimension;j++) {
-                if(i == 0|| i == aDimension-1 || j == 0 || j == aDimension-1){
-                    aNextGrid[i][j].passData(aGrid[i][j]);
-                } else {
-                    int numberOfNeighbors = countNeighbors(i, j);
+                int numberOfNeighbors = countNeighbours(i, j);
 
-                    if (!aGrid[i][j].isAlive() && numberOfNeighbors == 3) {
-                        ColorType dominator = getDominantColor(i, j);
-                        aNextGrid[i][j].revive(dominator);
-                    } else if (aGrid[i][j].isAlive() && (numberOfNeighbors < 2 || numberOfNeighbors > 3)) {
-                        aNextGrid[i][j].kill();
-                    } else {
-                        aNextGrid[i][j].passData(aGrid[i][j]);
-                    }
+                if (!aGrid[i][j].isAlive() && numberOfNeighbors == 3) {
+                    ColorType dominator = getDominantColor(i, j);
+                    aNextGrid[i][j].revive(dominator);
+                } else if (aGrid[i][j].isAlive() && (numberOfNeighbors < 2 || numberOfNeighbors > 3)) {
+                    aNextGrid[i][j].kill();
+                } else {
+                    aNextGrid[i][j].passData(aGrid[i][j]);
                 }
             }
         }
@@ -85,38 +81,30 @@ public class Grid {
         }
     }
 
-    private int countNeighbors(int x, int y){
-        int numberOfNeighbors = 0;
-
-        for(int i = -1; i<2;i++) {
-            for (int j = -1; j < 2; j++) {
-                int col = (x+i) % aDimension;
-                int row = (y+j) % aDimension;
-
-                if(col != 0 && row != 0 && aGrid[col][row].isAlive()){
-                    numberOfNeighbors++;
+    public int countNeighbours(int x, int y) {
+        int cnt = 0;
+        for (int row = x - 1; row <= x + 1; row++) {
+            for (int col = y - 1; col <= y + 1; col++) {
+                if ((row == x && col == y) || (row < 0 || row > aDimension - 1) || (col < 0 || col > aDimension - 1)) {
+                } else if (aGrid[row][col].isAlive()) {
+                    cnt++;
                 }
             }
         }
-        if(aGrid[x][y].isAlive()){
-            numberOfNeighbors--;
-        }
-        return numberOfNeighbors;
+        return cnt;
     }
+
 
     private ColorType getDominantColor(int x, int y){
         int cntBlue = 0;
         int cntRed = 0;
 
-        for(int i = -1; i < 2;i++) {
-            for (int j = -1; j < 2; j++) {
-                int col = (x+i) % aDimension;
-                int row = (y+j) % aDimension;
-
-                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.BLUE && aGrid[col][row].isAlive()){
+        for (int row = x - 1; row <= x + 1; row++) {
+            for (int col = y - 1; col <= y + 1; col++) {
+                if ((row == x && col == y) || (row < 0 || row > aDimension - 1) || (col < 0 || col > aDimension - 1)) {
+                } else if (aGrid[row][col].getColor() == ColorType.BLUE && aGrid[row][col].isAlive()) {
                     cntBlue++;
-                }
-                if(i!=0 && j != 0 && aGrid[col][row].getColor() == ColorType.RED && aGrid[col][row].isAlive()){
+                } else if (aGrid[row][col].getColor() == ColorType.RED && aGrid[row][col].isAlive()) {
                     cntRed++;
                 }
             }
@@ -127,6 +115,7 @@ public class Grid {
         }
         return ColorType.BLUE;
     }
+
 
     private void initGrids(){
         for(int i = 0; i<aDimension;i++){
