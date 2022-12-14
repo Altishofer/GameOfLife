@@ -28,7 +28,6 @@ public class Cell {
         aColor = ColorType.WHITE;
     }
 
-
     public void revive(ColorType pColor){
         aIsAlive = true;
         aColor = pColor;

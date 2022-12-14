@@ -28,6 +28,7 @@ public class Game implements GameState {
     public void mirrorCell(int y, int x){
         aGrid.mirrorCell(y, x, player1, player2);
     }
+
     public void reviveACell(int y, int x, ColorType pColor){
         aGrid.reviveACell(y, x, pColor);
     }

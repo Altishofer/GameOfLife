@@ -58,8 +58,12 @@ public class Grid {
         aGrid[y][x].revive(pColor);
     }
 
+
     public void reviveACell(int y, int x, ColorType pColor){
-        reviveACell(new int[]{y, x}, pColor);
+        if(aGrid[y][x].isAlive()){
+            throw new IllegalArgumentException("Please select a dead cell!");
+        }
+        aGrid[y][x].revive(pColor);
     }
 
     // TODO: Try less branches
@@ -203,6 +207,5 @@ public class Grid {
     public boolean cellhasColor(int y, int x, ColorType color){
         return aGrid[y][x].getColor().equals(color);
     }
-
 }
 
