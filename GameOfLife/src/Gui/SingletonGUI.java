@@ -1,8 +1,7 @@
 package Gui;
 
-import Board.ColorType;
-import Board.Grid;
-import Board.Player;
+import Board.*;
+import GameState.*;
 import Utils.InputUtils;
 
 import javax.swing.*;
@@ -11,30 +10,28 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class SingletonGUI {
+public class SingletonGUI extends JFrame{
 
-    // TODO: Panel which tells user what to do
-    // TODO: Make confirm button setEnabled(false) if input is not valid -> Cedi
-    // TODO: make ButtonGrid after user has klicked submit but have placeholder in frame
-    // TODO: have placeholder in JTextFileds -> Adrian
-    // TODO: make overall game logic
+    // TODO: make overall game logic -> Cedi
 
-    JPanel board;
     public static SingletonGUI INSTANCE;
     private int size;
     private int iconSize = 10;
     private JButton[][] buttonArray;
     private JLabel output = new JLabel("Click somewhere on the GUI");
-    JTextField textField1 = new JTextField("Player_1");
-    JTextField textField2 = new JTextField("Player_2");
-    JTextField textField3 = new JTextField("10");
+
+    Player currentPlayer;
+    TextFieldWithPrompt textField1 = new TextFieldWithPrompt("Player_1", 8, 18);
+    TextFieldWithPrompt textField2 = new TextFieldWithPrompt("Player_2", 8, 18);
+    TextFieldWithPrompt textField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 27);
+
     JButton confirmButton = new JButton("Confirm");
     JButton redButton1 = GuiUtils.getButton(iconSize, ColorType.RED.toColor());
     JButton redButton2 = GuiUtils.getButton(iconSize, ColorType.RED.toColor());
     JButton blueButton1 = GuiUtils.getButton(iconSize, ColorType.BLUE.toColor());
     JButton blueButton2 = GuiUtils.getButton(iconSize, ColorType.BLUE.toColor());
-    String playerName1 = new String();
-    String playerName2 = new String();
+    String playerName1 = "";
+    String playerName2 = "";
     ColorType playerColor1;
     ColorType playerColor2;
     Player player1;
@@ -47,6 +44,7 @@ public class SingletonGUI {
     private JPanel messages = getJpanel("Game Rules");
     private JPanel gameContainer;
 
+    private Game game;
     private Grid aGrid;
 
     private SingletonGUI() {
@@ -56,6 +54,10 @@ public class SingletonGUI {
             playerName2 = textField2.getText().toString();
             size = Integer.parseInt(textField3.getText().toString());
             disableAll();
+            messages.revalidate();
+            messages.repaint();
+            chartLabelMessage.revalidate();
+            chartLabelMessage.revalidate();
         });
 
         redButton1.addActionListener(e -> action(ColorType.RED, ColorType.GREY, ColorType.GREY, ColorType.BLUE, ColorType.RED, ColorType.BLUE));
@@ -77,7 +79,17 @@ public class SingletonGUI {
         JSplitPane splitPaneConfirmResolution = GuiUtils.getSplitPaneHorizontal(400, 30, 200, textField3, confirmButton);
         JSplitPane splitPaneButtonText = GuiUtils.getSplitPaneVertical(400, 90, 60, splitPaneTextFields, splitPaneConfirmResolution);
         JSplitPane splitPaneBoardFields = GuiUtils.getSplitPaneVertical(400, 700, 450, splitPaneChartBoard, splitPaneButtonText);
-        getMainFrame(splitPaneBoardFields);
+
+        setName("Game Of Life");
+        setPreferredSize(new Dimension(400, 600));
+        getContentPane().setLayout(new GridLayout());
+        add(splitPaneBoardFields);
+        pack();
+        setSize(400, 600);
+        setResizable(false);
+        setLocationByPlatform(true);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setVisible(true);
     }
 
     public static synchronized SingletonGUI getInstance() {
@@ -94,34 +106,49 @@ public class SingletonGUI {
         board.add(output, BorderLayout.PAGE_END);
         gameContainer = new JPanel(new GridLayout(0, size, 2, 2));
         board.add(gameContainer);
-        ActionListener actionListener = e -> output.setText(getButtonRowCol((JButton) e.getSource()));
-        ActionListener actionListener1 = s -> aGrid.reviveACell(getButtonRowCol((JButton)s.getSource()), ColorType.WHITE);
+        ActionListener actionListenerGameLogic = g -> System.out.print("");
+        //ActionListener actionListenerGameLogic = g -> gameLogic2(getButtonRowCol((JButton) g.getSource()));
+        ActionListener actionListener1 = s -> gameLogic(getButtonRowCol((JButton) s.getSource()));
         ActionListener actionListener2 = y -> showGrid();
         for (int ii = 0; ii < size * size; ii++) {
-            JButton b = getButton(iconSize, actionListener, actionListener1, actionListener2);
+            JButton b = getButton(iconSize, actionListener1, actionListener2, actionListenerGameLogic);
             gameContainer.add(b);
             buttonArray[ii % size][ii / size] = b;
         }
         return board;
     }
 
-    private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType player1, ColorType player2) {
+
+    private void gameLogic(int[] buttonRowCol) {
+        int y = buttonRowCol[0];
+        int x = buttonRowCol[1];
+
+        if (!game.initOver()) {
+            if (!aGrid.cellhasColor(y, x, currentPlayer.getPlayerColor())) {
+                game.clickedExistingCell(y, x);
+            }
+            if (!aGrid.cellIsAlive(y, x)) {
+                game.clickedEmptyCell(y, x);
+            }
+        }
+    }
+
+    private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType colourP1, ColorType colourP2) {
         redButton1.setBackground(red1.toColor());
         redButton2.setBackground(red2.toColor());
         blueButton1.setBackground(blue1.toColor());
         blueButton2.setBackground(blue2.toColor());
-        playerColor1 = player1;
-        playerColor2 = player2;
+        playerColor1 = colourP1;
+        playerColor2 = colourP2;
     }
 
     private void disableAll() {
-
-        if(!textField1.getText().isBlank()&& !textField2.getText().isBlank() && !textField3.getText().isBlank()){
+        if(!textField1.getText().isBlank() && !textField2.getText().isBlank() && !textField3.getText().isBlank()){
             int cleanUpText3 = 0;
             try{
                 cleanUpText3 = Integer.parseInt(InputUtils.cleanUpString(textField3.getText()));
             }catch (NumberFormatException e){
-                System.out.println("Please select a resolution type.");
+                setMessage("Please select a resolution type.");
             }
             if(cleanUpText3 % 2 == 0 && cleanUpText3 != 0){
                 if(playerColor1 != null){
@@ -142,36 +169,40 @@ public class SingletonGUI {
                     player2 = new Player(playerName2, playerColor2, 20, false);
                     setStats(false);
                     aGrid = new Grid(size);
+                    game = new Game(player1, player2, aGrid);
                     splitPaneChartBoard.setBottomComponent(getBoard());
+                    // TODO: return player which is first if sorted alphabetically
+                    currentPlayer = player1;
+                    if (player1.compareTo(player2) == 1) {
+                        currentPlayer = player2;
+                    }
                 } else {
-                    System.out.println("Please select a color for the players.");
+                    setMessage("Please select a color for the players.");
                 }
             } else {
-                System.out.println("Please select a valid resolution type. Only even numbers are allowed.");
+                setMessage("Please select a valid resolution type. Only even numbers are allowed.");
             }
         } else {
-            System.out.println("Please fill in your usernames.");
+            setMessage("Please fill in your usernames.");
         }
     }
 
     private void setMessage(String message){
         chartLabelMessage.setText(message);
+        //messages.
     }
 
-    private String getButtonRowCol(JButton button) {
-        StringBuilder sb = new StringBuilder();
-        for (int xx = 0; xx < size; xx++) {
-            for (int yy = 0; yy < size; yy++) {
-                if (button.equals(buttonArray[xx][yy])) {
-                    sb.append("User selected button at: ");
-                    sb.append(xx);
-                    sb.append(",");
-                    sb.append(yy);
-                    break;
+    private int[] getButtonRowCol(JButton button) {
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                if (button.equals(buttonArray[x][y])) {
+                    System.out.println(y);
+                    System.out.println(x);
+                    return new int[]{x, y};
                 }
             }
         }
-        return sb.toString();
+        return new int[]{0,0};
     }
 
     public static JFrame getMainFrame(JSplitPane splitPane) {
@@ -188,16 +219,17 @@ public class SingletonGUI {
         return frame;
     }
 
-    public JButton getButton(int iconSize, ActionListener actionListener, ActionListener actionListener1, ActionListener actionListener2) {
+
+    public JButton getButton(int iconSize, ActionListener actionListener1, ActionListener actionListener2, ActionListener actionListener3) {
         JButton button = new JButton();
         button.setIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB)));
         button.setRolloverIcon(new ImageIcon(new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_RGB)));
         button.setMargin(new Insets(0, 0, 0, 0));
         button.setContentAreaFilled(false);
         button.setOpaque(true);
-        button.addActionListener(actionListener);
         button.addActionListener(actionListener1);
         button.addActionListener(actionListener2);
+        button.addActionListener(actionListener3);
         return button;
     }
 

@@ -10,11 +10,10 @@ import java.util.Arrays;
 
 public class Grid {
 
+    private final int aDimension;
     // TODO: mirrorGrid(), make mirroring on the flow: Pädi
     public Cell[][] aGrid;
     private Cell[][] aNextGrid;
-
-    private final int aDimension;
 
     public Grid(int pDimension){
         aDimension = pDimension;
@@ -31,18 +30,20 @@ public class Grid {
         pCell.kill();
     }
 
-    public void reviveACell(Cell pCell, ColorType playerColor){
+    public void killACell(int y, int x){killACell(aGrid[y][x]);}
+
+    public void reviveACell(Cell pCell){
         if(pCell.isAlive()){
             throw new IllegalArgumentException("Please select a dead cell!");
         }
-        pCell.revive(playerColor);
+        pCell.revive();
     }
 
     public void mirrorCell(int yCoor, int xCoor, Player placingPlayer, Player waitingPlayer){
-        reviveACell(yCoor, xCoor, placingPlayer.getPlayerColor());
+        reviveACell(yCoor, xCoor);
         aGrid[yCoor][xCoor].setColor(placingPlayer.getPlayerColor());
-        reviveACell(yCoor, aDimension - xCoor, waitingPlayer.getPlayerColor());
-        aGrid[yCoor][aDimension - xCoor].setColor(waitingPlayer.getPlayerColor());
+        reviveACell(yCoor, aDimension - xCoor-1);
+        aGrid[yCoor][aDimension - xCoor-1].setColor(waitingPlayer.getPlayerColor());
     }
 
     private int[] convert(String string){
@@ -52,22 +53,20 @@ public class Grid {
         return new int[]{y, x};
     }
 
-    public void reviveACell(String yx, ColorType playerColor){
-        int[] coor = convert(InputUtils.cleanUpString(yx));
-
+    public void reviveACell(int[] coor){
         int y = coor[0];
         int x = coor[1];
         if(aGrid[y][x].isAlive()){
             throw new IllegalArgumentException("Please select a dead cell!");
         }
-        aGrid[y][x].revive(playerColor);
+        aGrid[y][x].revive();
     }
 
-    public void reviveACell(int yCoor, int xCoor, ColorType playerColor){
+    public void reviveACell(int yCoor, int xCoor){
         if(aGrid[yCoor][xCoor].isAlive()){
             throw new IllegalArgumentException("Please select a dead cell!");
         }
-        aGrid[yCoor][xCoor].revive(playerColor);
+        aGrid[yCoor][xCoor].revive();
     }
 
 
@@ -82,8 +81,8 @@ public class Grid {
                     int numberOfNeighbors = countNeighbors(i, j);
 
                     if (!aGrid[i][j].isAlive() && numberOfNeighbors == 3) {
+                        aNextGrid[i][j].revive();
                         ColorType dominator = getDominantColor(i, j);
-                        aNextGrid[i][j].revive(dominator);
                         aNextGrid[i][j].setColor(dominator);
                     } else if (aGrid[i][j].isAlive() && (numberOfNeighbors < 2 || numberOfNeighbors > 3)) {
                         aNextGrid[i][j].kill();
@@ -159,7 +158,6 @@ public class Grid {
 
     // TODO: only for debugging
     private void printGrid(){
-
         for(int i = 0; i<aDimension;i++) {
             System.out.print("|");
             for (int j = 0; j < aDimension; j++) {
@@ -181,7 +179,7 @@ public class Grid {
         if(aGrid[x][y].isAlive()){
             throw new IllegalArgumentException("Cell is already alive");
         }
-        aGrid[x][y].revive(ColorType.WHITE);
+        aGrid[x][y].revive();
         aGrid[x][y].setColor(pColor);
     }
 
@@ -199,14 +197,21 @@ public class Grid {
         myGrid.setupGrid(7,1,ColorType.RED);
         myGrid.setupGrid(8,1,ColorType.RED);
 
+        myGrid.printGrid();
+        myGrid.createNextGeneration();
+        System.out.println();
+        myGrid.printGrid();
+        myGrid.createNextGeneration();
+        System.out.println();
+        myGrid.printGrid();
+    }
 
-        myGrid.printGrid();
-        myGrid.createNextGeneration();
-        System.out.println();
-        myGrid.printGrid();
-        myGrid.createNextGeneration();
-        System.out.println();
-        myGrid.printGrid();
+    public boolean cellIsAlive(int y, int x){
+        return aGrid[y][x].isAlive();
+    }
+
+    public boolean cellhasColor(int y, int x, ColorType color){
+        return aGrid[y][x].getColor().equals(color);
     }
 
 }
