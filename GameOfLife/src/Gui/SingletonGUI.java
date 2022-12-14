@@ -7,6 +7,7 @@ import Utils.InputUtils;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
@@ -131,6 +132,14 @@ public class SingletonGUI extends JFrame {
         blueButton2.setBackground(blue2.toColor());
         player1.setPlayerColor(colourP1);
         player2.setPlayerColor(colourP2);
+    }
+
+    private void disableAllFinished(){
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                buttonArray[row][col].setEnabled(false);
+            }
+        }
     }
 
     private void disableAll() {

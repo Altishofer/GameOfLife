@@ -15,10 +15,21 @@ public class Grid {
     public Cell[][] aGrid;
     private Cell[][] aNextGrid;
 
-    public Grid(int pDimension){
+    private final Player aPlayer1;
+
+    private final Player aPlayer2;
+
+    public int aNumOfCellPlayer1;
+    public int aNumOfCellPlayer2;
+
+    public Grid(int pDimension, Player pPlayer1, Player pPlayer2){
         aDimension = pDimension;
         aGrid = new Cell[aDimension][aDimension];
         aNextGrid = new Cell[aDimension][aDimension];
+        aPlayer1 = pPlayer1;
+        aPlayer2 = pPlayer2;
+        aNumOfCellPlayer1 = 0;
+        aNumOfCellPlayer2 = 0;
         this.initGrids();
     }
 
@@ -84,6 +95,8 @@ public class Grid {
             }
         }
         this.makeGridsSame();
+        int aNumOfCellPlayer1 = getCellCount(aPlayer1.getPlayerColor());
+        int aNumOfCellPlayer2 = getCellCount(aPlayer2.getPlayerColor());
     }
 
     private void makeGridsSame(){
@@ -174,7 +187,7 @@ public class Grid {
     }
 
     public static void main(String[] args) {
-        Grid myGrid = new Grid(10);
+        Grid myGrid = new Grid(10, new Player(),new Player());
         myGrid.setupGrid(1,1,ColorType.RED);
         myGrid.setupGrid(2,1,ColorType.RED);
         myGrid.setupGrid(1,2,ColorType.RED);
