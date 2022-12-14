@@ -62,9 +62,11 @@ public class SingletonGUI extends JFrame {
         chart.add(chartLabelP1);
         chart.add(chartLabelP2);
         messages.add(chartLabelMessage);
+        setMessage("This is the message field for the rules");
+        chartLabelP1.setText("This is the score board");
 
-        JSplitPane SplitPaneMessagesChars = GuiUtils.getSplitPaneVertical(400, 60, 30, chart, messages);
-        splitPaneChartBoard = GuiUtils.getSplitPaneVertical(400, 450, 60, SplitPaneMessagesChars, new JPanel());
+        JSplitPane SplitPaneMessagesChars = GuiUtils.getSplitPaneVertical(400, 100, 50, chart, messages);
+        splitPaneChartBoard = GuiUtils.getSplitPaneVertical(400, 400, 100, SplitPaneMessagesChars, new JPanel());
         JSplitPane colorDual1 = GuiUtils.getSplitPaneHorizontal(400, 30, 100, redButton1, blueButton1);
         JSplitPane colorDual2 = GuiUtils.getSplitPaneHorizontal(400, 30, 100, redButton2, blueButton2);
         JSplitPane splitPaneTextFieldsColor1 = GuiUtils.getSplitPaneVertical(400, 60, 30, textField1, colorDual1);
@@ -72,14 +74,14 @@ public class SingletonGUI extends JFrame {
         JSplitPane splitPaneTextFields = GuiUtils.getSplitPaneHorizontal(400, 60, 200, splitPaneTextFieldsColor1, splitPaneTextFieldsColor2);
         JSplitPane splitPaneConfirmResolution = GuiUtils.getSplitPaneHorizontal(400, 30, 200, textField3, confirmButton);
         JSplitPane splitPaneButtonText = GuiUtils.getSplitPaneVertical(400, 90, 60, splitPaneTextFields, splitPaneConfirmResolution);
-        JSplitPane splitPaneBoardFields = GuiUtils.getSplitPaneVertical(400, 700, 450, splitPaneChartBoard, splitPaneButtonText);
+        JSplitPane splitPaneBoardFields = GuiUtils.getSplitPaneVertical(400, 650, 500, splitPaneChartBoard, splitPaneButtonText);
 
         setName("Game Of Life");
-        setPreferredSize(new Dimension(400, 600));
+        setPreferredSize(new Dimension(400, 650));
         getContentPane().setLayout(new GridLayout());
         add(splitPaneBoardFields);
         pack();
-        setSize(400, 600);
+        setSize(400, 650);
         setResizable(false);
         setLocationByPlatform(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -232,7 +234,7 @@ public class SingletonGUI extends JFrame {
         panel.setBorder(BorderFactory.createTitledBorder(title));
         return panel;
     }
-    
+
     public void switchCurrentPlayer(){
         if (player1.equals(currentPlayer)) {
             currentPlayer = player2;
