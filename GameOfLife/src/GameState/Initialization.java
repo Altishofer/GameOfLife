@@ -4,12 +4,12 @@ import Board.ColorType;
 
 public class Initialization implements GameState {
 
-    private int clickCount;
-    Game game;
+    private int aClickCount;
+    Game aGame;
     public static final int MAX_INITIALIZATION = 5;
 
     public Initialization(Game newGame){
-        game = newGame;
+        aGame = newGame;
     }
 
     @Override
@@ -19,15 +19,15 @@ public class Initialization implements GameState {
 
     @Override
     public void clickedEmptyCell(int y, int x, ColorType pColor) {
-        game.mirrorCell(y, x);
-        clickCount++;
+        aGame.mirrorCell(y, x);
+        aClickCount++;
         if(initOver()){
-            game.setState(game.getKill());
+            aGame.setState(aGame.getKill());
         }
     }
 
     @Override
     public boolean initOver() {
-        return clickCount >= MAX_INITIALIZATION;
+        return aClickCount >= MAX_INITIALIZATION;
     }
 }
