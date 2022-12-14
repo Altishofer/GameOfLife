@@ -111,6 +111,7 @@ public class SingletonGUI extends JFrame{
     private void gameLogic(int[] buttonRowCol) {
         int y = buttonRowCol[0];
         int x = buttonRowCol[1];
+        setStats();
         if (!game.initOver()) {
             if (!aGrid.cellIsAlive(y, x)) {
                 game.clickedEmptyCell(y, x, currentPlayer.getPlayerColor());
@@ -157,7 +158,7 @@ public class SingletonGUI extends JFrame{
         redButton1.setBackground(player1.getPlayerColor().toColor());
         blueButton1.setBackground(player1.getPlayerColor().toColor());
         redButton2.setBackground(player2.getPlayerColor().toColor());
-        blueButton2.setBackground(player1.getPlayerColor().toColor());
+        blueButton2.setBackground(player2.getPlayerColor().toColor());
         player1.setPlayerName(textField1.getText());
         player1.setPlayerName(textField2.getText());
         aGrid = new Grid(size);
@@ -206,8 +207,7 @@ public class SingletonGUI extends JFrame{
     }
 
     public void setStats() {
-        chartLabelP1.setText(player1.getPlayerName() + ": " + player1.getCellCnt() + " Cells       \n");
-        chartLabelP2.setText("       " + player2.getPlayerName() + ": " + player2.getCellCnt() + " Cells\n");
+        chartLabelP1.setText(player1.getPlayerName() + ": " + player1.getCellCnt() + " Cells\t\t" + player2.getPlayerName() + " : " + player2.getCellCnt() + " Cells");
     }
 
     private void showGrid() {
