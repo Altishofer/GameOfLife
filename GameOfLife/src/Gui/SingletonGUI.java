@@ -7,14 +7,13 @@ import Utils.InputUtils;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class SingletonGUI extends JFrame {
     public static SingletonGUI INSTANCE;
     private int size;
-    private int iconSize = 10;
+    private final int iconSize = 10;
     private JButton[][] buttonArray;
     Player currentPlayer;
     TextFieldWithPrompt textField1 = new TextFieldWithPrompt("Player_1", 8, 18);
@@ -28,11 +27,11 @@ public class SingletonGUI extends JFrame {
     Player player1;
     Player player2;
     JSplitPane splitPaneChartBoard;
-    private JLabel chartLabelP1 = new JLabel();
-    private JLabel chartLabelP2 = new JLabel();
-    private JLabel chartLabelMessage = new JLabel();
-    private JPanel chart = getJpanel("Chart");
-    private JPanel messages = getJpanel("Game Rules");
+    private final JLabel chartLabelP1 = new JLabel();
+    private final JLabel chartLabelP2 = new JLabel();
+    private final JLabel chartLabelMessage = new JLabel();
+    private final JPanel chart = getJpanel("Chart");
+    private final JPanel messages = getJpanel("Game Rules");
     private JPanel gameContainer;
     private Game game;
     private Grid aGrid;
@@ -44,9 +43,9 @@ public class SingletonGUI extends JFrame {
         player2 = new Player();
 
         confirmButton.addActionListener(e -> {
-            player1.setPlayerName(textField1.getText().toString());
-            player2.setPlayerName(textField2.getText().toString());
-            size = Integer.parseInt(textField3.getText().toString());
+            player1.setPlayerName(textField1.getText());
+            player2.setPlayerName(textField2.getText());
+            size = Integer.parseInt(textField3.getText());
             disableAll();
             messages.revalidate();
             messages.repaint();
@@ -170,7 +169,7 @@ public class SingletonGUI extends JFrame {
             setMessage("Please fill in a Integer. Only even numbers are allowed.");
             return;
         }
-        if (cleanUpText3 % 2 != 0 || cleanUpText3 == 0 || cleanUpText3<10 || cleanUpText3>20) {
+        if (cleanUpText3 % 2 != 0 || cleanUpText3 < 10 || cleanUpText3 > 20) {
             setMessage("Please select a even Integer between 10 and 20.");
             return;
         }
@@ -244,8 +243,6 @@ public class SingletonGUI extends JFrame {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 Color tmp = aGrid.aGrid[i][j].getColor().toColor();
-                final int z = i;
-                final int c = j;
                 buttonArray[i][j].setContentAreaFilled(false);
                 buttonArray[i][j].setOpaque(true);
                 buttonArray[i][j].setBackground(tmp);

@@ -2,7 +2,6 @@ package Gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public abstract class GuiUtils {
@@ -33,13 +32,6 @@ public abstract class GuiUtils {
     }
 
     public static JSplitPane getSplitPaneVertical(int width, int height, int divider, JPanel top, JPanel bottom){
-        JSplitPane splitPane = getSplitPaneVertical(width, height, divider);
-        splitPane.setTopComponent(top);
-        splitPane.setBottomComponent(bottom);
-        return splitPane;
-    }
-
-    public static JSplitPane getSplitPaneVertical(int width, int height, int divider, JSplitPane top, JButton bottom){
         JSplitPane splitPane = getSplitPaneVertical(width, height, divider);
         splitPane.setTopComponent(top);
         splitPane.setBottomComponent(bottom);

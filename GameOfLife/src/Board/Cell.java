@@ -32,8 +32,4 @@ public class Cell {
         aIsAlive = true;
         aColor = pColor;
     }
-
-    public boolean cellIsOwnedBy(Player player){
-        return getColor().equals(player.getPlayerColor());
-    }
 }

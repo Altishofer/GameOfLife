@@ -8,13 +8,13 @@ import Gui.SingletonGUI;
 import javax.swing.*;
 
 public class Game implements GameState {
-    private GameState initialisation;
-    private GameState kill;
-    private GameState revive;
+    private final GameState initialisation;
+    private final GameState kill;
+    private final GameState revive;
     private GameState gameState;
     private final Player player1;
     private final Player player2;
-    private Grid aGrid;
+    private final Grid aGrid;
 
     public Game(Player newPlayer1, Player newPlayer2, Grid newGrid){
         aGrid = newGrid;
@@ -24,7 +24,7 @@ public class Game implements GameState {
         kill = new Kill(this);
         revive = new Revive(this);
         gameState = initialisation;
-        Runnable r = () -> SingletonGUI.getInstance();
+        Runnable r = SingletonGUI::getInstance;
         SwingUtilities.invokeLater(r);
     }
 
@@ -51,7 +51,6 @@ public class Game implements GameState {
         gameState.clickedEmptyCell(y, x, pColor);
     }
 
-    public GameState getInitialisation(){return initialisation;}
     public GameState getKill(){return kill;}
     public GameState getRevive(){return revive;}
     public void evolute(){

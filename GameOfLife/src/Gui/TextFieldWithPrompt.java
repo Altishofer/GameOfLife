@@ -5,9 +5,9 @@ import java.awt.*;
 
 public class TextFieldWithPrompt extends JTextField {
 
-    private String placeholder;
-    private int placeHolderPosX;
-    private int placeHolderPosY;
+    private final String placeholder;
+    private final int placeHolderPosX;
+    private final int placeHolderPosY;
 
     public TextFieldWithPrompt(String pPlaceholder, int pPlaceHolderPosX, int pPlaceHolderPosY) {
         placeholder = pPlaceholder;
