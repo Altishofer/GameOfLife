@@ -116,8 +116,10 @@ public class SingletonGUI extends JFrame {
             if (!aGrid.cellIsAlive(y, x)) {
                 game.clickedEmptyCell(y, x, currentPlayer.getPlayerColor());
             }
+            setMessage("An Existing Cell Was Clicked!");
             if (!aGrid.cellhasColor(y, x, currentPlayer.getPlayerColor())) {
                 game.clickedExistingCell(y, x, currentPlayer.getPlayerColor());
+                setMessage("An Empty Cell Was Clicked.");
             }
         }
     }
