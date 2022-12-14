@@ -11,7 +11,6 @@ import java.util.Arrays;
 public class Grid {
 
     private final int aDimension;
-    // TODO: mirrorGrid(), make mirroring on the flow: Pädi
     public Cell[][] aGrid;
     private Cell[][] aNextGrid;
 
@@ -68,8 +67,6 @@ public class Grid {
         aGrid[y][x].revive(pColor);
     }
 
-    // TODO: Try less branches
-    // TODO: # of alive Cells from a specific player is not done yet
     public void createNextGeneration(){
         for(int i = 0; i < aDimension;i++) {
             for (int j = 0; j < aDimension;j++) {

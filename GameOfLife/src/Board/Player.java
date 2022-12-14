@@ -10,8 +10,7 @@ public class Player implements Comparable{
     public String getPlayerName(){return aPlayerName;}
     public ColorType getPlayerColor(){return aPlayerColor;}
     public void setPlayerColor(ColorType pColor){aPlayerColor = pColor;}
-
-    // TODO: call aGrid.getCellCount();
+    
     public int getCellCnt(){return aCountCells;}
 
     public void setCount(int pCount){
