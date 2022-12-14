@@ -72,6 +72,12 @@ public class Game implements GameState {
         bothHavePlayed = true;
     }
 
+    @Override
+    public String getStateRule() {
+        setMessage(aGui.getCurrentPlayerName() + ": " + aGameState.getStateRule());
+        return new String();
+    }
+
     public void setMessage(String pMessage){
         aGui.setMessage(pMessage);
     }

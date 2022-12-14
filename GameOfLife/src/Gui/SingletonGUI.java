@@ -111,7 +111,12 @@ public class SingletonGUI extends JFrame {
         return board;
     }
 
+    public String getCurrentPlayerName(){
+        return aCurrentPlayer.getPlayerName();
+    }
+
     private void gameLogic(int[] buttonRowCol) {
+        aGame.getStateRule();
         int y = buttonRowCol[0];
         int x = buttonRowCol[1];
         setStats();
@@ -119,10 +124,8 @@ public class SingletonGUI extends JFrame {
             if (!aGrid.cellIsAlive(y, x)) {
                 aGame.clickedEmptyCell(y, x, aCurrentPlayer.getPlayerColor());
             }
-            //setMessage("An Existing Cell Was Clicked!");
             if (!aGrid.cellhasColor(y, x, aCurrentPlayer.getPlayerColor())) {
                 aGame.clickedExistingCell(y, x, aCurrentPlayer.getPlayerColor());
-                //setMessage("An Empty Cell Was Clicked.");
             }
             checkIfLost();
         }
@@ -133,15 +136,15 @@ public class SingletonGUI extends JFrame {
         if (!aGame.initOver()){return;}
 
         if (aPlayer1.getCellCnt() == 0 && aPlayer2.getCellCnt() == 0){
-            disableAll();
+            disableAllFinished();
             setMessage("Both player have lost the game -> TIE");
         }
         if (aPlayer1.getCellCnt() == 0){
-            disableAll();
+            disableAllFinished();
             setMessage("Player " + aPlayer1.getPlayerName() + "has lost! -> " + aPlayer2.getPlayerName());
         }
         if (aPlayer2.getCellCnt() == 0){
-            disableAll();
+            disableAllFinished();
             setMessage("Player " + aPlayer2.getPlayerName() + "has lost! -> " + aPlayer1.getPlayerName());
         }
     }
@@ -204,7 +207,7 @@ public class SingletonGUI extends JFrame {
         if (aPlayer1.compareTo(aPlayer2) == 1) {
             aCurrentPlayer = aPlayer2;
         }
-        setMessage(aCurrentPlayer.getPlayerName() + ": you are the coosen one and can select " + Initialization.MAX_INITIALIZATION + " cells to start");
+        aGame.getStateRule();
     }
 
     public void setMessage(String message) {

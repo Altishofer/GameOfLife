@@ -10,6 +10,8 @@ public class Kill implements GameState {
     public Kill(Game newGame){
         aGame = newGame;
     }
+
+
     @Override
     public void clickedExistingCell(int y, int x, ColorType pColor) {
         aGame.killACell(y, x);
@@ -24,5 +26,10 @@ public class Kill implements GameState {
     @Override
     public boolean initOver() {
         return false;
+    }
+
+    @Override
+    public String getStateRule() {
+        return "select an existing cell of the opponent";
     }
 }

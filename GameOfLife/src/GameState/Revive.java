@@ -15,6 +15,8 @@ public class Revive implements GameState {
         aGame.setMessage("NothingHappens: Cell already alive");
     }
 
+
+
     @Override
     public void clickedEmptyCell(int y, int x, ColorType pColor) {
         aGame.reviveACell(y, x, pColor);
@@ -25,5 +27,10 @@ public class Revive implements GameState {
     @Override
     public boolean initOver() {
         return false;
+    }
+
+    @Override
+    public String getStateRule() {
+        return "select an empty cell to revive it";
     }
 }
