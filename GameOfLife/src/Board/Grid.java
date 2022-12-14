@@ -19,17 +19,12 @@ public class Grid {
 
     private final Player aPlayer2;
 
-    public int aNumOfCellPlayer1;
-    public int aNumOfCellPlayer2;
-
     public Grid(int pDimension, Player pPlayer1, Player pPlayer2){
         aDimension = pDimension;
         aGrid = new Cell[aDimension][aDimension];
         aNextGrid = new Cell[aDimension][aDimension];
         aPlayer1 = pPlayer1;
         aPlayer2 = pPlayer2;
-        aNumOfCellPlayer1 = 0;
-        aNumOfCellPlayer2 = 0;
         this.initGrids();
     }
 
@@ -95,8 +90,8 @@ public class Grid {
             }
         }
         this.makeGridsSame();
-        int aNumOfCellPlayer1 = getCellCount(aPlayer1.getPlayerColor());
-        int aNumOfCellPlayer2 = getCellCount(aPlayer2.getPlayerColor());
+        aPlayer1.setCount(getCellCount(aPlayer1.getPlayerColor()));
+        aPlayer2.setCount(getCellCount(aPlayer2.getPlayerColor()));
     }
 
     private void makeGridsSame(){
