@@ -207,7 +207,7 @@ public class SingletonGUI extends JFrame {
         aBlueButton2.setBackground(aPlayer2.getPlayerColor().toColor());
         aPlayer1.setPlayerName(aTextField1.getText());
         aPlayer2.setPlayerName(aTextField2.getText());
-        aGrid = new Grid(aSize, aPlayer1, aPlayer2);
+        aGrid = new Grid(aSize);
         aGame = new Game(aPlayer1, aPlayer2, aGrid, this);
         aSplitPaneChartBoard.setBottomComponent(getBoard());
         aCurrentPlayer = aPlayer1;
