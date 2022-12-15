@@ -142,6 +142,14 @@ public class Grid {
         aGrid[x][y].revive(pColor);
     }
 
+    public boolean cellIsAlive(int y, int x){
+        return aGrid[y][x].isAlive();
+    }
+
+    public boolean cellhasColor(int y, int x, ColorType color){
+        return aGrid[y][x].getColor().equals(color);
+    }
+
     public static void main(String[] args) {
         Grid myGrid = new Grid(10);
         myGrid.setupGrid(1,1,ColorType.RED);
@@ -163,14 +171,6 @@ public class Grid {
         myGrid.createNextGeneration();
         System.out.println();
         myGrid.printGrid();
-    }
-
-    public boolean cellIsAlive(int y, int x){
-        return aGrid[y][x].isAlive();
-    }
-
-    public boolean cellhasColor(int y, int x, ColorType color){
-        return aGrid[y][x].getColor().equals(color);
     }
 }
 
