@@ -126,10 +126,10 @@ public class SingletonGUI extends JFrame {
         else if (!aGrid.cellhasColor(y, x, aCurrentPlayer.getPlayerColor())) {
             aGame.clickedExistingCell(y, x, aCurrentPlayer.getPlayerColor());
         }
-        checkIfLost();
         showGrid();
         setStats();
         aGame.getStateRule();
+        checkIfLost();
     }
 
     private ColorType getOtherPlayerColor(){
@@ -146,12 +146,12 @@ public class SingletonGUI extends JFrame {
             disableAllFinished();
         }
         if (aGrid.getCellCount(aPlayer1.getPlayerColor()) == 0){
-            setMessage("Player " + aPlayer1.getPlayerName() + "has lost! -> " + aPlayer2.getPlayerName());
+            setMessage("Player " + aPlayer1.getPlayerName() + " has lost! -> " + aPlayer2.getPlayerName().toUpperCase() + " wins");
             disableAllFinished();
 
         }
         if (aGrid.getCellCount(aPlayer2.getPlayerColor()) == 0){
-            setMessage("Player " + aPlayer2.getPlayerName() + "has lost! -> " + aPlayer1.getPlayerName());
+            setMessage("Player " + aPlayer2.getPlayerName() + " has lost! -> " + aPlayer1.getPlayerName().toUpperCase() + " wins");
             disableAllFinished();
         }
     }
