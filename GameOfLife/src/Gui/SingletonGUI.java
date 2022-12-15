@@ -140,18 +140,19 @@ public class SingletonGUI extends JFrame {
     }
 
     private void checkIfLost(){
-        if (aGame.initOver()){return;}
-        if (aPlayer1.getCellCnt() == 0 && aPlayer2.getCellCnt() == 0){
-            disableAllFinished();
+        if (!aGame.initOver()){return;}
+        if (aGrid.getCellCount(aPlayer1.getPlayerColor()) == 0 && aGrid.getCellCount(aPlayer2.getPlayerColor()) == 0){
             setMessage("Both player have lost the game -> TIE");
-        }
-        if (aPlayer1.getCellCnt() == 0){
             disableAllFinished();
+        }
+        if (aGrid.getCellCount(aPlayer1.getPlayerColor()) == 0){
             setMessage("Player " + aPlayer1.getPlayerName() + "has lost! -> " + aPlayer2.getPlayerName());
-        }
-        if (aPlayer2.getCellCnt() == 0){
             disableAllFinished();
+
+        }
+        if (aGrid.getCellCount(aPlayer2.getPlayerColor()) == 0){
             setMessage("Player " + aPlayer2.getPlayerName() + "has lost! -> " + aPlayer1.getPlayerName());
+            disableAllFinished();
         }
     }
 
@@ -260,7 +261,7 @@ public class SingletonGUI extends JFrame {
     }
 
     private void setStats() {
-        aChartLabelP1.setText(aPlayer1.getPlayerName() + ": " + aPlayer1.getCellCnt() + " Cells          " + aPlayer2.getPlayerName() + " : " + aPlayer2.getCellCnt() + " Cells");
+        aChartLabelP1.setText(aPlayer1.getPlayerName() + ": " + aGrid.getCellCount(aPlayer1.getPlayerColor()) + " Cells          " + aPlayer2.getPlayerName() + " : " + aGrid.getCellCount(aPlayer2.getPlayerColor()) + " Cells");
     }
 
     private void showGrid() {

@@ -68,8 +68,6 @@ public class Grid {
             }
         }
         this.makeGridsSame();
-        aPlayer1.setCount(getCellCount(aPlayer1.getPlayerColor()));
-        aPlayer2.setCount(getCellCount(aPlayer2.getPlayerColor()));
     }
 
     private void makeGridsSame(){
