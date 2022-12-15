@@ -148,7 +148,6 @@ public class SingletonGUI extends JFrame {
         if (aGrid.getCellCount(aPlayer1.getPlayerColor()) == 0){
             setMessage(aPlayer1.getPlayerName() + " has lost! -> " + aPlayer2.getPlayerName().toUpperCase() + " wins");
             disableAllFinished();
-
         }
         if (aGrid.getCellCount(aPlayer2.getPlayerColor()) == 0){
             setMessage(aPlayer2.getPlayerName() + " has lost! -> " + aPlayer1.getPlayerName().toUpperCase() + " wins");
