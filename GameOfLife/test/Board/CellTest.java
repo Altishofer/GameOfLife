@@ -25,14 +25,12 @@ class CellTest {
         assertEquals(ColorType.BLUE, cell.getColor());
     }
 
-
     @Test
     public void testIsAlive() {
         Cell cell = new Cell();
         cell.revive(ColorType.BLUE);
         assertTrue(cell.isAlive());
     }
-
 
     @Test
     public void testKill() {
@@ -43,7 +41,6 @@ class CellTest {
         assertEquals(ColorType.WHITE, cell.getColor());
     }
 
-
     @Test
     public void testRevive() {
         Cell cell = new Cell();
@@ -51,22 +48,4 @@ class CellTest {
         assertTrue(cell.isAlive());
         assertEquals(ColorType.BLUE, cell.getColor());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
