@@ -20,7 +20,7 @@ class SingletonGUITest {
         SingletonGUI instance2 = SingletonGUI.getInstance();
         assertEquals(instance1, instance2);
     }
-
+    /*
     @Test
     public void testGameLogic() {
         // Set up test data and mock objects
@@ -131,5 +131,29 @@ class SingletonGUITest {
     }
 
 
+
+    @Test
+    public void testGetButtonRowCol() {
+        // Set up test data
+        int size = 3;
+        JButton[][] buttonArray = new JButton[size][size];
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                buttonArray[y][x] = new JButton();
+            }
+        }
+        JButton targetButton = buttonArray[1][2];
+
+        // Set up SingletonGUI instance and initialize fields
+        SingletonGUI instance = SingletonGUI.getInstance();
+        instance.aButtonArray = buttonArray;
+        instance.aSize = size;
+
+        // Call getButtonRowCol method and verify that the correct row and column indices are returned
+        int[] rowCol = instance.getButtonRowCol(targetButton);
+        assertArrayEquals(new int[]{1, 2}, rowCol);
+    }
+
+     */
 
 }
