@@ -2,6 +2,10 @@ package Board;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GridTest {
@@ -9,18 +13,26 @@ class GridTest {
     private static final int DIMENSION = 5;
     Grid grid = new Grid(DIMENSION);
 
-
     @Test
-    public void testMakeGridsSame() {
+    public void testMakeGridsSame() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+
+        Method privateMethod = Grid.class.getDeclaredMethod("makeGridsSame");
+        privateMethod.setAccessible(true);
+
+        Field privateStringField = Grid.class.getDeclaredField("aNextGrid");
+        privateStringField.setAccessible(true);
+        Cell[][] nextGrid = (Cell[][]) privateStringField.get(grid);
+
+
         // Set the aNextGrid grid to have a different state than aGrid
         for (int i = 0; i < DIMENSION; i++) {
             for (int j = 0; j < DIMENSION; j++) {
-                grid.aNextGrid[i][j].revive(ColorType.BLUE);
+                nextGrid[i][j].revive(ColorType.BLUE);
                 assertFalse(grid.aGrid[i][j].isAlive());
             }
         }
 
-        grid.makeGridsSame();
+        String returnValue = (String)privateMethod.invoke(grid);
 
         // Confirm that the aNextGrid grid has the same state as aGrid
         for (int i = 0; i < DIMENSION; i++) {
@@ -32,7 +44,11 @@ class GridTest {
     }
 
     @Test
-    public void testCountNeighbors() {
+    public void testCountNeighbors() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        Method privateMethod = Grid.class.getDeclaredMethod("countNeighbours", int.class, int.class);
+        privateMethod.setAccessible(true);
+
         // Set the state of the aGrid grid to test
         grid.aGrid[0][1].revive(ColorType.BLUE);
         grid.aGrid[1][0].revive(ColorType.BLUE);
@@ -40,12 +56,16 @@ class GridTest {
         grid.aGrid[1][2].revive(ColorType.BLUE);
         grid.aGrid[2][1].revive(ColorType.BLUE);
 
-        int count = grid.countNeighbors(1, 1);
+        int count = (int)privateMethod.invoke(grid, 1, 1);
         assertEquals(4, count);
     }
 
     @Test
-    public void testGetDominantColor() {
+    public void testGetDominantColor() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        Method privateMethod = Grid.class.getDeclaredMethod("getDominantColor", int.class, int.class);
+        privateMethod.setAccessible(true);
+
         // Set the state of the aGrid grid to test
         grid.aGrid[0][1].revive(ColorType.BLUE);
         grid.aGrid[1][0].revive(ColorType.BLUE);
@@ -53,7 +73,7 @@ class GridTest {
         grid.aGrid[1][2].revive(ColorType.BLUE);
         grid.aGrid[2][1].revive(ColorType.BLUE);
 
-        ColorType dominantColor = grid.getDominantColor(1, 1);
+        ColorType dominantColor = (ColorType) privateMethod.invoke(grid, 1, 1);
         assertEquals(ColorType.BLUE, dominantColor);
     }
 
