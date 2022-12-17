@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GridTest {
 
-    private static final int DIMENSION = 5;
+    private static final int DIMENSION = 10;
     Grid grid = new Grid(DIMENSION);
 
     @Test
@@ -28,7 +28,7 @@ class GridTest {
         for (int i = 0; i < DIMENSION; i++) {
             for (int j = 0; j < DIMENSION; j++) {
                 nextGrid[i][j].revive(ColorType.BLUE);
-                assertFalse(grid.aGrid[i][j].isAlive());
+                assertFalse(grid.isAlive(i, j));
             }
         }
 
@@ -37,8 +37,8 @@ class GridTest {
         // Confirm that the aNextGrid grid has the same state as aGrid
         for (int i = 0; i < DIMENSION; i++) {
             for (int j = 0; j < DIMENSION; j++) {
-                assertTrue(grid.aGrid[i][j].isAlive());
-                assertEquals(ColorType.BLUE, grid.aGrid[i][j].getColor());
+                assertTrue(grid.isAlive(i, j));
+                assertEquals(ColorType.BLUE, grid.getColor(i, j));
             }
         }
     }
@@ -50,11 +50,11 @@ class GridTest {
         privateMethod.setAccessible(true);
 
         // Set the state of the aGrid grid to test
-        grid.aGrid[0][1].revive(ColorType.BLUE);
-        grid.aGrid[1][0].revive(ColorType.BLUE);
-        grid.aGrid[1][1].revive(ColorType.BLUE);
-        grid.aGrid[1][2].revive(ColorType.BLUE);
-        grid.aGrid[2][1].revive(ColorType.BLUE);
+        grid.revive(0, 1, ColorType.BLUE);
+        grid.revive(1, 0,ColorType.BLUE);
+        grid.revive(1, 1,ColorType.BLUE);
+        grid.revive(1, 2,ColorType.BLUE);
+        grid.revive(2, 1,ColorType.BLUE);
 
         int count = (int)privateMethod.invoke(grid, 1, 1);
         assertEquals(4, count);
@@ -67,11 +67,11 @@ class GridTest {
         privateMethod.setAccessible(true);
 
         // Set the state of the aGrid grid to test
-        grid.aGrid[0][1].revive(ColorType.BLUE);
-        grid.aGrid[1][0].revive(ColorType.BLUE);
-        grid.aGrid[1][1].revive(ColorType.RED);
-        grid.aGrid[1][2].revive(ColorType.BLUE);
-        grid.aGrid[2][1].revive(ColorType.BLUE);
+        grid.revive(0, 1, ColorType.BLUE);
+        grid.revive(1, 0, ColorType.BLUE);
+        grid.revive(1, 1, ColorType.RED);
+        grid.revive(1, 2, ColorType.BLUE);
+        grid.revive(2, 1, ColorType.BLUE);
 
         ColorType dominantColor = (ColorType) privateMethod.invoke(grid, 1, 1);
         assertEquals(ColorType.BLUE, dominantColor);
@@ -80,73 +80,77 @@ class GridTest {
 
     @Test
     public void testKillACell() {
-        Grid grid = new Grid(10);
-        grid.reviveACell(5, 5, ColorType.BLUE);
+        grid.revive(5, 5, ColorType.BLUE);
         grid.killACell(5, 5);
-        assertFalse(grid.aGrid[5][5].isAlive());
-        assertEquals(ColorType.WHITE, grid.aGrid[5][5].getColor());
+        assertFalse(grid.isAlive(5, 5));
+        assertEquals(ColorType.WHITE, grid.getColor(5, 5));
     }
 
     @Test
     public void testMirrorCell() {
-        Grid grid = new Grid(10);
         grid.mirrorCell(5, 5, ColorType.BLUE, ColorType.RED);
-        assertTrue(grid.aGrid[5][5].isAlive());
-        assertEquals(ColorType.BLUE, grid.aGrid[5][5].getColor());
-        assertTrue(grid.aGrid[5][4].isAlive());
-        assertEquals(ColorType.RED, grid.aGrid[5][4].getColor());
+        assertTrue(grid.isAlive(5, 5));
+        assertEquals(ColorType.BLUE, grid.getColor(5, 5));
+        assertTrue(grid.isAlive(5, 4));
+        assertEquals(ColorType.RED, grid.getColor(5, 4));
     }
 
     @Test
     public void testGetCellCount() {
-        Grid grid = new Grid(10);
-        grid.reviveACell(5, 5, ColorType.BLUE);
-        grid.reviveACell(5, 6, ColorType.BLUE);
-        grid.reviveACell(5, 7, ColorType.RED);
+        grid.revive(5, 5, ColorType.BLUE);
+        grid.revive(5, 6, ColorType.BLUE);
+        grid.revive(5, 7, ColorType.RED);
         assertEquals(2, grid.getCellCount(ColorType.BLUE));
     }
 
     @Test
     public void testReviveACell() {
-        Grid grid = new Grid(10);
-        grid.reviveACell(5, 5, ColorType.BLUE);
-        assertTrue(grid.aGrid[5][5].isAlive());
-        assertEquals(ColorType.BLUE, grid.aGrid[5][5].getColor());
+        grid.revive(5, 5, ColorType.BLUE);
+        assertTrue(grid.isAlive(5, 5));
+        assertEquals(ColorType.BLUE, grid.getColor(5, 5));
     }
 
 
     @Test
-    public void testCreateNextGeneration() {
-        Grid grid = new Grid(10);
-
+    public void testCreateNextGeneration_3livingNeighbours() {
         // Test reviving a dead cell with 3 living neighbors
-        grid.reviveACell(5, 4, ColorType.BLUE);
-        grid.reviveACell(5, 5, ColorType.RED);
-        grid.reviveACell(5, 6, ColorType.RED);
+        grid.revive(5, 4, ColorType.BLUE);
+        grid.revive(5, 5, ColorType.RED);
+        grid.revive(5, 6, ColorType.RED);
         grid.createNextGeneration();
-        assertTrue(grid.aGrid[5][5].isAlive());
-        assertEquals(ColorType.RED, grid.aGrid[5][5].getColor());
+        assertTrue(grid.isAlive(4, 5));
+        assertEquals(ColorType.RED, grid.getColor(4, 5));
+    }
 
+    @Test
+    public void testCreateNextGeneration_1livingNeighbours() {
         // Test killing a living cell with less than 2 living neighbors
-        grid.reviveACell(4, 5, ColorType.BLUE);
+        grid.revive(5, 5, ColorType.RED);
+        grid.revive(5, 6, ColorType.RED);
         grid.createNextGeneration();
-        assertFalse(grid.aGrid[5][5].isAlive());
+        assertFalse(grid.isAlive(5, 5));
+    }
 
+    @Test
+    public void testCreateNextGeneration_4livingNeighbours() {
         // Test killing a living cell with more than 3 living neighbors
-        grid.reviveACell(5, 5, ColorType.BLUE);
-        grid.reviveACell(5, 4, ColorType.BLUE);
-        grid.reviveACell(5, 6, ColorType.BLUE);
-        grid.reviveACell(4, 5, ColorType.BLUE);
-        grid.reviveACell(6, 5, ColorType.BLUE);
+        grid.revive(5, 5, ColorType.BLUE);
+        grid.revive(5, 4, ColorType.BLUE);
+        grid.revive(5, 6, ColorType.BLUE);
+        grid.revive(4, 5, ColorType.BLUE);
+        grid.revive(6, 5, ColorType.BLUE);
         grid.createNextGeneration();
-        assertFalse(grid.aGrid[5][5].isAlive());
+        assertFalse(grid.isAlive(5, 5));
+    }
 
+    @Test
+    public void testCreateNextGeneration_2livingNeighbours() {
         // Test not killing a living cell with 2 or 3 living neighbors
-        grid.reviveACell(5, 5, ColorType.BLUE);
-        grid.reviveACell(5, 4, ColorType.BLUE);
-        grid.reviveACell(5, 6, ColorType.BLUE);
+        grid.revive(5, 5, ColorType.BLUE);
+        grid.revive(5, 4, ColorType.BLUE);
+        grid.revive(5, 6, ColorType.BLUE);
         grid.createNextGeneration();
-        assertTrue(grid.aGrid[5][5].isAlive());
+        assertTrue(grid.isAlive(5, 5));
     }
 
 

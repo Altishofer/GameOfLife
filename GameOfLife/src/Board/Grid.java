@@ -1,9 +1,11 @@
 package Board;
 
+import java.awt.*;
+
 public class Grid {
 
     private final int aDimension;
-    public final Cell[][] aGrid;
+    private final Cell[][] aGrid;
     private final Cell[][] aNextGrid;
     public Grid(int pDimension){
         aDimension = pDimension;
@@ -21,8 +23,8 @@ public class Grid {
     }
 
     public void mirrorCell(int yCoor, int xCoor, ColorType pPlacingPlayerColor, ColorType pWaitingPlayerColor){
-        reviveACell(yCoor, xCoor, pPlacingPlayerColor);
-        reviveACell(yCoor, aDimension - xCoor-1, pWaitingPlayerColor);
+        revive(yCoor, xCoor, pPlacingPlayerColor);
+        revive(yCoor, aDimension - xCoor-1, pWaitingPlayerColor);
     }
 
     public int getCellCount(ColorType pColor){
@@ -38,7 +40,7 @@ public class Grid {
         return count;
     }
 
-    public void reviveACell(int y, int x, ColorType pColor){
+    public void revive(int y, int x, ColorType pColor){
         if(aGrid[y][x].isAlive()){
             throw new IllegalArgumentException("Please select a dead cell!");
         }
@@ -114,6 +116,14 @@ public class Grid {
                 aNextGrid[i][j] = new Cell();
             }
         }
+    }
+
+    public ColorType getColor(int y, int x){
+        return aGrid[y][x].getColor();
+    }
+
+    public boolean isAlive(int y, int x){
+        return aGrid[y][x].isAlive();
     }
 
     // TODO: only for debugging

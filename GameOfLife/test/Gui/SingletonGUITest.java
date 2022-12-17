@@ -1,5 +1,6 @@
 package Gui;
 
+import Board.Cell;
 import Board.ColorType;
 import Board.Grid;
 import Board.Player;
@@ -7,6 +8,10 @@ import GameState.Game;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static jdk.internal.org.objectweb.asm.util.CheckClassAdapter.verify;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,40 +25,134 @@ class SingletonGUITest {
         SingletonGUI instance2 = SingletonGUI.getInstance();
         assertEquals(instance1, instance2);
     }
-    /*
+
+
     @Test
-    public void testGameLogic() {
-        // Set up test data and mock objects
-        int y = 0;
-        int x = 0;
+    public void testSwitchCurrentPlayer() throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         ColorType currentColor = ColorType.RED;
         ColorType otherColor = ColorType.BLUE;
-        int[][] gridData = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
-        Grid mockGrid = mock(Grid.class);
-        when(mockGrid.cellIsAlive(y, x)).thenReturn(false);
-        when(mockGrid.cellhasColor(y, x, currentColor)).thenReturn(false);
-        when(mockGrid.getData()).thenReturn(gridData);
-        Player mockPlayer1 = mock(Player.class);
-        when(mockPlayer1.getPlayerColor()).thenReturn(currentColor);
-        Player mockPlayer2 = mock(Player.class);
-        when(mockPlayer2.getPlayerColor()).thenReturn(otherColor);
-        Game mockGame = mock(Game.class);
-        when(mockGame.initOver()).thenReturn(false);
+
+        Player current = new Player();
+        current.setPlayerColor(currentColor);
+        current.setPlayerName("current");
+
+        Player other = new Player();
+        current.setPlayerColor(otherColor);
+        current.setPlayerName("other");
 
         // Set up SingletonGUI instance and initialize fields
         SingletonGUI instance = SingletonGUI.getInstance();
-        instance.aCurrentPlayer = mockPlayer1;
-        instance.aGrid = mockGrid;
-        instance.aGame = mockGame;
-        instance.aPlayer1 = mockPlayer1;
-        instance.aPlayer2 = mockPlayer2;
+        Field privateStringField1 = SingletonGUI.class.getDeclaredField("aPlayer1");
+        privateStringField1.setAccessible(true);
+        privateStringField1.set(instance, current);
 
-        // Call gameLogic method and verify that grid and current player are updated correctly
-        instance.gameLogic(new int[] {y, x});
-        verify(mockGame).clickedEmptyCell(y, x, currentColor, otherColor);
-        verify(mockGame).getStateRule();
-        assertEquals(mockPlayer2, instance.aCurrentPlayer);
+        Field aPlayer2 = SingletonGUI.class.getDeclaredField("aPlayer2");
+        aPlayer2.setAccessible(true);
+        aPlayer2.set(instance, other);
+
+        Field aCurrentPlayer = SingletonGUI.class.getDeclaredField("aCurrentPlayer");
+        aCurrentPlayer.setAccessible(true);
+        aCurrentPlayer.set(instance, current);
+
+        instance.switchCurrentPlayer();
+        assertEquals(instance.getCurrentPlayerName(), other.getPlayerName());
+
+        Method privateMethod1 = SingletonGUI.class.getDeclaredMethod("getCurrentPlayerName");
+        privateMethod1.setAccessible(true);
+        String returnValue1 = (String)privateMethod1.invoke(instance);
+        assertEquals(returnValue1, other.getPlayerName());
+
+        Method privateMethod2 = SingletonGUI.class.getDeclaredMethod("getOtherPlayerColor");
+        privateMethod2.setAccessible(true);
+        ColorType returnValue2 = (ColorType)privateMethod2.invoke(instance);
+        assertEquals(returnValue2, current.getPlayerColor());
+
+        instance.switchCurrentPlayer();
+
+        Method privateMethod3 = SingletonGUI.class.getDeclaredMethod("getCurrentPlayerName");
+        privateMethod1.setAccessible(true);
+        String returnValue3 = (String)privateMethod3.invoke(instance);
+        assertEquals(returnValue3, current.getPlayerName());
+
+        Method privateMethod4 = SingletonGUI.class.getDeclaredMethod("getOtherPlayerColor");
+        privateMethod4.setAccessible(true);
+        ColorType returnValue4 = (ColorType)privateMethod2.invoke(instance);
+        assertEquals(returnValue4, other.getPlayerColor());
+
     }
+    @Test
+    public void testSomeoneHasLost() throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        ColorType currentColor = ColorType.RED;
+        ColorType otherColor = ColorType.BLUE;
+
+        Player current = new Player();
+        current.setPlayerColor(currentColor);
+        current.setPlayerName("current");
+
+        Player other = new Player();
+        current.setPlayerColor(otherColor);
+        current.setPlayerName("other");
+
+        // Set up SingletonGUI instance and initialize fields
+        SingletonGUI instance = SingletonGUI.getInstance();
+        Field aPlayer1 = SingletonGUI.class.getDeclaredField("aPlayer1");
+        aPlayer1.setAccessible(true);
+        aPlayer1.set(instance, current);
+
+        Field aPlayer2 = SingletonGUI.class.getDeclaredField("aPlayer2");
+        aPlayer2.setAccessible(true);
+        aPlayer2.set(instance, other);
+
+        Cell[][] aNewGrid = new Cell[10][10];
+        for (int i=0; i<10; i++){
+            for (int j=0; j<10; j++){
+                aNewGrid[i][j] = new Cell();
+            }
+        }
+
+        Grid aGridObject = new Grid(10);
+        Field aGridGrid = Grid.class.getDeclaredField("aGrid");
+        aGridGrid.setAccessible(true);
+        aGridGrid.set(aGridObject, aNewGrid);
+
+
+        Field aGrid = SingletonGUI.class.getDeclaredField("aGrid");
+        aGrid.setAccessible(true);
+        aGrid.set(instance, aGridObject);
+
+        Field aGame = SingletonGUI.class.getDeclaredField("aGame");
+        aGame.setAccessible(true);
+        aGame.set(instance, new Game(current, other, aGridObject, instance, 0));
+
+        Method privateMethod = SingletonGUI.class.getDeclaredMethod("someoneHasLost");
+        privateMethod.setAccessible(true);
+        boolean expected = (boolean)privateMethod.invoke(instance);
+        assertTrue(expected);
+
+        for (int i=0; i<10; i++){
+            for (int j=0; j<10; j++){
+                aNewGrid[i][j].revive(currentColor);
+            }
+        }
+        expected = (boolean)privateMethod.invoke(instance);
+        assertTrue(expected);
+
+        for (int i=0; i<10; i++){
+            for (int j=0; j<10; j++){
+                if (j<5){
+                    aNewGrid[i][j].revive(otherColor);
+                }
+                else {
+                    aNewGrid[i][j].revive(currentColor);
+                }
+
+            }
+        }
+        expected = (boolean)privateMethod.invoke(instance);
+        assertFalse(expected);
+    }
+
+        /*
 
 
     @Test

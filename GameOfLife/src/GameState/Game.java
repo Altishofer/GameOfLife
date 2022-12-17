@@ -17,12 +17,12 @@ public class Game implements GameState {
     private SingletonGUI aGui;
     private final Grid aGrid;
 
-    public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui){
+    public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui, int pInitialCellCount){
         aGrid = newGrid;
         aGui = pGui;
         aPlayer1 = newPlayer1;
         aPlayer2 = newPlayer2;
-        aInitialisation = new Initialization(this);
+        aInitialisation = new Initialization(this, pInitialCellCount);
         aKill = new Kill(this);
         aRevive = new Revive(this);
         aGameState = aInitialisation;
@@ -35,7 +35,7 @@ public class Game implements GameState {
     }
 
     public void reviveACell(int y, int x, ColorType pColor){
-        aGrid.reviveACell(y, x, pColor);
+        aGrid.revive(y, x, pColor);
     }
     public void killACell(int y, int x){
         aGrid.killACell(y, x);

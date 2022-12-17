@@ -15,18 +15,18 @@ public class SingletonGUI extends JFrame {
     private int aSize;
     private final int aIconSize = 10;
     private JButton[][] aButtonArray;
-    Player aCurrentPlayer;
-    TextFieldWithPrompt aTextField1 = new TextFieldWithPrompt("Player_1", 8, 18);
-    TextFieldWithPrompt aTextField2 = new TextFieldWithPrompt("Player_2", 8, 18);
-    TextFieldWithPrompt aTextField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 27);
-    JButton aConfirmButton = new JButton("Confirm");
-    JButton aRedButton1 = GuiUtils.getButton(aIconSize, ColorType.RED.toColor());
-    JButton aRedButton2 = GuiUtils.getButton(aIconSize, ColorType.RED.toColor());
-    JButton aBlueButton1 = GuiUtils.getButton(aIconSize, ColorType.BLUE.toColor());
-    JButton aBlueButton2 = GuiUtils.getButton(aIconSize, ColorType.BLUE.toColor());
-    Player aPlayer1;
-    Player aPlayer2;
-    JSplitPane aSplitPaneChartBoard;
+    private Player aCurrentPlayer;
+    private TextFieldWithPrompt aTextField1 = new TextFieldWithPrompt("Player_1", 8, 18);
+    private TextFieldWithPrompt aTextField2 = new TextFieldWithPrompt("Player_2", 8, 18);
+    private TextFieldWithPrompt aTextField3 = new TextFieldWithPrompt("Enter Even Board Size (10-20)", 8, 27);
+    private JButton aConfirmButton = new JButton("Confirm");
+    private JButton aRedButton1 = GuiUtils.getButton(aIconSize, ColorType.RED.toColor());
+    private JButton aRedButton2 = GuiUtils.getButton(aIconSize, ColorType.RED.toColor());
+    private JButton aBlueButton1 = GuiUtils.getButton(aIconSize, ColorType.BLUE.toColor());
+    private JButton aBlueButton2 = GuiUtils.getButton(aIconSize, ColorType.BLUE.toColor());
+    private Player aPlayer1;
+    private Player aPlayer2;
+    private JSplitPane aSplitPaneChartBoard;
     private final JLabel aChartLabelP1 = new JLabel();
     private final JLabel aChartLabelP2 = new JLabel();
     private final JLabel aChartLabelMessage = new JLabel();
@@ -139,20 +139,25 @@ public class SingletonGUI extends JFrame {
         return aPlayer1.getPlayerColor();
     }
 
-    private void checkIfLost(){
-        if (!aGame.initOver()){return;}
+    private boolean someoneHasLost(){
+        if (!aGame.initOver()){return false;}
         if (aGrid.getCellCount(aPlayer1.getPlayerColor()) == 0 && aGrid.getCellCount(aPlayer2.getPlayerColor()) == 0){
             setMessage("Both player have lost the game -> TIE");
-            disableAllFinished();
+            return true;
         }
-        if (aGrid.getCellCount(aPlayer1.getPlayerColor()) == 0){
+        else if (aGrid.getCellCount(aPlayer1.getPlayerColor()) == 0){
             setMessage(aPlayer1.getPlayerName() + " has lost! -> " + aPlayer2.getPlayerName().toUpperCase() + " wins");
-            disableAllFinished();
+            return true;
         }
-        if (aGrid.getCellCount(aPlayer2.getPlayerColor()) == 0){
+        else if (aGrid.getCellCount(aPlayer2.getPlayerColor()) == 0){
             setMessage(aPlayer2.getPlayerName() + " has lost! -> " + aPlayer1.getPlayerName().toUpperCase() + " wins");
-            disableAllFinished();
+            return true;
         }
+        return false;
+    }
+
+    private void checkIfLost(){
+        if (someoneHasLost()) {disableAllFinished();}
     }
 
     private void action(ColorType red1, ColorType red2, ColorType blue1, ColorType blue2, ColorType colourP1, ColorType colourP2) {
@@ -207,7 +212,7 @@ public class SingletonGUI extends JFrame {
         aPlayer1.setPlayerName(aTextField1.getText());
         aPlayer2.setPlayerName(aTextField2.getText());
         aGrid = new Grid(aSize);
-        aGame = new Game(aPlayer1, aPlayer2, aGrid, this);
+        aGame = new Game(aPlayer1, aPlayer2, aGrid, this, aSize/6);
         aSplitPaneChartBoard.setBottomComponent(getBoard());
         aCurrentPlayer = aPlayer1;
         if (aPlayer1.compareTo(aPlayer2) == 1) {
@@ -266,7 +271,7 @@ public class SingletonGUI extends JFrame {
     private void showGrid() {
         for (int i = 0; i < aSize; i++) {
             for (int j = 0; j < aSize; j++) {
-                Color tmp = aGrid.aGrid[i][j].getColor().toColor();
+                Color tmp = aGrid.getColor(i, j).toColor();
                 aButtonArray[i][j].setContentAreaFilled(false);
                 aButtonArray[i][j].setOpaque(true);
                 aButtonArray[i][j].setBackground(tmp);
