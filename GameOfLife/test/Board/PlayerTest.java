@@ -54,6 +54,7 @@ class PlayerTest {
         Player player2 = new Player();
         player2.setPlayerName("Jane");
         assertEquals(0, player1.compareTo(player1));
+        assertEquals(0, player2.compareTo(player2));
         assertEquals(-1, player2.compareTo(player1));
     }
 
