@@ -58,6 +58,23 @@ class PlayerTest {
         assertEquals(-1, player2.compareTo(player1));
     }
 
+    @Test
+    public void testCompareToNull() {
+        Player player1 = new Player();
+        player1.setPlayerName("John");
+
+        assertEquals(0, player1.compareTo(null));
+    }
+
+    @Test
+    public void testCompareToOtherClass() {
+        Player player1 = new Player();
+        player1.setPlayerName("John");
+        Grid player2 = new Grid(10);
+
+        assertEquals(0, player1.compareTo(player2));
+    }
+
 
     @Test
     public void testHashCode() {
