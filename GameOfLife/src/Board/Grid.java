@@ -40,7 +40,7 @@ public class Grid {
         return count;
     }
 
-    public void revive(int y, int x, ColorType pColor){
+    public void revive(int y, int x, ColorType pColor) throws IllegalArgumentException{
         if(aGrid[y][x].isAlive()){
             throw new IllegalArgumentException("Please select a dead cell!");
         }
@@ -126,61 +126,9 @@ public class Grid {
         return aGrid[y][x].isAlive();
     }
 
-    // TODO: only for debugging
-    private void printGrid(){
-        for(int i = 0; i<aDimension;i++) {
-            System.out.print("|");
-            for (int j = 0; j < aDimension; j++) {
-                if(aGrid[i][j].isAlive()){
-                    if(aGrid[i][j].getColor() == ColorType.RED){
-                        System.out.print("O|");
-                    }else {
-                        System.out.print("X|");
-                    }
-                }else {
-                    System.out.print(" |");
-                }
-            }
-            System.out.println();
-        }
-    }
-
-    private void setupGrid(int x,int y, ColorType pColor){
-        if(aGrid[x][y].isAlive()){
-            throw new IllegalArgumentException("Cell is already alive");
-        }
-        aGrid[x][y].revive(pColor);
-    }
-
-    public boolean cellIsAlive(int y, int x){
-        return aGrid[y][x].isAlive();
-    }
-
-    public boolean cellhasColor(int y, int x, ColorType color){
+    public boolean cellHasColor(int y, int x, ColorType color){
         return aGrid[y][x].getColor().equals(color);
     }
 
-    public static void main(String[] args) {
-        Grid myGrid = new Grid(10);
-        myGrid.setupGrid(1,1,ColorType.RED);
-        myGrid.setupGrid(2,1,ColorType.RED);
-        myGrid.setupGrid(1,2,ColorType.RED);
-
-        myGrid.setupGrid(4,7,ColorType.BLUE);
-        myGrid.setupGrid(5,7,ColorType.BLUE);
-        myGrid.setupGrid(6,7,ColorType.BLUE);
-
-        myGrid.setupGrid(6,2,ColorType.RED);
-        myGrid.setupGrid(7,1,ColorType.RED);
-        myGrid.setupGrid(8,1,ColorType.RED);
-
-        myGrid.printGrid();
-        myGrid.createNextGeneration();
-        System.out.println();
-        myGrid.printGrid();
-        myGrid.createNextGeneration();
-        System.out.println();
-        myGrid.printGrid();
-    }
 }
 

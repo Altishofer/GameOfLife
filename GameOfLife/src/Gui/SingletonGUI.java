@@ -120,10 +120,10 @@ public class SingletonGUI extends JFrame {
         int y = buttonRowCol[0];
         int x = buttonRowCol[1];
         setStats();
-        if (!aGrid.cellIsAlive(y, x)) {
+        if (!aGrid.isAlive(y, x)) {
             aGame.clickedEmptyCell(y, x, aCurrentPlayer.getPlayerColor(), getOtherPlayerColor());
         }
-        else if (!aGrid.cellhasColor(y, x, aCurrentPlayer.getPlayerColor())) {
+        else if (!aGrid.cellHasColor(y, x, aCurrentPlayer.getPlayerColor())) {
             aGame.clickedExistingCell(y, x, aCurrentPlayer.getPlayerColor());
         }
         showGrid();

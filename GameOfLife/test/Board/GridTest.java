@@ -1,6 +1,9 @@
 package Board;
 
+import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -151,6 +154,29 @@ class GridTest {
         grid.revive(5, 6, ColorType.BLUE);
         grid.createNextGeneration();
         assertTrue(grid.isAlive(5, 5));
+    }
+
+
+    @Test
+    public void testReviveIllegalArgument(){
+        // Test reviving a alive cell
+        grid.revive(5, 4, ColorType.BLUE);
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> {grid.revive(5, 4, ColorType.BLUE);});
+    }
+
+    @Test
+    public void testKillACellIllegalArgument(){
+        // Test killing a dead cell
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> {grid.killACell(5, 4);});
+    }
+
+    @Test
+    public void testHasColor(){
+        // Test reviving a alive cell
+        grid.revive(5, 4, ColorType.BLUE);
+        assertTrue(grid.cellHasColor(5,4,ColorType.BLUE));
     }
 
 
