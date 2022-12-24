@@ -15,18 +15,16 @@ public class Revive implements GameState {
         System.out.println("NothingHappens: Cell already alive");
     }
 
-
-
     @Override
-    public void clickedEmptyCell(int y, int x, ColorType pColor) {
-        aGame.reviveACell(y, x, pColor);
+    public void clickedEmptyCell(int y, int x, ColorType pCurrentPlayerColor, ColorType pOtherPlayerColor) {
+        aGame.reviveACell(y, x, pCurrentPlayerColor);
         aGame.setState(aGame.getKill());
         aGame.evolute();
     }
 
     @Override
     public boolean initOver() {
-        return false;
+        return true;
     }
 
     @Override

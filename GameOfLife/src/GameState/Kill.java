@@ -19,13 +19,13 @@ public class Kill implements GameState {
     }
 
     @Override
-    public void clickedEmptyCell(int y, int x, ColorType pColor) {
+    public void clickedEmptyCell(int y, int x, ColorType pCurrentPlayerColor, ColorType pOtherPlayerColor) {
         System.out.println("NothingHappens: Cell already dead");
     }
 
     @Override
     public boolean initOver() {
-        return false;
+        return true;
     }
 
     @Override

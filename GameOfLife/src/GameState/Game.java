@@ -17,13 +17,12 @@ public class Game implements GameState {
     private SingletonGUI aGui;
     private final Grid aGrid;
 
-
-    public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui){
+    public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui, int pInitialCellCount){
         aGrid = newGrid;
         aGui = pGui;
         aPlayer1 = newPlayer1;
         aPlayer2 = newPlayer2;
-        aInitialisation = new Initialization(this);
+        aInitialisation = new Initialization(this, pInitialCellCount);
         aKill = new Kill(this);
         aRevive = new Revive(this);
         aGameState = aInitialisation;
@@ -31,12 +30,12 @@ public class Game implements GameState {
         SwingUtilities.invokeLater(r);
     }
 
-    public void mirrorCell(int y, int x){
-        aGrid.mirrorCell(y, x, aPlayer1, aPlayer2);
+    public void mirrorCell(int y, int x, ColorType pCurrentPlayerColor, ColorType pOtherPlayerColor){
+        aGrid.mirrorCell(y, x, pCurrentPlayerColor, pOtherPlayerColor);
     }
 
     public void reviveACell(int y, int x, ColorType pColor){
-        aGrid.reviveACell(y, x, pColor);
+        aGrid.revive(y, x, pColor);
     }
     public void killACell(int y, int x){
         aGrid.killACell(y, x);
@@ -50,8 +49,8 @@ public class Game implements GameState {
         aGameState.clickedExistingCell(y, x, pColor);
     }
     @Override
-    public void clickedEmptyCell(int y, int x, ColorType pColor){
-        aGameState.clickedEmptyCell(y, x, pColor);
+    public void clickedEmptyCell(int y, int x, ColorType pCurrentPlayerColor, ColorType pOtherPlayerColor){
+        aGameState.clickedEmptyCell(y, x, pCurrentPlayerColor, pOtherPlayerColor);
     }
 
     public void switchCurrentPlayer(){

@@ -5,17 +5,10 @@ import static java.lang.Math.min;
 public class Player implements Comparable{
     private String aPlayerName;
     private ColorType aPlayerColor;
-    private int aCountCells;
     public void setPlayerName(String pName){aPlayerName = pName;}
     public String getPlayerName(){return aPlayerName;}
     public ColorType getPlayerColor(){return aPlayerColor;}
     public void setPlayerColor(ColorType pColor){aPlayerColor = pColor;}
-    
-    public int getCellCnt(){return aCountCells;}
-
-    public void setCount(int pCount){
-        aCountCells = pCount;
-    }
     @Override
     public int compareTo(Object other) {
         if (other == null){return 0;}
