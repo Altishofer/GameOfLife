@@ -25,7 +25,7 @@ public class Kill implements GameState {
 
     @Override
     public boolean initOver() {
-        return false;
+        return true;
     }
 
     @Override

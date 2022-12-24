@@ -6,15 +6,16 @@ public class Initialization implements GameState {
 
     private int aClickCount;
     Game aGame;
-    public static final int MAX_INITIALIZATION = 5;
+    public final int aMaxInitialization;
 
-    public Initialization(Game newGame){
+    public Initialization(Game newGame, int pMaxInitialization){
         aGame = newGame;
+        aMaxInitialization = pMaxInitialization;
     }
 
     @Override
     public String getStateRule() {
-        return "you are the chosen one and can select " + MAX_INITIALIZATION + " cells to start";
+        return "you are the chosen one and can select " + aMaxInitialization + " cells to start";
     }
 
     @Override
@@ -33,6 +34,6 @@ public class Initialization implements GameState {
 
     @Override
     public boolean initOver() {
-        return aClickCount >= MAX_INITIALIZATION;
+        return aClickCount >= aMaxInitialization;
     }
 }
