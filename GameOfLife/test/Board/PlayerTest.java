@@ -45,24 +45,46 @@ class PlayerTest {
         assertEquals(expectedColor, actualColor);
     }
 
-
-
     @Test
-    public void testCompareTo() {
+    public void testCompareTo1() {
         Player player1 = new Player();
         player1.setPlayerName("John");
         Player player2 = new Player();
         player2.setPlayerName("Jane");
-        assertEquals(0, player1.compareTo(player1));
-        assertEquals(0, player2.compareTo(player2));
+        assertEquals(1, player1.compareTo(player2));
+    }
+
+    @Test
+    public void testCompareTo2() {
+        Player player1 = new Player();
+        player1.setPlayerName("John");
+        Player player2 = new Player();
+        player2.setPlayerName("Jane");
         assertEquals(-1, player2.compareTo(player1));
+    }
+
+    @Test
+    public void testCompareToSimilarName1() {
+        Player player1 = new Player();
+        player1.setPlayerName("Jane");
+        Player player2 = new Player();
+        player2.setPlayerName("Janes");
+        assertEquals(1, player2.compareTo(player1));
+    }
+
+    @Test
+    public void testCompareToSimilarName2() {
+        Player player1 = new Player();
+        player1.setPlayerName("Jane");
+        Player player2 = new Player();
+        player2.setPlayerName("Janes");
+        assertEquals(-1, player1.compareTo(player2));
     }
 
     @Test
     public void testCompareToNull() {
         Player player1 = new Player();
         player1.setPlayerName("John");
-
         assertEquals(0, player1.compareTo(null));
     }
 
@@ -71,7 +93,6 @@ class PlayerTest {
         Player player1 = new Player();
         player1.setPlayerName("John");
         Grid player2 = new Grid(10);
-
         assertEquals(0, player1.compareTo(player2));
     }
 
