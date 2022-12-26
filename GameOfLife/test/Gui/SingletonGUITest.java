@@ -159,7 +159,7 @@ class SingletonGUITest {
     @Test
     public void testGetBoard() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, NoSuchFieldException {
         // Set up test data
-        int size = 5;
+        int size = 25;
 
         // Set up SingletonGUI instance and initialize fields
         SingletonGUI instance = SingletonGUI.getInstance();
@@ -179,6 +179,15 @@ class SingletonGUITest {
         aButtonArrayPrivateField.setAccessible(true);
 
         JButton[][] testButtonArray = (JButton[][]) aButtonArrayPrivateField.get(instance);
+
+        assertEquals(size * size, testButtonArray.length * testButtonArray[0].length);
+
+        // Verify that board size changes if getBoard is called with different size
+
+        size = 5;
+        sizePrivateField.set(instance, size);
+        board = (JPanel) privateGetBoardMethod.invoke(instance);
+        testButtonArray = (JButton[][]) aButtonArrayPrivateField.get(instance);
 
         assertEquals(size * size, testButtonArray.length * testButtonArray[0].length);
     }
