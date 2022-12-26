@@ -20,7 +20,7 @@ public class Initialization implements GameState {
 
     @Override
     public void clickedExistingCell(int y, int x, ColorType pColor) {
-        System.out.println("NothingHappens: Cell already occupied");
+        System.out.print("NothingHappens: Cell already occupied\n");
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static jdk.internal.org.objectweb.asm.util.CheckClassAdapter.verify;
+//import static jdk.internal.org.objectweb.asm.util.CheckClassAdapter.verify;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SingletonGUITest {
@@ -149,7 +149,7 @@ class SingletonGUITest {
             }
         }
         expected = (boolean)privateMethod.invoke(instance);
-        assertFalse(expected);
+        assertTrue(expected);
     }
 
         /*
