@@ -190,7 +190,7 @@ class SingletonGUITest {
     }
 
     @Test
-    void getCurrentPlayerNameTest() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    void testPlayerNameAndColorReturn() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Player mockPlayer1 = new Player();
         Player mockPlayer2 = new Player();
 
