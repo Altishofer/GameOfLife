@@ -253,6 +253,22 @@ class SingletonGUITest {
         assertArrayEquals(new int[]{1, 2}, rowCol);
     }
 
-     */
+    @Test
+    void checkIfLostTrue() throws NoSuchMethodException, NoSuchFieldException, IllegalAccessException, InvocationTargetException {
+        SingletonGUI aGUI = SingletonGUI.getInstance();
+        Game tGame = new Game(null, null, new Grid(2), aGUI, 1);
 
+        Field gameField = SingletonGUI.class.getDeclaredField("aGame");
+        gameField.setAccessible(true);
+        Method privateMethod = SingletonGUI.class.getDeclaredMethod("checkIfLost");
+        privateMethod.setAccessible(true);
+        Field buttonField = SingletonGUI.class.getDeclaredField("aButtonArray");
+        buttonField.setAccessible(true);
+
+        gameField.set(aGUI, tGame);
+        privateMethod.invoke(aGUI);
+
+        System.out.print(buttonField.get(aGUI));
+    }
+    */
 }
