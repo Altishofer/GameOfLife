@@ -304,21 +304,23 @@ class SingletonGUITest {
         }
     }
 
-/*
-
     @Test
-    public void testSetMessage() {
+    public void testSetMessage() throws NoSuchFieldException, IllegalAccessException {
         // Set up test data
-        String message = "Test message";
+        String expected = "Test message";
 
         // Set up SingletonGUI instance and initialize fields
         SingletonGUI instance = SingletonGUI.getInstance();
 
+        Field privateChartLabelMessage = SingletonGUI.class.getDeclaredField("aChartLabelMessage");
+        privateChartLabelMessage.setAccessible(true);
+
         // Call setMessage method and verify that the message label was set correctly
-        instance.setMessage(message);
-        assertEquals(message, instance.aChartLabelMessage.getText());
+        instance.setMessage(expected);
+        JLabel transfer = (JLabel) privateChartLabelMessage.get(instance);
+
+        assertEquals(expected, transfer.getText());
     }
-*/
 
     @Test
     public void testSwitchCurrentPlayer() throws NoSuchFieldException, IllegalAccessException {
