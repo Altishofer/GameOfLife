@@ -233,7 +233,7 @@ public class SingletonGUI extends JFrame {
                 }
             }
         }
-        return new int[]{0, 0};
+        return new int[]{};
     }
 
     private JButton getButton(int iconSize, ActionListener actionListener1) {

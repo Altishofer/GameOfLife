@@ -364,9 +364,8 @@ class SingletonGUITest {
         assertEquals(mockPlayer1, currentPlayerField.get(instance));
     }
 
-/*
     @Test
-    public void testGetButtonRowCol() {
+    public void testGetButtonRowCol() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         // Set up test data
         int size = 3;
         JButton[][] buttonArray = new JButton[size][size];
@@ -376,18 +375,33 @@ class SingletonGUITest {
             }
         }
         JButton targetButton = buttonArray[1][2];
+        JButton falseButton = new JButton();
 
         // Set up SingletonGUI instance and initialize fields
         SingletonGUI instance = SingletonGUI.getInstance();
-        instance.aButtonArray = buttonArray;
-        instance.aSize = size;
+
+        Field privateSize = SingletonGUI.class.getDeclaredField("aSize");
+        privateSize.setAccessible(true);
+
+        privateSize.set(instance, size);
+
+        Field privateButtonArray = SingletonGUI.class.getDeclaredField("aButtonArray");
+        privateButtonArray.setAccessible(true);
+
+        privateButtonArray.set(instance, buttonArray);
 
         // Call getButtonRowCol method and verify that the correct row and column indices are returned
-        int[] rowCol = instance.getButtonRowCol(targetButton);
+        Method privateGetButtonRowCol = SingletonGUI.class.getDeclaredMethod("getButtonRowCol", JButton.class);
+        privateGetButtonRowCol.setAccessible(true);
+
+        int[] rowCol = (int[]) privateGetButtonRowCol.invoke(instance, targetButton);
         assertArrayEquals(new int[]{1, 2}, rowCol);
+
+        rowCol = (int[]) privateGetButtonRowCol.invoke(instance, falseButton);
+        assertArrayEquals(new int[]{}, rowCol);
     }
 
-
+/*
 
     @Test
     public void testGetButtonRowCol() {
