@@ -271,6 +271,39 @@ class SingletonGUITest {
         assertEquals(expectedColor1, privateGetOtherPlayerColor.invoke(instance));
     }
 
+    @Test
+    void checkDisableAllFinished() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+        int size = 5;
+
+        SingletonGUI instance = SingletonGUI.getInstance();
+
+        Field sizePrivateField = SingletonGUI.class.getDeclaredField("aSize");
+        sizePrivateField.setAccessible(true);
+
+        sizePrivateField.set(instance, size);
+
+        Method privateGetBoardMethod = SingletonGUI.class.getDeclaredMethod("getBoard");
+        privateGetBoardMethod.setAccessible(true);
+
+        JPanel board = (JPanel) privateGetBoardMethod.invoke(instance);
+
+        Method privateDisableAllFinished = SingletonGUI.class.getDeclaredMethod("disableAllFinished");
+        privateDisableAllFinished.setAccessible(true);
+
+        privateDisableAllFinished.invoke(instance);
+
+        Field privateButtonArray = SingletonGUI.class.getDeclaredField("aButtonArray");
+        privateButtonArray.setAccessible(true);
+
+        JButton[][] testButtonArray = (JButton[][]) privateButtonArray.get(instance);
+
+        for(int row = 0; row < size; row++) {
+            for(int col = 0; col < size; col++) {
+                assertFalse(testButtonArray[row][col].isEnabled());
+            }
+        }
+    }
+
 /*
 
     @Test
