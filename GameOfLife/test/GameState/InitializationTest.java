@@ -59,7 +59,7 @@ class InitializationTest {
 
     @Test
     void clickedEmptyCellNotOver() {
-        String expected = "mirrorCell executed";
+        String expected = "mirrorCell executed\n";
         aInitialization.clickedEmptyCell(2, 2, null, null);
         String actual = outContent.toString();
         actual.replaceAll("\\s+", "");
