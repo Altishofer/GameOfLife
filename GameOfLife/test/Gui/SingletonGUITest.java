@@ -26,7 +26,7 @@ class SingletonGUITest {
         assertEquals(instance1, instance2);
     }
 
-
+/*
     @Test
     public void testSwitchCurrentPlayer() throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         ColorType currentColor = ColorType.RED;
@@ -80,6 +80,7 @@ class SingletonGUITest {
         assertEquals(returnValue4, other.getPlayerColor());
 
     }
+    */
     @Test
     public void testSomeoneHasLost() throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         ColorType currentColor = ColorType.RED;
@@ -152,22 +153,37 @@ class SingletonGUITest {
         assertTrue(expected);
     }
 
-        /*
+
 
 
     @Test
-    public void testGetBoard() {
+    public void testGetBoard() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, NoSuchFieldException {
         // Set up test data
         int size = 5;
 
         // Set up SingletonGUI instance and initialize fields
         SingletonGUI instance = SingletonGUI.getInstance();
-        instance.aSize = size;
+        Field sizePrivateField = SingletonGUI.class.getDeclaredField("aSize");
+        sizePrivateField.setAccessible(true);
+
+        sizePrivateField.set(instance, size);
 
         // Call getBoard method and verify that the returned panel has the correct number of buttons
-        JPanel board = instance.getBoard();
-        assertEquals(size * size, board.getComponents().length);
+
+        Method privateGetBoardMethod = SingletonGUI.class.getDeclaredMethod("getBoard");
+        privateGetBoardMethod.setAccessible(true);
+
+        JPanel board = (JPanel) privateGetBoardMethod.invoke(instance);
+
+        Field aButtonArrayPrivateField = SingletonGUI.class.getDeclaredField("aButtonArray");
+        aButtonArrayPrivateField.setAccessible(true);
+
+        JButton[][] testButtonArray = (JButton[][]) aButtonArrayPrivateField.get(instance);
+
+        assertEquals(size * size, testButtonArray.length * testButtonArray[0].length);
     }
+
+/*
 
     @Test
     public void testSetMessage() {
@@ -181,32 +197,53 @@ class SingletonGUITest {
         instance.setMessage(message);
         assertEquals(message, instance.aChartLabelMessage.getText());
     }
+*/
 
     @Test
-    public void testSwitchCurrentPlayer() {
+    public void testSwitchCurrentPlayer() throws NoSuchFieldException, IllegalAccessException {
         // Set up test data and mock objects
-        Player mockPlayer1 = mock(Player.class);
-        Player mockPlayer2 = mock(Player.class);
+        Player mockPlayer1 = new Player();
+        Player mockPlayer2 = new Player();
+
+        mockPlayer1.setPlayerName("theone");
+        mockPlayer1.setPlayerColor(ColorType.BLUE);
+        mockPlayer2.setPlayerName("theother");
+        mockPlayer2.setPlayerColor(ColorType.RED);
 
         // Set up SingletonGUI instance and initialize fields
         SingletonGUI instance = SingletonGUI.getInstance();
-        instance.aPlayer1 = mockPlayer1;
-        instance.aPlayer2 = mockPlayer2;
+
+        Field player1Field = SingletonGUI.class.getDeclaredField("aPlayer1");
+        player1Field.setAccessible(true);
+        Field player2Field = SingletonGUI.class.getDeclaredField("aPlayer2");
+        player2Field.setAccessible(true);
+
+        player1Field.set(instance, mockPlayer1);
+        player2Field.set(instance, mockPlayer2);
 
         // Set current player to player 1 and call switchCurrentPlayer method
-        instance.aCurrentPlayer = mockPlayer1;
+        Field currentPlayerField = SingletonGUI.class.getDeclaredField("aCurrentPlayer");
+        currentPlayerField.setAccessible(true);
+
+        currentPlayerField.set(instance, mockPlayer1);
+        // Verify that the current player was set to Player 1
+        assertEquals(mockPlayer1, currentPlayerField.get(instance));
+
         instance.switchCurrentPlayer();
-        // Verify that the current player was switched to player 2
-        assertEquals(mockPlayer2, instance.aCurrentPlayer);
+        // Verify that the current player was switched to Player 2
+        assertEquals(mockPlayer2, currentPlayerField.get(instance));
 
         // Set current player to player 2 and call switchCurrentPlayer method
-        instance.aCurrentPlayer = mockPlayer2;
+        currentPlayerField.set(instance, mockPlayer2);
+        // Verify that the current player was set to Player 2
+        assertEquals(mockPlayer2, currentPlayerField.get(instance));
+
         instance.switchCurrentPlayer();
         // Verify that the current player was switched back to player 1
-        assertEquals(mockPlayer1, instance.aCurrentPlayer);
+        assertEquals(mockPlayer1, currentPlayerField.get(instance));
     }
 
-
+/*
     @Test
     public void testGetButtonRowCol() {
         // Set up test data
