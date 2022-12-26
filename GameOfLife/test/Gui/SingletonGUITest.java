@@ -190,18 +190,55 @@ class SingletonGUITest {
     }
 
     @Test
-    void testPlayerNameAndColorReturn() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    void testPlayerNameReturn() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Player mockPlayer1 = new Player();
         Player mockPlayer2 = new Player();
 
         String expectedName1 = "theone";
-        ColorType expectedColor1 = ColorType.BLUE;
         mockPlayer1.setPlayerName(expectedName1);
-        mockPlayer1.setPlayerColor(expectedColor1);
 
         String expectedName2 = "theother";
-        ColorType expectedColor2 = ColorType.RED;
         mockPlayer2.setPlayerName(expectedName2);
+
+        // Set up SingletonGUI instance and initialize fields
+        SingletonGUI instance = SingletonGUI.getInstance();
+
+        Field player1Field = SingletonGUI.class.getDeclaredField("aPlayer1");
+        player1Field.setAccessible(true);
+        Field player2Field = SingletonGUI.class.getDeclaredField("aPlayer2");
+        player2Field.setAccessible(true);
+
+        player1Field.set(instance, mockPlayer1);
+        player2Field.set(instance, mockPlayer2);
+
+        // Set current player to player 1
+        Field currentPlayerField = SingletonGUI.class.getDeclaredField("aCurrentPlayer");
+        currentPlayerField.setAccessible(true);
+
+        Method privateGetOtherPlayerColor = SingletonGUI.class.getDeclaredMethod("getOtherPlayerColor");
+        privateGetOtherPlayerColor.setAccessible(true);
+
+        currentPlayerField.set(instance, mockPlayer1);
+
+        // Verify that the current player was set to Player 1 and correct NAME is returned
+        assertEquals(expectedName1, instance.getCurrentPlayerName());
+
+        // Call switchCurrentPlayer method
+        instance.switchCurrentPlayer();
+
+        // Verify that the current player was switched to Player 2 and correct NAME is returned
+        assertEquals(expectedName2, instance.getCurrentPlayerName());
+    }
+
+    @Test
+    void testOtherPlayerColorReturn() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Player mockPlayer1 = new Player();
+        Player mockPlayer2 = new Player();
+
+        ColorType expectedColor1 = ColorType.BLUE;
+        mockPlayer1.setPlayerColor(expectedColor1);
+
+        ColorType expectedColor2 = ColorType.RED;
         mockPlayer2.setPlayerColor(expectedColor2);
 
         // Set up SingletonGUI instance and initialize fields
@@ -215,7 +252,7 @@ class SingletonGUITest {
         player1Field.set(instance, mockPlayer1);
         player2Field.set(instance, mockPlayer2);
 
-        // Set current player to player 1 and call switchCurrentPlayer method
+        // Set current player to player 1
         Field currentPlayerField = SingletonGUI.class.getDeclaredField("aCurrentPlayer");
         currentPlayerField.setAccessible(true);
 
@@ -224,13 +261,13 @@ class SingletonGUITest {
 
         currentPlayerField.set(instance, mockPlayer1);
 
-        // Verify that the current player was set to Player 1 and correct NAME + COLOR is returned
-        assertEquals(expectedName1, instance.getCurrentPlayerName());
+        // Verify that the current player was set to Player 1 and correct COLOR for Player 2 is returned
         assertEquals(expectedColor2, privateGetOtherPlayerColor.invoke(instance));
 
+        // Call switchCurrentPlayer method
         instance.switchCurrentPlayer();
-        // Verify that the current player was switched to Player 2 and correct NAME + COLOR is returned
-        assertEquals(expectedName2, instance.getCurrentPlayerName());
+
+        // Verify that the current player was switched to Player 2 and correct COLOR for Player 1 is returned
         assertEquals(expectedColor1, privateGetOtherPlayerColor.invoke(instance));
     }
 
