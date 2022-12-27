@@ -62,6 +62,15 @@ class PlayerTest {
     }
 
     @Test
+    public void testCompareToSameName() {
+        Player player1 = new Player();
+        player1.setPlayerName("Jane");
+        Player player2 = new Player();
+        player2.setPlayerName("Jane");
+        assertEquals(0, player1.compareTo(player2));
+    }
+
+    @Test
     public void testCompareToSimilarName1() {
         Player player1 = new Player();
         player1.setPlayerName("Jane");
@@ -101,12 +110,4 @@ class PlayerTest {
         player.setPlayerName("John");
         assertEquals(4, player.hashCode());
     }
-
-
-
-
-
-
-
-
 }
