@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class SingletonGUI extends JFrame {
-    public static SingletonGUI INSTANCE;
+    private static SingletonGUI INSTANCE;
     private int aSize;
     private final int aIconSize = 10;
     private JButton[][] aButtonArray;
