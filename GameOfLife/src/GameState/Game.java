@@ -8,7 +8,7 @@ import Gui.SingletonGUI;
 import javax.swing.*;
 
 public class Game implements GameState {
-    private final GameState aInitialisation;
+    private final Initialization aInitialisation;
     private final GameState aKill;
     private final GameState aRevive;
     private GameState aGameState;
