@@ -12,17 +12,13 @@ public class Game implements GameState {
     private final GameState aKill;
     private final GameState aRevive;
     private GameState aGameState;
-    private final Player aPlayer1;
-    private final Player aPlayer2;
     private SingletonGUI aGui;
     private final Grid aGrid;
     private int aEvolutionCount;
 
-    public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui, int pInitialCellCount){
+    public Game(Grid newGrid, SingletonGUI pGui, int pInitialCellCount){
         aGrid = newGrid;
         aGui = pGui;
-        aPlayer1 = newPlayer1;
-        aPlayer2 = newPlayer2;
         aInitialisation = new Initialization(this, pInitialCellCount);
         aKill = new Kill(this);
         aRevive = new Revive(this);

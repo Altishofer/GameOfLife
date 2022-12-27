@@ -212,7 +212,7 @@ public class SingletonGUI extends JFrame {
         aPlayer1.setPlayerName(aTextField1.getText());
         aPlayer2.setPlayerName(aTextField2.getText());
         aGrid = new Grid(aSize);
-        aGame = new Game(aPlayer1, aPlayer2, aGrid, this, (int) (Math.pow(aSize, 2) /16));
+        aGame = new Game(aGrid, this, (int) (Math.pow(aSize, 2) /16));
         aSplitPaneChartBoard.setBottomComponent(getBoard());
         aCurrentPlayer = aPlayer1;
         if (aPlayer1.compareTo(aPlayer2) == 1) {
