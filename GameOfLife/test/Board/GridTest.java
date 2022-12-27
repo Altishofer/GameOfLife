@@ -159,22 +159,22 @@ class GridTest {
 
     @Test
     public void testReviveIllegalArgument(){
-        // Test reviving a alive cell
+        // Test reviving an alive cell
         grid.revive(5, 4, ColorType.BLUE);
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> {grid.revive(5, 4, ColorType.BLUE);});
+                () -> grid.revive(5, 4, ColorType.BLUE));
     }
 
     @Test
     public void testKillACellIllegalArgument(){
         // Test killing a dead cell
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> {grid.killACell(5, 4);});
+                () -> grid.killACell(5, 4));
     }
 
     @Test
     public void testHasColor(){
-        // Test reviving a alive cell
+        // Test reviving an alive cell
         grid.revive(5, 4, ColorType.BLUE);
         assertTrue(grid.cellHasColor(5,4,ColorType.BLUE));
     }

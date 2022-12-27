@@ -26,7 +26,7 @@ class SingletonGUITest {
         assertEquals(instance1, instance2);
     }
 
-/*
+
     @Test
     public void testSwitchCurrentPlayer() throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         ColorType currentColor = ColorType.RED;
@@ -80,7 +80,7 @@ class SingletonGUITest {
         assertEquals(returnValue4, other.getPlayerColor());
 
     }
-    */
+
     @Test
     public void testSomeoneHasLost() throws NoSuchFieldException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         ColorType currentColor = ColorType.RED;
@@ -190,7 +190,7 @@ class SingletonGUITest {
     }
 
     @Test
-    void testPlayerNameReturn() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    void testPlayerNameReturn() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException {
         Player mockPlayer1 = new Player();
         Player mockPlayer2 = new Player();
 
@@ -322,6 +322,7 @@ class SingletonGUITest {
         assertEquals(expected, transfer.getText());
     }
 
+    /*
     @Test
     public void testSwitchCurrentPlayer() throws NoSuchFieldException, IllegalAccessException {
         // Set up test data and mock objects
@@ -365,7 +366,7 @@ class SingletonGUITest {
         // Verify that the current player was switched back to player 1
         assertEquals(mockPlayer1, currentPlayerField.get(instance));
     }
-
+*/
     @Test
     public void testGetButtonRowCol() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         // Set up test data

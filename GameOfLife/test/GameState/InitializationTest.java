@@ -1,10 +1,6 @@
 package GameState;
 
 import Board.ColorType;
-import Board.Grid;
-import Board.Player;
-import Gui.SingletonGUI;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +14,7 @@ class InitializationTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final StubGame sGame = new StubGame(20);
-    private Initialization aInitialization = new Initialization(sGame, 20);
+    private final Initialization aInitialization = new Initialization(sGame, 20);
 
     @BeforeEach
     public void setStreams() {

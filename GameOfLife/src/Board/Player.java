@@ -2,7 +2,7 @@ package Board;
 
 import static java.lang.Math.min;
 
-public class Player implements Comparable{
+public class Player implements Comparable {
     private String aPlayerName;
     private ColorType aPlayerColor;
     public void setPlayerName(String pName){aPlayerName = pName;}
