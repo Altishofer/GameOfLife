@@ -50,14 +50,11 @@ public class Game implements GameState {
     public void clickedEmptyCell(int y, int x, ColorType pCurrentPlayerColor, ColorType pOtherPlayerColor){
         aGameState.clickedEmptyCell(y, x, pCurrentPlayerColor, pOtherPlayerColor);
     }
-
     public void switchCurrentPlayer(){
         aGui.switchCurrentPlayer();
     }
-
     public GameState getKill(){return aKill;}
     public GameState getRevive(){return aRevive;}
-
     public void evolute(){
         aGrid.createNextGeneration();
         switchCurrentPlayer();
