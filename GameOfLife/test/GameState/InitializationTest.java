@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 
+import static Utils.InputUtils.cleanUpString;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InitializationTest {
@@ -48,8 +49,7 @@ class InitializationTest {
     void clickedExistingCellTest() {
         String expected = "NothingHappens: Cell already occupied\n";
         aInitialization.clickedExistingCell(0, 0, null);
-        String actual = outContent.toString();
-        actual.replaceAll("\\s+", "");
+        String actual = cleanUpString(outContent.toString());
         assertEquals(expected, actual);
     }
 
@@ -57,8 +57,7 @@ class InitializationTest {
     void clickedEmptyCellNotOver() {
         String expected = "mirrorCell executed\n";
         aInitialization.clickedEmptyCell(2, 2, null, null);
-        String actual = outContent.toString();
-        actual.replaceAll("\\s+", "");
+        String actual = cleanUpString(outContent.toString());
         assertEquals(expected, actual);
     }
 
@@ -71,8 +70,7 @@ class InitializationTest {
 
             aInitialization.clickedEmptyCell(2, 2, null, null);
             String expected = "mirrorCell executed\nsetState executed\n";
-            String actual = outContent.toString();
-            actual.replaceAll("\\s+", "");
+            String actual = cleanUpString(outContent.toString());
 
             assertEquals(expected, actual);
         } catch(ReflectiveOperationException e){
