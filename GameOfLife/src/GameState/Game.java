@@ -16,6 +16,7 @@ public class Game implements GameState {
     private final Player aPlayer2;
     private SingletonGUI aGui;
     private final Grid aGrid;
+    private int aEvolutionCount;
 
     public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui, int pInitialCellCount){
         aGrid = newGrid;
@@ -28,6 +29,7 @@ public class Game implements GameState {
         aGameState = aInitialisation;
         Runnable r = SingletonGUI::getInstance;
         SwingUtilities.invokeLater(r);
+        aEvolutionCount = 0;
     }
 
     public void mirrorCell(int y, int x, ColorType pCurrentPlayerColor, ColorType pOtherPlayerColor){
@@ -63,7 +65,10 @@ public class Game implements GameState {
     public void evolute(){
         aGrid.createNextGeneration();
         switchCurrentPlayer();
+        aEvolutionCount++;
     }
+
+    public int getEvolutionCount(){return aEvolutionCount;}
 
     @Override
     public String getStateRule() {
