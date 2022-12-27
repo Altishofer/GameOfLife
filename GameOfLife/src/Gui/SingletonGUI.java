@@ -265,7 +265,7 @@ public class SingletonGUI extends JFrame {
     }
 
     private void setStats() {
-        aChartLabelP1.setText(aPlayer1.getPlayerName() + ": " + aGrid.getCellCount(aPlayer1.getPlayerColor()) + " Cells          " + aPlayer2.getPlayerName() + " : " + aGrid.getCellCount(aPlayer2.getPlayerColor()) + " Cells");
+        aChartLabelP1.setText("Evolution wave: " + aGame.getEvolutionCount() + "          " + aPlayer1.getPlayerName() + ": " + aGrid.getCellCount(aPlayer1.getPlayerColor()) + " Cells          " + aPlayer2.getPlayerName() + " : " + aGrid.getCellCount(aPlayer2.getPlayerColor()) + " Cells");
     }
 
     private void showGrid() {
