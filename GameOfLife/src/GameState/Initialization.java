@@ -5,7 +5,7 @@ import Board.ColorType;
 public class Initialization implements GameState {
 
     private int aClickCount;
-    Game aGame;
+    protected Game aGame;
     public final int aMaxInitialization;
 
     public Initialization(Game newGame, int pMaxInitialization){

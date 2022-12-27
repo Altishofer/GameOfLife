@@ -2,7 +2,6 @@ package GameState;
 
 import Board.ColorType;
 import Board.Grid;
-import Board.Player;
 import Gui.SingletonGUI;
 
 import javax.swing.*;
