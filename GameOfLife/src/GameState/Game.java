@@ -7,7 +7,7 @@ import Gui.SingletonGUI;
 import javax.swing.*;
 
 public class Game implements GameState {
-    private final Initialization aInitialisation;
+    private final GameState aInitialization;
     private final GameState aKill;
     private final GameState aRevive;
     private GameState aGameState;
@@ -18,10 +18,10 @@ public class Game implements GameState {
     public Game(Grid newGrid, SingletonGUI pGui, int pInitialCellCount){
         aGrid = newGrid;
         aGui = pGui;
-        aInitialisation = new Initialization(this, pInitialCellCount);
+        aInitialization = new Initialization(this, pInitialCellCount);
         aKill = new Kill(this);
         aRevive = new Revive(this);
-        aGameState = aInitialisation;
+        aGameState = aInitialization;
         Runnable r = SingletonGUI::getInstance;
         SwingUtilities.invokeLater(r);
         aEvolutionCount = 0;
