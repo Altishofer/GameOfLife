@@ -123,7 +123,7 @@ class SingletonGUITest {
 
         Field aGame = SingletonGUI.class.getDeclaredField("aGame");
         aGame.setAccessible(true);
-        aGame.set(instance, new Game(current, other, aGridObject, instance, 0));
+        aGame.set(instance, new Game(aGridObject, instance, 0));
 
         Method privateMethod = SingletonGUI.class.getDeclaredMethod("someoneHasLost");
         privateMethod.setAccessible(true);

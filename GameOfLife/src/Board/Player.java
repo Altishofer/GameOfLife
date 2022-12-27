@@ -11,18 +11,27 @@ public class Player implements Comparable {
     public void setPlayerColor(ColorType pColor){aPlayerColor = pColor;}
     @Override
     public int compareTo(Object other) {
-        if (other == null){return 0;}
-        if (this.getClass() != other.getClass()){return 0;}
-        Player otherPlayer = (Player) other;
-        int minNameSize = min(this.getPlayerName().length(), otherPlayer.getPlayerName().length());
-        for (int i = 0; i < minNameSize; i++) {
-            char currCharThis = Character.toUpperCase(this.aPlayerName.charAt(i));
-            char currCharOther = Character.toUpperCase(otherPlayer.aPlayerName.charAt(i));
-            if(currCharThis < currCharOther){return -1;}
-            if(currCharThis > currCharOther){return 1;}
+        if (other == null){
+            throw new NullPointerException();
         }
-        if (this.aPlayerName.length() == minNameSize) {return -1;}
-        else {return 1;}
+        if (this.getClass() != other.getClass()){
+            throw new ClassCastException();
+        }
+
+        Player otherPlayer = (Player) other;
+        int lengthThis = this.getPlayerName().length();
+        int lengthOther = otherPlayer.getPlayerName().length();
+        int limit = min(lengthThis, lengthOther);
+
+        for(int i = 0; i<limit; i++){
+            char currPlayerChar = Character.toLowerCase(this.getPlayerName().charAt(i));
+            char otherPlayerChar = Character.toLowerCase(otherPlayer.getPlayerName().charAt(i));
+            if(currPlayerChar != otherPlayerChar){
+                return  currPlayerChar-otherPlayerChar;
+            }
+        }
+
+        return lengthThis-lengthOther;
     }
 
     @Override

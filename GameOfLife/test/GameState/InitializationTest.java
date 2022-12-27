@@ -23,7 +23,7 @@ class InitializationTest {
 
     public static class StubGame extends Game{
         public StubGame(int pInitialCellCount) {
-            super(null, null, null, null, pInitialCellCount);
+            super(null, null, pInitialCellCount);
         }
 
         @Override

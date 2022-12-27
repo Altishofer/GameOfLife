@@ -8,21 +8,17 @@ import Gui.SingletonGUI;
 import javax.swing.*;
 
 public class Game implements GameState {
-    private final GameState aInitialisation;
+    private final Initialization aInitialisation;
     private final GameState aKill;
     private final GameState aRevive;
     private GameState aGameState;
-    private final Player aPlayer1;
-    private final Player aPlayer2;
     private SingletonGUI aGui;
     private final Grid aGrid;
     private int aEvolutionCount;
 
-    public Game(Player newPlayer1, Player newPlayer2, Grid newGrid, SingletonGUI pGui, int pInitialCellCount){
+    public Game(Grid newGrid, SingletonGUI pGui, int pInitialCellCount){
         aGrid = newGrid;
         aGui = pGui;
-        aPlayer1 = newPlayer1;
-        aPlayer2 = newPlayer2;
         aInitialisation = new Initialization(this, pInitialCellCount);
         aKill = new Kill(this);
         aRevive = new Revive(this);
@@ -54,14 +50,11 @@ public class Game implements GameState {
     public void clickedEmptyCell(int y, int x, ColorType pCurrentPlayerColor, ColorType pOtherPlayerColor){
         aGameState.clickedEmptyCell(y, x, pCurrentPlayerColor, pOtherPlayerColor);
     }
-
     public void switchCurrentPlayer(){
         aGui.switchCurrentPlayer();
     }
-
     public GameState getKill(){return aKill;}
     public GameState getRevive(){return aRevive;}
-
     public void evolute(){
         aGrid.createNextGeneration();
         switchCurrentPlayer();

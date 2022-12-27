@@ -1,6 +1,8 @@
 package Board;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
@@ -14,7 +16,6 @@ class PlayerTest {
         String actualName = player.getPlayerName();
         assertEquals(expectedName, actualName);
     }
-
 
     @Test
     public void testGetPlayerName() {
@@ -41,24 +42,6 @@ class PlayerTest {
         player.setPlayerColor(expectedColor);
         ColorType actualColor = player.getPlayerColor();
         assertEquals(expectedColor, actualColor);
-    }
-
-    @Test
-    public void testCompareTo1() {
-        Player player1 = new Player();
-        player1.setPlayerName("John");
-        Player player2 = new Player();
-        player2.setPlayerName("Jane");
-        assertEquals(1, player1.compareTo(player2));
-    }
-
-    @Test
-    public void testCompareTo2() {
-        Player player1 = new Player();
-        player1.setPlayerName("John");
-        Player player2 = new Player();
-        player2.setPlayerName("Jane");
-        assertEquals(-1, player2.compareTo(player1));
     }
 
     @Test
@@ -92,7 +75,8 @@ class PlayerTest {
     public void testCompareToNull() {
         Player player1 = new Player();
         player1.setPlayerName("John");
-        assertEquals(0, player1.compareTo(null));
+        Assertions.assertThrows(NullPointerException.class,
+                () -> player1.compareTo(null));
     }
 
     @Test
@@ -100,9 +84,9 @@ class PlayerTest {
         Player player1 = new Player();
         player1.setPlayerName("John");
         Grid player2 = new Grid(10);
-        assertEquals(0, player1.compareTo(player2));
+        Assertions.assertThrows(ClassCastException.class,
+                () -> player1.compareTo(player2));
     }
-
 
     @Test
     public void testHashCode() {
